@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enviar receita | Bem Estar Online</title>
+  <meta name="description" content="Mande a foto da receita e receba em casa.">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script>
+    // Aplica letra/contraste/tema antes de desenhar a página (evita "piscar").
+    try { var p = JSON.parse(localStorage.getItem('beo_acessibilidade') || '{}'), r = document.documentElement;
+      if (p.fonte) r.dataset.fonte = p.fonte; if (p.contraste === 'alto') r.dataset.contraste = 'alto';
+      if (p.tema && p.tema !== 'auto') r.dataset.tema = p.tema; } catch (e) {}
+  </script>
+</head>
+<body>
+  <div id="cabecalho"></div>
+  <main id="conteudo" tabindex="-1">
+
+    <div class="pagina-estreita">
+      <div class="cartao">
+        <h1 style="font-size:1.9rem">Enviar receita ou lista</h1>
+        <p>Escreva o que precisa ou anexe a foto da receita. A farmacêutica confere, responde com o valor pelo WhatsApp e a entrega sai em até 2 horas depois da sua confirmação.</p>
+        <form id="form-delivery" novalidate>
+          <div class="campo">
+            <label for="nome">Seu nome</label>
+            <input class="entrada" id="nome" autocomplete="name" required>
+          </div>
+          <div class="campo">
+            <label for="telefone">Celular com WhatsApp</label>
+            <input class="entrada" id="telefone" type="tel" autocomplete="tel" placeholder="(11) 90000-0000" required>
+          </div>
+          <div class="campo">
+            <label for="endereco">Endereço de entrega</label>
+            <input class="entrada" id="endereco" autocomplete="street-address" placeholder="Rua, número, bairro e cidade" required>
+          </div>
+          <div class="campo">
+            <label for="pedido">O que você precisa?</label>
+            <textarea class="entrada" id="pedido" required placeholder="Ex.: 1 caixa de losartana 50mg e um termômetro"></textarea>
+          </div>
+          <div class="campo">
+            <label for="receita">Foto ou PDF da receita (se tiver)</label>
+            <input class="entrada" id="receita" type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
+                   aria-describedby="ajuda-receita">
+            <small id="ajuda-receita">Foto (JPG ou PNG) ou PDF de até 5 MB. Só a equipe da farmácia vê a receita.
+              Remédios com tarja vermelha só são entregues com a receita original.</small>
+          </div>
+          <button class="botao botao--largo" type="submit">Enviar para a farmácia</button>
+        </form>
+        <div id="resultado-delivery" role="status"></div>
+      </div>
+    </div>
+  </main>
+  <div id="rodape"></div>
+  <script src="js/config.js"></script>
+  <script src="js/catalogo-local.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/paginas/delivery.js"></script>
+</body>
+</html>

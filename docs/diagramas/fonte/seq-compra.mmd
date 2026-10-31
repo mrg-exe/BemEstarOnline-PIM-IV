@@ -1,0 +1,30 @@
+sequenceDiagram
+autonumber
+actor C as Cliente
+participant S as Site / App
+participant API as PedidosController
+participant SV as PedidoServico
+participant R as Repositórios (EF Core)
+participant DB as MySQL
+C->>S: Clica em "Finalizar compra"
+S->>API: POST /api/pedidos (token JWT, itens, endereço, pagamento, cupom)
+API->>API: Valida o token e lê o id do cliente
+API->>SV: CriarAsync(idUsuario, dto)
+SV->>R: Busca produtos, estoque e cupom
+R->>DB: SELECT
+DB-->>R: dados
+SV->>SV: Recalcula subtotal, desconto e frete e confere o estoque
+alt Estoque insuficiente ou cupom inválido
+  SV-->>API: RegraDeNegocioException
+  API-->>S: 400 { mensagem }
+  S-->>C: Mostra o aviso
+else Tudo certo
+  SV->>R: Adicionar(pedido, itens, pagamento) e SalvarAsync()
+  R->>DB: INSERT pedidos / pedido_itens / pagamentos
+  Note over DB: Triggers: valida estoque, baixa estoque,<br/>cria alerta de reposição e grava o histórico
+  DB-->>R: id do pedido
+  SV->>R: Limpa o carrinho salvo
+  SV-->>API: PedidoDetalheDto
+  API-->>S: 201 Created
+  S-->>C: Tela de confirmação com a linha do tempo
+end

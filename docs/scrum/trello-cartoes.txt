@@ -1,0 +1,54 @@
+QUADRO KANBAN NO TRELLO (leva uns 10 minutos)
+==============================================
+1) Entre em trello.com, crie o quadro "PIM IV - Bem Estar Online".
+2) Crie as listas: Backlog | A fazer | Fazendo | Em teste | Pronto
+3) TRUQUE: em "Adicionar um cartão", COLE várias linhas de uma vez. O Trello pergunta
+   se quer criar um cartão por linha: clique em "Criar N cartões".
+4) Coloque etiquetas por etapa do PIM (Web, Mobile, Banco, Nuvem, Doc) e o rosto de quem faz.
+5) Tire o print do quadro (para o trabalho) e, se der, um print por semana para mostrar a evolução.
+
+--- Cole na lista PRONTO ---
+PB01 Banco de dados: tabelas, triggers e procedures
+PB02 Catálogo com busca e categorias (45 produtos)
+PB03 Cadastro e login com JWT + nome social
+PB04 Carrinho com cupom e frete
+PB05 Finalizar compra (endereço e pagamento)
+PB06 Linha do tempo do pedido
+PB07 Painel: pedidos e status
+PB08 Painel: produtos e estoque
+PB09 Painel: indicadores (procedures)
+PB10 Assinatura de uso contínuo
+PB11 Envio de receita (texto)
+PB12 Acessibilidade: letra, contraste, voz
+PB14 App: pedidos offline
+PB21 App entregador: aviso de pedido novo com receita
+PB22 App entregador: rota até o cliente
+PB23 Mapa do entregador em tempo real
+PB24 Excluir a própria conta (LGPD)
+PB25 Filtros em Minha conta
+PB26 Fotos dos produtos e carrossel
+PB27 Correção: sair da conta limpa o carrinho
+
+--- Cole na lista EM TESTE ---
+PB13 App MAUI 10 (compilar e testar no Windows/Android)
+PB15 Docker + pipeline CI/CD
+
+--- Cole na lista A FAZER ---
+RF30 Ouvidoria e canal de denúncia de discriminação
+RNF07 Site servido pela aplicação .NET
+RF33 Esqueci minha senha
+RF34 Alterar senha
+RF35 Gestão da equipe no painel
+RF36 App: criar conta
+RF37 App: endereços com GPS
+RF38 App: assinatura
+RF39 Foto da receita (câmera e site)
+RF40 VLibras
+RF41 Política de privacidade e termos
+PB16 Trabalho escrito em ABNT
+Slides e vídeo de demonstração
+
+--- Cole na lista BACKLOG (futuro) ---
+PB17 Pagamento real (gateway)
+PB19 Notificações push
+PB20 Gerar pedidos das assinaturas automaticamente

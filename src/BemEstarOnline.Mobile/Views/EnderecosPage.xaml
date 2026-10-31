@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             xmlns:m="clr-namespace:BemEstarOnline.Mobile.Modelos"
+             x:Class="BemEstarOnline.Mobile.Views.EnderecosPage"
+             x:DataType="vm:EnderecosViewModel"
+             Title="Meus endereços">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="10" MaximumWidthRequest="560">
+            <Label Text="Nenhum endereço salvo. Cadastre abaixo para receber seus pedidos." IsVisible="{Binding Vazio}"
+                   Style="{StaticResource TextoSuave}" />
+
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Enderecos}" Spacing="8">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="m:Endereco">
+                        <Border Style="{StaticResource Cartao}" SemanticProperties.Description="{Binding DescricaoAcessivel}">
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="8" RowSpacing="2">
+                                <Label Text="{Binding Titulo}" FontAttributes="Bold" />
+                                <Label Grid.Row="1" Text="{Binding TextoCompleto}" Style="{StaticResource TextoSuave}" />
+                                <Label Grid.Row="2" Text="Com localização no mapa" FontSize="13" TextColor="{DynamicResource CorFolha}"
+                                       IsVisible="{Binding TemLocalizacao}" />
+                                <Button Grid.Column="1" Grid.RowSpan="3" Text="Remover" Style="{StaticResource BotaoContorno}" VerticalOptions="Center"
+                                        SemanticProperties.Description="{Binding Titulo, StringFormat='Remover o endereço {0}'}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:EnderecosViewModel}}, Path=RemoverCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+            <Border Style="{StaticResource Cartao}" Margin="0,6,0,0">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Novo endereço" Style="{StaticResource Titulo}" FontSize="20" SemanticProperties.HeadingLevel="Level2" />
+                    <Label Text="Nome do endereço (opcional)" FontAttributes="Bold" />
+                    <Entry Text="{Binding Apelido}" Placeholder="Casa, trabalho..." SemanticProperties.Description="Nome do endereço" />
+                    <Label Text="CEP" FontAttributes="Bold" />
+                    <Entry Text="{Binding Cep}" Placeholder="00000-000" Keyboard="Numeric" MaxLength="9" SemanticProperties.Description="CEP" />
+                    <Label Text="{Binding SituacaoCep}" Style="{StaticResource TextoSuave}" FontSize="14" IsVisible="{Binding TemSituacaoCep}" />
+                    <Label Text="Rua" FontAttributes="Bold" />
+                    <Entry Text="{Binding Logradouro}" SemanticProperties.Description="Rua" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Número" FontAttributes="Bold" />
+                            <Entry Text="{Binding Numero}" SemanticProperties.Description="Número" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="Complemento" FontAttributes="Bold" />
+                            <Entry Text="{Binding Complemento}" SemanticProperties.Description="Complemento" />
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Label Text="Bairro" FontAttributes="Bold" />
+                    <Entry Text="{Binding Bairro}" SemanticProperties.Description="Bairro" />
+                    <Grid ColumnDefinitions="2*,*" ColumnSpacing="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Cidade" FontAttributes="Bold" />
+                            <Entry Text="{Binding Cidade}" SemanticProperties.Description="Cidade" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="Estado" FontAttributes="Bold" />
+                            <Entry Text="{Binding Estado}" Placeholder="SP" MaxLength="2" SemanticProperties.Description="Estado, sigla" />
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Usar como principal" VerticalOptions="Center" />
+                        <Switch Grid.Column="1" IsToggled="{Binding Principal}" OnColor="{DynamicResource CorPrimaria}"
+                                SemanticProperties.Description="Usar como endereço principal" />
+                    </Grid>
+                    <Button Text="Usar minha localização atual" Style="{StaticResource BotaoContorno}"
+                            Command="{Binding UsarLocalizacaoCommand}" />
+                    <Label Text="{Binding SituacaoGps}" Style="{StaticResource TextoSuave}" FontSize="14" IsVisible="{Binding TemSituacaoGps}" />
+                    <Button Text="Salvar endereço" Command="{Binding SalvarCommand}" IsEnabled="{Binding Livre}" />
+                    <ActivityIndicator IsRunning="{Binding Ocupado}" IsVisible="{Binding Ocupado}" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

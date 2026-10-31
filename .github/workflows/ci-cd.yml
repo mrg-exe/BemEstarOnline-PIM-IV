@@ -1,0 +1,110 @@
+# =============================================================
+# Pipeline CI/CD - Bem Estar Online
+#   CI  (todo push e pull request): compila a API, roda os testes xUnit, testa os scripts SQL num MySQL
+#        de verdade, confere a sintaxe do JavaScript do site e monta a imagem Docker.
+#   CD  (push na main, se a variável DEPLOY_AZURE = true): publica a API no Azure App Service.
+#   App Android: compilação manual (botão "Run workflow"), porque exige o workload do MAUI.
+# =============================================================
+name: CI-CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  api:
+    name: Compilar API
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restaurar pacotes
+        run: dotnet restore src/BemEstarOnline.Api/BemEstarOnline.Api.csproj
+      - name: Compilar
+        run: dotnet build src/BemEstarOnline.Api/BemEstarOnline.Api.csproj -c Release --no-restore
+      - name: Testes automáticos (xUnit)
+        run: dotnet test tests/BemEstarOnline.Testes/BemEstarOnline.Testes.csproj -c Release --logger "console;verbosity=normal"
+      - name: Publicar
+        run: dotnet publish src/BemEstarOnline.Api/BemEstarOnline.Api.csproj -c Release -o publicado --no-build
+      - name: Incluir o site (a API serve a pasta frontend)
+        run: cp -r frontend publicado/frontend
+      - uses: actions/upload-artifact@v4
+        with:
+          name: api-publicada
+          path: publicado
+
+  banco:
+    name: Testar scripts do MySQL
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: teste123
+        ports: [ "3306:3306" ]
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -pteste123"
+          --health-interval=5s --health-timeout=5s --health-retries=30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rodar scripts em ordem (DDL, triggers, procedures, seed)
+        run: |
+          for arquivo in database/0*.sql; do
+            echo "Executando $arquivo"
+            mysql -h 127.0.0.1 -uroot -pteste123 --default-character-set=utf8mb4 < "$arquivo"
+          done
+      - name: Conferir triggers, procedures e dados
+        run: |
+          mysql -h 127.0.0.1 -uroot -pteste123 db_bemestar -e "SHOW TRIGGERS; SHOW PROCEDURE STATUS WHERE Db='db_bemestar'; SELECT COUNT(*) AS produtos FROM medicamentos; CALL sp_produtos_estoque_baixo();"
+
+  site:
+    name: Conferir JavaScript do site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: for f in frontend/js/*.js frontend/js/paginas/*.js; do node --check "$f"; done
+
+  docker:
+    name: Montar imagem Docker da API
+    runs-on: ubuntu-latest
+    needs: [ api, banco ]
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t bemestaronline-api:${{ github.sha }} src/BemEstarOnline.Api
+
+  deploy:
+    name: Publicar no Azure
+    runs-on: ubuntu-latest
+    needs: [ docker, site ]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push' && vars.DEPLOY_AZURE == 'true'
+    environment: producao
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: api-publicada
+          path: publicado
+      - uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ vars.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: publicado
+
+  mobile-android:
+    name: Compilar app Android (manual)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - run: dotnet workload install maui-android
+      - run: dotnet build src/BemEstarOnline.Mobile/BemEstarOnline.Mobile.csproj -f net10.0-android -c Release

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="662" viewBox="0 0 1000 662" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#0D3550" stroke-width="1.5"/></marker></defs>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="500.0" y="34" text-anchor="middle" font-size="19" font-weight="700" fill="#0D3550">Casos de uso — Entregador (app)</text>
+<rect x="390.0" y="62" width="590" height="580" rx="10" fill="#F7FAF9" stroke="#0D3550" stroke-width="1.5"/>
+<text x="404.0" y="86" font-size="14" font-weight="700" fill="#0D3550">Sistema Bem Estar Online</text>
+<line x1="150" y1="273.3333333333333" x2="450.0" y2="120" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="273.3333333333333" x2="450.0" y2="182" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="273.3333333333333" x2="450.0" y2="244" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="273.3333333333333" x2="450.0" y2="306" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="273.3333333333333" x2="450.0" y2="368" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="273.3333333333333" x2="450.0" y2="492" stroke="#6B7F8C" stroke-width="1.3"/>
+<path d="M750.0 430 C 792.0 430, 792.0 492, 754.0 492" fill="none" stroke="#0D3550" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#seta)"/><text x="800.0" y="459.0" font-size="11.5" fill="#0D3550">«extend»</text><text x="800.0" y="473.0" font-size="10.5" fill="#4A6378">se exige receita</text><path d="M750.0 554 C 792.0 554, 792.0 492, 754.0 498" fill="none" stroke="#0D3550" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#seta)"/><text x="800.0" y="531.0" font-size="11.5" fill="#0D3550">«extend»</text><text x="800.0" y="545.0" font-size="10.5" fill="#4A6378">pagamento em dinheiro</text>
+<ellipse cx="600" cy="120" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="117.0" text-anchor="middle" font-size="14" fill="#0D3550">Receber aviso de pedido novo</text><text x="600" y="133.0" text-anchor="middle" font-size="14" fill="#0D3550">(informa se exige receita)</text>
+<ellipse cx="600" cy="182" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="187.0" text-anchor="middle" font-size="14" fill="#0D3550">Pegar pedido</text>
+<ellipse cx="600" cy="244" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="241.0" text-anchor="middle" font-size="14" fill="#0D3550">Ver localização do cliente</text><text x="600" y="257.0" text-anchor="middle" font-size="14" fill="#0D3550">e abrir rota</text>
+<ellipse cx="600" cy="306" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="311.0" text-anchor="middle" font-size="14" fill="#0D3550">Sair para entrega</text>
+<ellipse cx="600" cy="368" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="373.0" text-anchor="middle" font-size="14" fill="#0D3550">Enviar posição (GPS ou simulação)</text>
+<ellipse cx="600" cy="430" rx="150.0" ry="24.0" fill="#E6F2DC" stroke="#00807C" stroke-width="1.8"/><text x="600" y="435.0" text-anchor="middle" font-size="14" fill="#0D3550">Conferir receita</text>
+<ellipse cx="600" cy="492" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="497.0" text-anchor="middle" font-size="14" fill="#0D3550">Confirmar entrega</text>
+<ellipse cx="600" cy="554" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="559.0" text-anchor="middle" font-size="14" fill="#0D3550">Receber pagamento em dinheiro</text>
+<g stroke="#0D3550" stroke-width="2.2" fill="none">
+      <circle cx="110" cy="247.33333333333331" r="11"/><line x1="110" y1="258.3333333333333" x2="110" y2="290.3333333333333"/>
+      <line x1="92" y1="269.3333333333333" x2="128" y2="269.3333333333333"/><line x1="110" y1="290.3333333333333" x2="96" y2="313.3333333333333"/>
+      <line x1="110" y1="290.3333333333333" x2="124" y2="313.3333333333333"/></g>
+      <text x="110" y="333.3333333333333" text-anchor="middle" font-size="15" font-weight="700" fill="#0D3550">Entregador</text>
+</svg>

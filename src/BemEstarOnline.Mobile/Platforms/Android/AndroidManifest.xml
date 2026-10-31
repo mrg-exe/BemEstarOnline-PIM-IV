@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+	<!-- usesCleartextTraffic: permite falar com a API local em http:// durante os testes acadêmicos.
+	     Em produção a API fica em https:// no Azure e esta opção pode ser removida. -->
+	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round"
+	             android:supportsRtl="true" android:usesCleartextTraffic="true" android:label="Bem Estar Online"></application>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<!-- Localização do entregador durante a entrega -->
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.VIBRATE" />
+	<!-- Foto da receita (RF39): câmera do celular. A galeria usa o seletor de fotos do Android (sem permissão extra). -->
+	<uses-permission android:name="android.permission.CAMERA" />
+	<queries>
+		<intent><action android:name="android.media.action.IMAGE_CAPTURE" /></intent>
+		<intent><action android:name="android.intent.action.VIEW" /><data android:scheme="geo" /></intent>
+		<intent><action android:name="android.intent.action.DIAL" /><data android:scheme="tel" /></intent>
+	</queries>
+</manifest>

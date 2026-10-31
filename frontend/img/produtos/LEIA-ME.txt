@@ -1,0 +1,60 @@
+FOTOS REAIS DOS PRODUTOS
+========================
+
+Jeito 1 (mais fácil): coloque a foto nesta pasta com o NOME EXATO abaixo + .jpg (ou .png / .webp).
+   Exemplo: a foto da Dipirona vira   dipirona-sodica-500mg.jpg
+   Atualize a página do site (F5) e a foto aparece no lugar do desenho da embalagem.
+
+Jeito 2: entre no site como admin > Painel > Produtos e estoque > Editar > 'Enviar foto'.
+   A foto fica guardada na API e aparece no site E no aplicativo.
+
+Dicas: foto quadrada, fundo branco, até 3 MB. Use fotos tiradas por você ou do site do fabricante
+(citando a fonte no trabalho escrito). Fotos de outras lojas costumam ter direitos autorais.
+
+NOME DO ARQUIVO  ->  PRODUTO
+---------------------------
+dipirona-sodica-500mg.jpg  ->  Dipirona Sódica 500mg
+paracetamol-750mg.jpg  ->  Paracetamol 750mg
+ibuprofeno-600mg.jpg  ->  Ibuprofeno 600mg
+loratadina-10mg.jpg  ->  Loratadina 10mg
+omeprazol-20mg.jpg  ->  Omeprazol 20mg
+amoxicilina-500mg.jpg  ->  Amoxicilina 500mg
+butilbrometo-de-escopolamina-10mg.jpg  ->  Butilbrometo de Escopolamina 10mg
+ibuprofeno-400mg-referencia.jpg  ->  Ibuprofeno 400mg Referência
+relaxan-plus.jpg  ->  Relaxan Plus
+cefalix-enxaqueca.jpg  ->  Cefalix Enxaqueca
+xarope-expectorante.jpg  ->  Xarope Expectorante
+losartana-potassica-50mg.jpg  ->  Losartana Potássica 50mg
+hidroclorotiazida-25mg.jpg  ->  Hidroclorotiazida 25mg
+atenolol-50mg.jpg  ->  Atenolol 50mg
+metformina-850mg.jpg  ->  Metformina 850mg
+glibenclamida-5mg.jpg  ->  Glibenclamida 5mg
+sinvastatina-20mg.jpg  ->  Sinvastatina 20mg
+levotiroxina-50mcg.jpg  ->  Levotiroxina 50mcg
+salbutamol-spray-100mcg.jpg  ->  Salbutamol Spray 100mcg
+vitamina-c-1g-efervescente.jpg  ->  Vitamina C 1g Efervescente
+vitamina-d3-2000-ui.jpg  ->  Vitamina D3 2000 UI
+complexo-b.jpg  ->  Complexo B
+omega-3-1000mg.jpg  ->  Ômega 3 1000mg
+polivitaminico-a-z.jpg  ->  Polivitamínico A-Z
+sabonete-liquido-neutro.jpg  ->  Sabonete Líquido Neutro
+creme-dental-sensivel.jpg  ->  Creme Dental Sensível
+escova-dental-macia.jpg  ->  Escova Dental Macia
+desodorante-roll-on-sem-alcool.jpg  ->  Desodorante Roll-on sem Álcool
+shampoo-anticaspa.jpg  ->  Shampoo Anticaspa
+protetor-solar-fps-50.jpg  ->  Protetor Solar FPS 50
+protetor-solar-facial-fps-60-com-cor.jpg  ->  Protetor Solar Facial FPS 60 com Cor
+hidratante-corporal-karite.jpg  ->  Hidratante Corporal Karité
+agua-micelar.jpg  ->  Água Micelar
+pomada-para-assaduras.jpg  ->  Pomada para Assaduras
+fralda-infantil-tamanho-m.jpg  ->  Fralda Infantil Tamanho M
+paracetamol-gotas-infantil.jpg  ->  Paracetamol Gotas Infantil
+soro-fisiologico-0-9.jpg  ->  Soro Fisiológico 0,9%
+kit-curativos-variados.jpg  ->  Kit Curativos Variados
+alcool-70-gel.jpg  ->  Álcool 70% Gel
+gaze-esteril.jpg  ->  Gaze Estéril
+antisseptico-spray.jpg  ->  Antisséptico Spray
+termometro-digital.jpg  ->  Termômetro Digital
+medidor-de-pressao-de-pulso.jpg  ->  Medidor de Pressão de Pulso
+oximetro-de-dedo.jpg  ->  Oxímetro de Dedo
+tiras-para-glicemia.jpg  ->  Tiras para Glicemia

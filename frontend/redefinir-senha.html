@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Criar nova senha | Bem Estar Online</title>
+  <meta name="description" content="Crie uma nova senha pelo link recebido por e-mail.">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script>
+    // Aplica letra/contraste/tema antes de desenhar a página (evita "piscar").
+    try { var p = JSON.parse(localStorage.getItem('beo_acessibilidade') || '{}'), r = document.documentElement;
+      if (p.fonte) r.dataset.fonte = p.fonte; if (p.contraste === 'alto') r.dataset.contraste = 'alto';
+      if (p.tema && p.tema !== 'auto') r.dataset.tema = p.tema; } catch (e) {}
+  </script>
+</head>
+<body>
+  <div id="cabecalho"></div>
+  <main id="conteudo" tabindex="-1">
+
+    <div class="pagina-estreita">
+      <div class="cartao">
+        <h1 style="font-size:1.9rem">Criar nova senha</h1>
+        <div id="sem-link" hidden>
+          <p>Este endereço está sem o código do e-mail. Abra o link exatamente como chegou no e-mail ou peça um novo.</p>
+          <p><a class="botao" href="esqueci-senha.html">Pedir um link novo</a></p>
+        </div>
+        <form id="form-redefinir" novalidate>
+          <div class="campo">
+            <label for="nova-senha">Nova senha</label>
+            <input class="entrada" id="nova-senha" type="password" autocomplete="new-password" minlength="6" required aria-describedby="ajuda-nova">
+            <small id="ajuda-nova">Pelo menos 6 caracteres. Use letras e números.</small>
+          </div>
+          <div class="campo">
+            <label for="repetir-senha">Repita a nova senha</label>
+            <input class="entrada" id="repetir-senha" type="password" autocomplete="new-password" required>
+          </div>
+          <button class="botao botao--largo" type="submit">Salvar nova senha</button>
+        </form>
+        <div id="resultado-redefinir" role="status"></div>
+      </div>
+    </div>  </main>
+  <div id="rodape"></div>
+  <script src="js/config.js"></script>
+  <script src="js/catalogo-local.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/paginas/redefinir-senha.js"></script>
+</body>
+</html>

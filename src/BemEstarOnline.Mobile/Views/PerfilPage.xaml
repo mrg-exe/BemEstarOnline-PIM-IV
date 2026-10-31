@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             x:Class="BemEstarOnline.Mobile.Views.PerfilPage"
+             x:DataType="vm:PerfilViewModel"
+             Title="Perfil">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
+            <Label Text="{Binding Nome}" Style="{StaticResource Titulo}" />
+            <Label Text="{Binding Email}" Style="{StaticResource TextoSuave}" />
+
+            <Border Style="{StaticResource Cartao}" IsVisible="{Binding PodeExcluir}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Minha conta" FontAttributes="Bold" />
+                    <Button Text="Meus endereços" Style="{StaticResource BotaoContorno}" Command="{Binding AbrirEnderecosCommand}" />
+                    <Button Text="Assinaturas (10% de desconto)" Style="{StaticResource BotaoContorno}" Command="{Binding AbrirAssinaturasCommand}" />
+                    <Button Text="Enviar receita" Style="{StaticResource BotaoContorno}" Command="{Binding EnviarReceitaCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource Cartao}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Acessibilidade" FontAttributes="Bold" />
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Alto contraste (preto e amarelo)" VerticalOptions="Center" />
+                        <Switch Grid.Column="1" IsToggled="{Binding AltoContraste}" OnColor="{DynamicResource CorPrimaria}"
+                                SemanticProperties.Description="Ativar alto contraste" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Letra e botões maiores" VerticalOptions="Center" />
+                        <Switch Grid.Column="1" IsToggled="{Binding LetraGrande}" OnColor="{DynamicResource CorPrimaria}"
+                                SemanticProperties.Description="Ativar letra grande" />
+                    </Grid>
+                    <Label Style="{StaticResource TextoSuave}" FontSize="14"
+                           Text="O app também funciona com o leitor de tela do celular (TalkBack/Narrador)." />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource Cartao}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Pedidos feitos sem internet" FontAttributes="Bold" />
+                    <Label Style="{StaticResource TextoSuave}" Text="Ficam guardados no celular e são enviados sozinhos quando a conexão volta." />
+                    <Button Text="Sincronizar agora" Style="{StaticResource BotaoContorno}" Command="{Binding SincronizarCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource Cartao}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Privacidade" FontAttributes="Bold" />
+                    <Label Style="{StaticResource TextoSuave}" Text="Usamos seus dados só para entregar seus pedidos e cumprir a lei (LGPD)." />
+                    <Button Text="Política de Privacidade" Style="{StaticResource BotaoContorno}" Command="{Binding VerPrivacidadeCommand}" />
+                    <Button Text="Termos de Uso" Style="{StaticResource BotaoContorno}" Command="{Binding VerTermosCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Text="{Binding Servidor, StringFormat='Servidor: {0}'}" Style="{StaticResource TextoSuave}" FontSize="13" />
+            <Button Text="Alterar senha" Style="{StaticResource BotaoContorno}" IsVisible="{Binding Logado}"
+                    Command="{Binding AlterarSenhaCommand}" />
+            <Button Text="Sair / trocar de conta" Command="{Binding SairOuEntrarCommand}" />
+            <Button Text="Excluir minha conta" IsVisible="{Binding PodeExcluir}" BackgroundColor="{DynamicResource CorTarja}"
+                    Command="{Binding ExcluirContaCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,76 @@
+==========================================================================
+     ROTEIRO DO VÍDEO DE DEMONSTRAÇÃO (RESERVA PARA A APRESENTAÇÃO)
+==========================================================================
+Para que serve: se na hora a internet, o Docker ou o computador falharem,
+vocês mostram o vídeo. Duração alvo: 7 a 8 minutos.
+
+COMO GRAVAR (grátis)
+- Windows: tecla Windows + Alt + R grava a tela (Xbox Game Bar), ou use o OBS Studio.
+- Antes: feche as notificações, deixe o navegador em tela cheia (F11),
+  use a letra A+ no site para ficar legível no telão, e suba o sistema
+  no MODO COMPLETO (Docker), para aparecer "Banco: MySQL".
+- Grave em partes (uma cena por arquivo). Se errar, regrava só aquela cena.
+- Narração: um integrante por cena, falando devagar. Texto sugerido abaixo.
+
+--------------------------------------------------------------------------
+CENA 1 (30 s) - Abertura
+Tela: página inicial do site com o carrossel.
+Fala: "A Bem Estar Online é uma farmácia de bairro de Cajamar que passou a
+vender pelo site e pelo aplicativo. No PIM III levantamos os problemas da
+empresa; no PIM IV construímos a solução completa: site, painel da farmácia,
+aplicativo para cliente e entregador, API em .NET e banco MySQL."
+
+CENA 2 (60 s) - Cliente compra pelo site
+Tela: buscar "dor" > abrir a Dipirona > "Ouvir a descrição" (deixe tocar 3 s)
+> adicionar > carrinho > cupom BEMESTAR10 > Pix > Finalizar.
+Fala: "O cliente busca por nome ou sintoma. Os preços, o cupom e o frete são
+recalculados no servidor, então ninguém consegue alterar o valor pelo navegador."
+
+CENA 3 (45 s) - Inclusão
+Tela: botões A++, Contraste e o VLibras; depois o cadastro mostrando o campo
+nome social e a caixa da LGPD.
+Fala: "Usamos uma fonte criada para pessoas com baixa visão, alto contraste,
+leitura em voz alta e Libras. O cadastro aceita nome social e pede consentimento
+para o uso dos dados."
+
+CENA 4 (75 s) - Painel da farmácia e banco de dados
+Tela: entrar como admin > Visão geral (gráfico, estoque baixo, validade) >
+Produtos e estoque (mostrar o estoque da Dipirona) > Reposição.
+Fala: "Quando um pedido entra, um trigger do MySQL baixa o estoque sozinho e,
+se chegar ao mínimo, cria um alerta de reposição. Os números do painel vêm de
+stored procedures." Abrir o pedido novo e clicar "Começar separação".
+
+CENA 5 (90 s) - Entregador no aplicativo
+Tela: app no Windows, logado como entregador. Aparece o aviso "Pedido novo -
+EXIGE RECEITA" (se o pedido não tiver remédio com receita, compre antes um
+com Losartana). Pegar o pedido > "Saí da farmácia" > "Simular trajeto".
+Fala: "O entregador é avisado na hora e já sabe se vai precisar conferir a
+receita. O app manda a posição dele para a API a cada poucos segundos."
+
+CENA 6 (60 s) - Cliente acompanha no mapa
+Tela: lado a lado (Windows + seta), site do cliente em Minha conta > pedido >
+"Ver no mapa", com o ponto vermelho andando.
+Fala: "O cliente vê o entregador chegando em tempo real, com a distância
+e a previsão."
+
+CENA 7 (40 s) - Entrega com receita
+Tela: app do entregador > "Confirmar entrega" > pergunta da receita > "Sim".
+Linha do tempo do cliente muda para Entregue.
+Fala: "Sem confirmar a receita, o sistema não deixa finalizar a entrega."
+
+CENA 8 (45 s) - Privacidade
+Tela: Minha conta > Meus dados > Excluir minha conta (mostre o formulário,
+não precisa excluir). Depois Política de Privacidade e a Ouvidoria.
+Fala: "Pela LGPD, o próprio cliente exclui a conta. A ouvidoria aceita
+denúncias de discriminação, inclusive anônimas."
+
+CENA 9 (45 s) - Bastidores técnicos
+Tela: Swagger (rotas e Authorize), Docker Desktop com os 3 containers,
+GitHub Actions verde (se tiver), Trello.
+Fala: "A API segue arquitetura em camadas com orientação a objetos, usa
+token JWT por perfil, roda em containers Docker e tem pipeline de integração
+contínua. O desenvolvimento foi organizado em sprints no Trello."
+
+CENA 10 (20 s) - Encerramento
+Tela: página inicial. Fala: nomes do grupo e "Obrigado".
+==========================================================================

@@ -1,0 +1,165 @@
+==========================================================================
+   PERGUNTAS QUE O PROFESSOR PODE FAZER (E COMO RESPONDER COM SEGURANÇA)
+==========================================================================
+Dica: respondam com as palavras de vocês. Se não souberem algo, digam
+"essa parte foi feita assim por este motivo" ou "isso ficou como melhoria
+futura" - é melhor do que inventar.
+
+--------------------------------------------------------------------------
+GERAL / EMPREENDEDORISMO
+--------------------------------------------------------------------------
+1) Por que essa empresa e qual problema vocês resolvem?
+   Continuamos a farmácia estudada no PIM III. Os problemas: o cliente precisa
+   ir até a loja, esquece de recomprar remédio de uso contínuo e o estoque e a
+   validade eram controlados à mão. A solução vende online, programa as entregas
+   e controla estoque e validade automaticamente.
+
+2) O que diferencia vocês de Drogasil ou iFood?
+   Atendimento de bairro com farmacêutica, assinatura de uso contínuo sem multa,
+   envio da receita por foto, Farmácia Popular em destaque e acessibilidade real.
+
+3) Como a empresa ganha dinheiro com isso?
+   Venda dos produtos (margem), frete abaixo de R$ 99 e assinaturas, que trazem
+   receita previsível todo mês.
+
+--------------------------------------------------------------------------
+WEB / API (.NET)
+--------------------------------------------------------------------------
+4) O que é uma API REST e como o site conversa com ela?
+   É um conjunto de endereços (rotas) que recebem e devolvem dados em JSON.
+   Ex.: o site faz POST /api/pedidos com os itens e recebe o pedido criado.
+
+5) Como funciona o login? O que é JWT?
+   No login a API confere a senha e devolve um token (um "crachá digital")
+   assinado, com o id e o perfil da pessoa. O site e o app mandam esse token
+   em todas as chamadas. A API confere a assinatura e sabe quem é e o que pode.
+
+6) Como as senhas são guardadas?
+   Nunca a senha pura. Usamos PBKDF2 com SHA-256, 100 mil repetições e um
+   "sal" aleatório por usuário. Nem a equipe consegue ver a senha.
+
+7) O cliente consegue ver o pedido de outra pessoa mudando o número na URL?
+   Não. O id do cliente vem do token, nunca da tela, e a API confere se o
+   pedido é dele (senão devolve 403).
+
+8) E se alguém mudar o preço pelo navegador?
+   Não adianta: o servidor recalcula tudo com os preços do banco.
+
+9) Como funciona o "esqueci minha senha"?
+   A API gera um código aleatório de uso único, válido por 30 minutos, guarda
+   só o resumo (hash) dele e envia o link por e-mail. A resposta é sempre a
+   mesma, para não revelar quais e-mails têm conta.
+
+--------------------------------------------------------------------------
+ARQUITETURA / ORIENTAÇÃO A OBJETOS
+--------------------------------------------------------------------------
+10) Quais são as camadas e por que separar?
+   Domínio (regras do negócio), Aplicação (casos de uso), Infraestrutura
+   (banco, segurança) e Controllers (entrada HTTP). Cada parte tem uma
+   responsabilidade; dá para trocar o banco sem mexer nas regras.
+
+11) Mostre um exemplo de encapsulamento.
+   O pedido só muda de status pelo método AlterarStatus, que impede pular
+   etapas (ex.: de "Pago" direto para "Entregue") e estorna o pagamento
+   no cancelamento.
+
+12) Onde tem polimorfismo / interface?
+   IAutomacoesBanco tem duas implementações: uma para o MySQL (as regras ficam
+   nos triggers) e outra em memória (as mesmas regras em C#). O serviço de
+   pedidos usa a interface e não sabe qual está rodando. Isso é o "D" do SOLID
+   (inversão de dependência).
+
+13) O que é injeção de dependência?
+   O ASP.NET cria os objetos e entrega para quem precisa (no Program.cs
+   registramos qual classe atende cada interface).
+
+--------------------------------------------------------------------------
+BANCO DE DADOS
+--------------------------------------------------------------------------
+14) O que é um trigger? Dê um exemplo do projeto.
+   É uma rotina que o banco executa sozinho quando algo acontece. Ao inserir um
+   item de pedido, o trigger baixa o estoque e, se ficar no mínimo, cria um
+   alerta de reposição. Outro grava cada mudança de status (linha do tempo).
+
+15) E uma stored procedure?
+   Uma rotina guardada no banco e chamada pela API. Ex.: sp_relatorio_vendas
+   devolve o faturamento por dia para o gráfico do painel.
+
+16) Por que guardar nome e preço do produto no item do pedido?
+   Para o histórico não mudar se o preço do produto mudar depois.
+
+17) O que acontece se dois clientes comprarem a última unidade ao mesmo tempo?
+   A API confere o estoque e, no banco, o trigger confere de novo antes de
+   inserir e bloqueia a venda se não houver quantidade. E existe CHECK
+   impedindo estoque negativo.
+
+18) Como garantiram integridade?
+   Chaves estrangeiras, campos únicos (e-mail, CPF), CHECK em preço e estoque,
+   ENUM para os status e índices nas colunas mais consultadas.
+
+--------------------------------------------------------------------------
+MOBILE
+--------------------------------------------------------------------------
+19) Qual tecnologia e por quê?
+   .NET MAUI 10, em C#, a mesma linguagem da API. Um código só gera app para
+   Android e Windows. Padrão MVVM: a tela (XAML) separada da lógica (ViewModel).
+
+20) Como o app funciona sem internet?
+   Guarda o catálogo, o carrinho e os pedidos feitos offline no SQLite do
+   celular. Quando a internet volta, envia os pedidos (só da conta de quem fez),
+   e a API confere estoque e preço de novo.
+
+21) Como o cliente vê o entregador em tempo real?
+   O app do entregador envia a posição a cada 10 segundos; o site e o app do
+   cliente consultam a API a cada 8 segundos e movem o ponto no mapa
+   (OpenStreetMap, gratuito).
+
+22) E as notificações?
+   Com o app aberto, o entregador recebe alerta e vibração. Notificação com o
+   app fechado (push) precisa do Firebase e ficou como melhoria futura.
+
+--------------------------------------------------------------------------
+NUVEM E DEVOPS
+--------------------------------------------------------------------------
+23) O que é Docker e para que usaram?
+   Empacota cada parte (banco, API, site) num container que roda igual em
+   qualquer computador. Sobe tudo com um comando: docker compose up.
+
+24) O que o pipeline CI/CD faz?
+   A cada envio ao GitHub: compila a API, roda os scripts SQL num MySQL de
+   verdade, confere o JavaScript e monta a imagem Docker. Na branch principal,
+   pode publicar no Azure.
+
+25) Como escalaria com muitos clientes?
+   A API não guarda sessão (usa JWT), então dá para rodar várias cópias atrás
+   de um balanceador (autoescala do App Service). O banco gerenciado aumenta
+   recursos sem mudar código.
+
+--------------------------------------------------------------------------
+DIVERSIDADE, INCLUSÃO E LGPD
+--------------------------------------------------------------------------
+26) Como o projeto combate a discriminação?
+   Nome social respeitado em todo o sistema, ouvidoria com denúncia anônima de
+   discriminação (citando o Estatuto da Igualdade Racial e a Lei 7.716/1989),
+   e nenhum dado de raça ou religião é pedido no cadastro.
+
+27) Que recursos de acessibilidade existem?
+   Fonte para baixa visão, letra maior, alto contraste, tema escuro, leitura em
+   voz alta, VLibras e navegação por teclado e leitor de tela.
+
+28) Como atendem a LGPD?
+   Consentimento no cadastro, coleta mínima, senha criptografada, receita em
+   pasta privada, política de privacidade e exclusão da conta pelo próprio cliente.
+
+--------------------------------------------------------------------------
+GESTÃO ÁGIL
+--------------------------------------------------------------------------
+29) Como organizaram o trabalho?
+   Scrum com sprints de 2 semanas, backlog priorizado com pontos, quadro Kanban
+   no Trello e definição de pronto (só vai para "Pronto" se compilou, foi
+   testado e documentado).
+
+30) O que fariam diferente / próximos passos?
+   Pagamento real, notificações push, geração automática dos pedidos das
+   assinaturas e testes automatizados mais completos.
+==========================================================================

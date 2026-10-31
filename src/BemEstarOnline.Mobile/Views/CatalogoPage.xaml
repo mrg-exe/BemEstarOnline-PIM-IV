@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             xmlns:m="clr-namespace:BemEstarOnline.Mobile.Modelos"
+             x:Class="BemEstarOnline.Mobile.Views.CatalogoPage"
+             x:DataType="vm:CatalogoViewModel"
+             Title="Produtos">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Enviar receita" Command="{Binding EnviarReceitaCommand}"
+                     SemanticProperties.Description="Enviar a foto da receita para a farmácia" />
+    </ContentPage.ToolbarItems>
+    <Grid RowDefinitions="Auto,Auto,Auto,*" Padding="12,8,12,0" RowSpacing="8">
+        <SearchBar Text="{Binding Busca}" Placeholder="Buscar nome, sintoma ou princípio ativo"
+                   SemanticProperties.Description="Buscar produtos" />
+        <Picker Grid.Row="1" Title="Categoria" ItemsSource="{Binding Categorias}"
+                SelectedItem="{Binding CategoriaSelecionada}" SemanticProperties.Description="Filtrar por categoria" />
+        <Border Grid.Row="2" Style="{StaticResource Cartao}" IsVisible="{Binding TemAviso}" Stroke="{DynamicResource CorTarja}">
+            <Label Text="{Binding Aviso}" />
+        </Border>
+        <RefreshView Grid.Row="3" IsRefreshing="{Binding Atualizando}" Command="{Binding CarregarCommand}">
+            <CollectionView ItemsSource="{Binding Produtos}" SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <Label Text="Nenhum produto encontrado." HorizontalOptions="Center" Margin="0,40" Style="{StaticResource TextoSuave}" />
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="m:Produto">
+                        <Border Style="{StaticResource Cartao}" Margin="0,0,0,10"
+                                SemanticProperties.Description="{Binding DescricaoAcessivel}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CatalogoViewModel}}, Path=AbrirCommand}"
+                                                      CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="56,*,Auto" ColumnSpacing="12" RowDefinitions="Auto,Auto,Auto,Auto">
+                                <Label Grid.RowSpan="4" Text="{Binding Icone}" FontSize="34" VerticalOptions="Center" HorizontalOptions="Center"
+                                       IsVisible="{Binding SemFoto}" />
+                                <Image Grid.RowSpan="4" Source="{Binding FotoUrl}" IsVisible="{Binding TemFoto}" HeightRequest="56" WidthRequest="56"
+                                       Aspect="AspectFit" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="{Binding Nome}" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Subtitulo}" Style="{StaticResource TextoSuave}" FontSize="14" />
+                                <Label Grid.Column="1" Grid.Row="2" Text="{Binding Selos}" IsVisible="{Binding TemSelos}"
+                                       TextColor="{DynamicResource CorTarja}" FontSize="13" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Grid.Row="3" Text="{Binding PrecoTexto}" FontAttributes="Bold" FontSize="20" />
+                                <Button Grid.Column="2" Grid.RowSpan="4" Text="+" FontSize="24" WidthRequest="56" VerticalOptions="Center"
+                                        SemanticProperties.Description="Adicionar ao carrinho"
+                                        IsEnabled="{Binding Disponivel}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CatalogoViewModel}}, Path=AdicionarCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        <ActivityIndicator Grid.Row="3" IsRunning="{Binding Ocupado}" IsVisible="{Binding Ocupado}" VerticalOptions="Start" Margin="0,30" />
+    </Grid>
+</ContentPage>

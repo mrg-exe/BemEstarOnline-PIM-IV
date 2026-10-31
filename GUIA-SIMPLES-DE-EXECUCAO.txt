@@ -1,0 +1,306 @@
+==========================================================================
+            BEM ESTAR ONLINE - GUIA SIMPLES PARA RODAR O PROJETO
+==========================================================================
+
+Pense no sistema como uma farmácia de verdade:
+
+  DESPENSA ......... o BANCO DE DADOS (onde ficam produtos, clientes, pedidos)
+  BALCÃO/COZINHA ... a API (o "cérebro": confere estoque, preço, senha...)
+  VITRINE .......... o SITE (o que o cliente vê no navegador)
+  CAIXA ............ o PAINEL DA FARMÁCIA (área dos funcionários, dentro do site)
+  APLICATIVO ....... o mesmo app tem dois modos:
+                       - CLIENTE: compra e vê o entregador no mapa
+                       - ENTREGADOR (o motoboy): pega o pedido, manda a
+                         localização e é avisado se precisa conferir receita
+
+A vitrine e o app só funcionam de verdade se o balcão (API) estiver aberto.
+Por isso, SEMPRE ligue a API primeiro.
+
+Existem DOIS jeitos de rodar:
+
+  MODO FÁCIL ...... só precisa do .NET. O banco fica "na memória" (os dados
+                    somem quando você fecha). Ótimo para testar e apresentar.
+  MODO COMPLETO ... usa o Docker com MySQL de verdade (triggers e procedures
+                    funcionando dentro do banco). Use para mostrar a Etapa 7.
+
+
+--------------------------------------------------------------------------
+PASSO 0 - O QUE PRECISA ESTAR INSTALADO (só uma vez)
+--------------------------------------------------------------------------
+  1) .NET 8 SDK  -> https://dotnet.microsoft.com/download/dotnet/8.0
+     Para conferir, abra o PowerShell e digite:   dotnet --version
+     Tem que aparecer um número começando com 8 ou mais (9 ou 10 também
+     servem: a API foi testada com o .NET 10).
+
+  2) (Só para o MODO COMPLETO) Docker Desktop -> https://www.docker.com/products/docker-desktop
+  3) (Só para o APP) Visual Studio 2026 (ou 2022 atualizado) com o
+     "Desenvolvimento .NET Multi-platform App UI" (MAUI) e o .NET 10.
+     O app usa .NET MAUI 10 (o MAUI 8 e o 9 já saíram do suporte da Microsoft;
+     era isso que causava o erro NETSDK1202 / NU1015).
+
+  DEU ERRO? "dotnet não é reconhecido" -> o .NET não foi instalado ou o
+  PowerShell foi aberto antes da instalação. Feche e abra o PowerShell de novo.
+
+
+--------------------------------------------------------------------------
+PASSO 1 - DESCOMPACTAR
+--------------------------------------------------------------------------
+  Descompacte o arquivo BemEstarOnline.zip, por exemplo em:
+      C:\Users\Filipe\Documents\BemEstarOnline
+  Dentro dela você deve ver as pastas: database, docs, frontend, src ...
+
+
+--------------------------------------------------------------------------
+PASSO 2 - MODO FÁCIL (recomendado para começar)
+--------------------------------------------------------------------------
+  2.1) Abra o PowerShell e entre na pasta da API:
+         cd C:\Users\Filipe\Documents\BemEstarOnline\src\BemEstarOnline.Api
+
+  2.2) Ligue a API:
+         dotnet run
+
+       Na primeira vez demora 1 ou 2 minutos (ele baixa os pacotes).
+       Espere aparecer a frase:
+         Now listening on: http://localhost:5088
+       NÃO FECHE ESSA JANELA DO POWERSHELL: fechar = desligar a API.
+
+       DEU ERRO?
+       - "address already in use" / porta 5088 ocupada: já tem uma API aberta
+         (talvez em outra janela). Feche a outra janela ou reinicie o PC.
+       - Erro de "restore"/pacote: confira a internet e rode de novo.
+
+  2.3) Abra o site no navegador:
+         Site ............ http://localhost:5088
+         API (Swagger) ... http://localhost:5088/swagger
+       A própria API (ASP.NET Core) entrega o site: é o mesmo "balcão"
+       servindo a vitrine.
+       Outro jeito: vá na pasta  frontend  e dê dois cliques em  index.html
+       Se aparecer uma faixa laranja "Modo vitrine", a API não está ligada:
+       volte ao passo 2.2.
+
+       O site parece "velho" ou com erro depois de uma atualização? Aperte
+       Ctrl + F5 uma vez (o navegador busca os arquivos novos).
+
+  2.4) Entre com uma das contas de teste:
+         Cliente ......... cliente@bemestaronline.com     senha: Cliente@123
+         Atendente ....... atendente@bemestaronline.com   senha: Atendente@123
+         Administrador ... admin@bemestaronline.com       senha: Admin@123
+         Entregador ...... entregador@bemestaronline.com  senha: Entregador@123
+                           (o entregador usa o APLICATIVO, não o site)
+       (Administrador e atendente vão direto para o PAINEL DA FARMÁCIA.)
+
+  Para desligar: clique na janela do PowerShell e aperte Ctrl + C.
+
+
+--------------------------------------------------------------------------
+PASSO 3 - MODO COMPLETO (MySQL de verdade, com Docker)
+--------------------------------------------------------------------------
+  3.1) ABRA O DOCKER DESKTOP PRIMEIRO e espere ficar "Engine running"
+       (baleia verde no canto). Sem isso o comando abaixo dá erro.
+
+  3.2) Se a API do modo fácil estiver ligada, desligue (Ctrl + C), porque
+       as duas usam a mesma porta 5088.
+
+  3.3) No PowerShell, entre na pasta principal do projeto:
+         cd C:\Users\Filipe\Documents\BemEstarOnline
+
+  3.4) Suba tudo:
+         docker compose up --build
+
+       Na primeira vez demora alguns minutos. Ele cria 3 "caixinhas":
+         banco (MySQL), api e site.
+       Quando aparecer "Banco pronto (MySQL)" está tudo no ar.
+
+  3.5) Abra no navegador:
+         Site ............ http://localhost:5088   (servido pela API .NET)
+                           http://localhost:8080   (o mesmo site, pelo Nginx)
+         API (Swagger) ... http://localhost:5088/swagger
+       No painel da farmácia vai aparecer:
+         "Banco: MySQL (triggers e procedures ativos)"
+
+       DEU ERRO?
+       - "cannot connect to the Docker daemon" / "pipe docker_engine":
+         o Docker Desktop não está aberto. Volte ao 3.1.
+       - "port is already allocated": a porta 5088 ou 8080 está em uso.
+         Desligue a API do modo fácil ou outro programa que use a porta.
+       - A API mostra "MySQL ainda não respondeu (tentativa 1/12)": normal
+         na primeira vez. Ela tenta sozinha por 1 minuto.
+       - Erro com "ouvidoria" no log da API (ex.: "Table 'db_bemestar.ouvidoria'
+         doesn't exist"): o seu banco do Docker foi criado antes da Ouvidoria
+         existir. Rode este comando (só cria a tabela, não apaga nada):
+           Get-Content database\atualizacoes\2026-10-30-ouvidoria.sql | docker compose exec -T banco mysql -uroot -pBemEstar@2026 --default-character-set=utf8mb4
+         Depois:  docker compose restart api
+       - Erro com "redefinicoes_senha" no log da API: mesmo caso (banco antigo). Rode:
+           Get-Content database\atualizacoes\2026-10-31-redefinicoes-senha.sql | docker compose exec -T banco mysql -uroot -pBemEstar@2026 --default-character-set=utf8mb4
+       - Erro com "trocar_senha" no log da API: mesmo caso (banco antigo). Rode:
+           Get-Content database\atualizacoes\2026-10-31-equipe-trocar-senha.sql | docker compose exec -T banco mysql -uroot -pBemEstar@2026 --default-character-set=utf8mb4
+         Depois:  docker compose restart api
+
+  3.6) Para desligar: Ctrl + C (ou  docker compose down ).
+       Para APAGAR o banco e começar do zero:  docker compose down -v
+
+  Quer ver o banco por dentro? No MySQL Workbench conecte em:
+       servidor 127.0.0.1   porta 3307   usuário root   senha BemEstar@2026
+
+
+--------------------------------------------------------------------------
+PASSO 4 - APLICATIVO (rodando como programa do Windows, sem celular)
+--------------------------------------------------------------------------
+  4.1) Deixe a API ligada (passo 2 ou 3).
+  4.2) Abra o arquivo  BemEstarOnline.sln  no Visual Studio 2026 (ou 2022 atualizado).
+  4.3) Em cima, na lista de projetos, escolha  BemEstarOnline.Mobile .
+  4.4) No botão verde de "play", escolha  Windows Machine  e clique.
+       (Na primeira vez demora; o Visual Studio baixa o que falta.)
+  4.5) No app: toque em "Usar conta de teste (cliente)" e depois "Entrar".
+
+  MODO ENTREGADOR NO APP:
+     Saia da conta (aba Perfil) e entre com entregador@bemestaronline.com.
+     Aparece a aba "Entregas": pedidos disponíveis (em separação) e os seus.
+     - A lista atualiza a cada 20 s e AVISA (com vibração no celular) quando
+       chega pedido novo, dizendo se ele EXIGE RECEITA.
+     - "Pegar este pedido" > "Saí da farmácia" > o cliente já vê o mapa.
+       No Windows, nessa hora pode aparecer a pergunta do próprio Windows
+       "Permitir que o Windows e os aplicativos acessem sua localização?".
+       "Sim" usa a posição do computador (estimada pelo Wi-Fi); "Não" também
+       funciona: aí use o "Simular trajeto". O app pergunta uma vez só.
+     - "Simular trajeto" faz o motoboy "andar" até o cliente (ótimo para a
+       apresentação, porque o computador não tem GPS de verdade).
+     - "Confirmar entrega": se o pedido tem tarja vermelha, o app obriga a
+       confirmar que a receita foi conferida.
+     DICA: para ter pedido disponível, no painel do site abra um pedido e
+     clique "Começar separação". Os dados de teste já trazem 1 pronto.
+
+  QUER NO EMULADOR ANDROID? No botão de play escolha um emulador Android.
+  Na tela de login toque em "Configurar endereço do servidor" e use:
+       http://10.0.2.2:5088/api/
+  (10.0.2.2 é o "localhost" do computador visto de dentro do emulador.)
+
+  DEU ERRO?
+  - "workload maui não instalado": abra o Visual Studio Installer >
+    Modificar > marque "Desenvolvimento .NET Multi-platform App UI".
+  - NETSDK1202 "net8.0-android está sem suporte" ou NU1015 "Microsoft.Maui.
+    Controls sem versão": você está com uma versão antiga do projeto. Use
+    esta versão nova (ela já usa .NET 10). Depois, no Visual Studio:
+    Compilar > Limpar Solução e Compilar de novo.
+  - O mapa fica em branco: o mapa precisa de internet (OpenStreetMap) e da
+    API ligada, porque a página do mapa (mapa-app.html) é entregue por ela.
+  - "Sem conexão com o servidor da farmácia": a API está desligada ou o
+    endereço do servidor está errado (veja 4.5).
+  - Para testar o MODO OFFLINE: com o app aberto, desligue a API, adicione
+    produtos e finalize: o pedido fica guardado. Ligue a API e toque em
+    Perfil > "Sincronizar agora" (ou abra a aba Pedidos).
+
+
+--------------------------------------------------------------------------
+PASSO 5 - ROTEIRO PARA A APRESENTAÇÃO (uns 10 minutos)
+--------------------------------------------------------------------------
+  1) Site: mostre a página inicial, busque "dor", abra um produto e clique em
+     "Ouvir a descrição em voz alta". Mostre os botões A+, Contraste e Escuro.
+  2) Cadastre uma pessoa usando o campo NOME SOCIAL (diversidade e inclusão).
+  3) Compre 2 produtos, aplique o cupom BEMESTAR10 e finalize com Pix.
+  4) Mostre a linha do tempo do pedido (rastreamento).
+  5) ANTES deste passo, deixe o APP aberto como entregador na aba Entregas
+     (é assim que o aviso do passo 6 aparece na hora).
+     Entre como admin@bemestaronline.com: painel com gráfico, estoque baixo
+     e validade (procedures). Abra o pedido e clique "Começar separação".
+     DICA: para ficar logado como cliente E como admin ao mesmo tempo, use
+     dois endereços: cliente em http://localhost:5088 e admin em
+     http://localhost:8080 (cada endereço guarda o seu login).
+  6) No APP do entregador, em até 20 segundos chega o aviso do pedido novo
+     (dizendo se exige receita). Pegue o pedido, toque "Saí da farmácia" e
+     "Simular trajeto" (o motoboy sai sempre da farmácia).
+  7) No SITE, como cliente, abra Minha conta > o pedido > "Ver no mapa": o
+     ponto vermelho (entregador) anda sozinho até a casa do cliente.
+  8) No app do entregador, "Confirmar entrega" (pede para conferir a receita).
+  9) Mostre "Produtos e estoque": o estoque do produto vendido diminuiu
+     sozinho (trigger). Em "Reposição" aparecem os alertas automáticos.
+ 10) Minha conta > Meus dados > "Excluir minha conta" (LGPD, sem suporte).
+ 11) Swagger (http://localhost:5088/swagger): mostre as rotas e o botão
+     Authorize (JWT).
+ 12) Ouvidoria (diversidade, Etapa 3): no rodapé, "Ouvidoria e denúncias".
+     Escolha "Denúncia de discriminação" > "Racial", conte o caso, marque
+     "Quero ficar anônimo" e envie: aparece o protocolo (OUV-2026-...).
+     No painel (admin), seção "Ouvidoria": a denúncia aparece em primeiro,
+     com a faixa vermelha. Escreva a resposta e clique "Salvar". Volte à
+     página da ouvidoria, cole o protocolo em "Acompanhar" e mostre a resposta.
+
+  Cupons de teste: BEMESTAR10 (10%), SAUDE15 (15% acima de R$ 80),
+                   FRETEGRATIS (acima de R$ 40), PRIMEIRACOMPRA (R$ 5).
+
+
+--------------------------------------------------------------------------
+ESQUECI MINHA SENHA (onde chega o "e-mail")
+--------------------------------------------------------------------------
+  No projeto não existe servidor de e-mail de verdade. A API salva cada
+  e-mail como uma página na pasta:
+      src\BemEstarOnline.Api\emails-enviados
+  Dê dois cliques no arquivo mais novo: abre o e-mail com o botão
+  "Criar nova senha". O link vale 30 minutos e funciona uma vez só.
+  (Para mandar e-mail de verdade, preencha a seção "Smtp" do appsettings.json.)
+
+  Receitas enviadas (site e app): ficam na pasta PRIVADA
+      src\BemEstarOnline.Api\ArquivosPrivados\receitas
+  com nomes embaralhados. Para ver uma receita, use o painel da farmácia:
+  menu "Receitas recebidas" > botão "Ver receita". Essa pasta não vai para o
+  GitHub (é dado de saúde dos clientes).
+
+--------------------------------------------------------------------------
+PRINTS DO MYSQL WORKBENCH (prints 26 e 27 do trabalho)
+--------------------------------------------------------------------------
+  Deixe o Docker ligado (Passo 3). Para tirar print: tecla Windows + Shift + S,
+  marque a área, depois abra o Paint, cole (Ctrl + V) e salve em docs\prints.
+
+  26) TRIGGERS E PROCEDURES
+      - Abra o MySQL Workbench. Menu Database > Connect to Database...
+      - Hostname: 127.0.0.1   Port: 3307   Username: root   > clique OK
+      - Senha: BemEstar@2026 (não precisa marcar "Save password").
+      - No painel da esquerda (Schemas), clique na setinha de db_bemestar.
+        Abra "Stored Procedures" (aparecem as 4). Abra Tables > pedido_itens >
+        Triggers e Tables > pedidos > Triggers (aparecem as 5 no total).
+      - Na área de consulta, digite:  SHOW TRIGGERS FROM db_bemestar;
+        e aperte Ctrl + Enter (o resultado aparece embaixo).
+      - Salve o print como  26-mysql-triggers.png
+
+  27) DIAGRAMA DO BANCO (MER)
+      - Menu Database > Reverse Engineer...
+      - Mesmos dados (127.0.0.1, porta 3307, root) > Next > senha > Next.
+      - Marque só  db_bemestar  > Next > Next > Execute > Next > Close.
+      - Aparece o diagrama. Se ficar bagunçado: menu Arrange > Autolayout.
+      - Salve o print como  27-mysql-mer.png
+        (Extra: File > Export > Export as PNG... gera a imagem do diagrama
+        inteiro, ótima para colocar no trabalho escrito.)
+
+--------------------------------------------------------------------------
+FOTOS REAIS DOS PRODUTOS
+--------------------------------------------------------------------------
+  Sem foto, o site mostra um desenho da embalagem. Para usar fotos reais:
+  - Jeito 1: coloque a foto em  frontend\img\produtos\  com o nome do
+    produto (a lista de nomes está no LEIA-ME.txt dessa pasta).
+  - Jeito 2: Painel > Produtos e estoque > Editar > "Enviar foto"
+    (aparece no site e no app).
+
+--------------------------------------------------------------------------
+TESTES AUTOMÁTICOS (conferem as regras sozinhos, em 1 segundo)
+--------------------------------------------------------------------------
+  São 69 testes que conferem as regras mais importantes, sem abrir o site:
+  status do pedido, cupons, CPF, receita obrigatória na entrega e a foto
+  da receita. Não precisa do Docker nem da API ligada.
+  1) Abra o PowerShell na pasta BemEstarOnline.
+  2) Digite:   dotnet test tests\BemEstarOnline.Testes
+  3) No fim deve aparecer:  Aprovado! – Com falha: 0, Aprovado: 69
+     Se aparecer "Com falha", o nome do teste diz qual regra quebrou.
+  No GitHub, esses testes rodam sozinhos a cada envio (aba "Actions").
+
+--------------------------------------------------------------------------
+ONDE ESTÁ CADA COISA (para o trabalho escrito)
+--------------------------------------------------------------------------
+  database\ ................ scripts do MySQL (tabelas, triggers, procedures, dados)
+  database\completo\ ....... tudo num arquivo só (para o Workbench)
+  src\BemEstarOnline.Api\ .. API em C# (camadas Dominio/Aplicacao/Infraestrutura)
+  src\BemEstarOnline.Mobile\ app .NET MAUI (Android e Windows)
+  tests\BemEstarOnline.Testes\ testes automáticos (xUnit) das regras de negócio
+  frontend\ ................ site e painel da farmácia
+  docs\ .................... textos de apoio para as Etapas 2 a 9 do PIM
+  docker-compose.yml ....... sobe tudo com Docker
+  .github\workflows\ ....... pipeline CI/CD (GitHub Actions)
+==========================================================================

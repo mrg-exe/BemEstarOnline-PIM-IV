@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <!-- Cores da marca (iguais às do site). Estas chaves são trocadas em tempo real
+         pelo AcessibilidadeServico quando o usuário liga o alto contraste. -->
+    <Color x:Key="CorPrimaria">#00807C</Color>
+    <Color x:Key="CorPrimariaEscura">#00625F</Color>
+    <Color x:Key="CorTextoBotao">#FFFFFF</Color>
+    <Color x:Key="CorFundo">#F4F8F7</Color>
+    <Color x:Key="CorCartao">#FFFFFF</Color>
+    <Color x:Key="CorTexto">#0D3550</Color>
+    <Color x:Key="CorTextoSuave">#4A6378</Color>
+    <Color x:Key="CorBorda">#D3E1DE</Color>
+    <Color x:Key="CorTarja">#C8281E</Color>
+    <Color x:Key="CorFolha">#3F7A22</Color>
+    <!-- Bolinha dos botões liga/desliga (Switch): precisa aparecer também no fundo preto do alto contraste. -->
+    <Color x:Key="CorBolinhaChave">#4A6378</Color>
+    <x:Double x:Key="TamanhoTexto">16</x:Double>
+    <x:Double x:Key="TamanhoTitulo">22</x:Double>
+    <x:Double x:Key="AlturaBotao">50</x:Double>
+</ResourceDictionary>

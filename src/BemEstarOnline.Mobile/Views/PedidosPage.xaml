@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             xmlns:m="clr-namespace:BemEstarOnline.Mobile.Modelos"
+             x:Class="BemEstarOnline.Mobile.Views.PedidosPage"
+             x:DataType="vm:PedidosViewModel"
+             Title="Meus pedidos">
+    <Grid RowDefinitions="Auto,Auto,*" Padding="12,8,12,0" RowSpacing="8">
+        <Border Style="{StaticResource Cartao}" IsVisible="{Binding PrecisaLogin}">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Entre para ver e acompanhar seus pedidos." />
+                <Button Text="Entrar" Command="{Binding EntrarCommand}" />
+            </VerticalStackLayout>
+        </Border>
+        <Border Grid.Row="1" Style="{StaticResource Cartao}" IsVisible="{Binding TemAviso}">
+            <Label Text="{Binding Aviso}" />
+        </Border>
+        <RefreshView Grid.Row="2" IsRefreshing="{Binding Atualizando}" Command="{Binding CarregarCommand}">
+            <CollectionView ItemsSource="{Binding Pedidos}" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="m:PedidoResumo">
+                        <Border Style="{StaticResource Cartao}" Margin="0,0,0,10"
+                                SemanticProperties.Description="{Binding DescricaoAcessivel}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PedidosViewModel}}, Path=AbrirCommand}"
+                                                      CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{Binding Titulo}" FontAttributes="Bold" />
+                                <Label Text="{Binding Linha}" Style="{StaticResource TextoSuave}" />
+                                <Label Text="{Binding StatusTexto}" TextColor="{DynamicResource CorPrimariaEscura}" FontAttributes="Bold" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

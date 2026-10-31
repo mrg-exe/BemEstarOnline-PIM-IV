@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+        <Setter Property="BackgroundColor" Value="{DynamicResource CorFundo}" />
+    </Style>
+
+    <Style TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource CorTexto}" />
+        <Setter Property="FontSize" Value="{DynamicResource TamanhoTexto}" />
+    </Style>
+
+    <Style x:Key="Titulo" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource CorTexto}" />
+        <Setter Property="FontSize" Value="{DynamicResource TamanhoTitulo}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <Style x:Key="TextoSuave" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource CorTextoSuave}" />
+        <Setter Property="FontSize" Value="{DynamicResource TamanhoTexto}" />
+    </Style>
+
+    <Style TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{DynamicResource CorPrimaria}" />
+        <Setter Property="TextColor" Value="{DynamicResource CorTextoBotao}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize" Value="{DynamicResource TamanhoTexto}" />
+        <Setter Property="MinimumHeightRequest" Value="{DynamicResource AlturaBotao}" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="Padding" Value="16,8" />
+    </Style>
+
+    <Style x:Key="BotaoContorno" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{DynamicResource CorPrimariaEscura}" />
+        <Setter Property="BorderColor" Value="{DynamicResource CorPrimaria}" />
+        <Setter Property="BorderWidth" Value="2" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize" Value="{DynamicResource TamanhoTexto}" />
+        <Setter Property="MinimumHeightRequest" Value="{DynamicResource AlturaBotao}" />
+        <Setter Property="CornerRadius" Value="10" />
+    </Style>
+
+    <Style TargetType="Entry">
+        <Setter Property="TextColor" Value="{DynamicResource CorTexto}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource CorTextoSuave}" />
+        <Setter Property="FontSize" Value="{DynamicResource TamanhoTexto}" />
+        <Setter Property="MinimumHeightRequest" Value="48" />
+    </Style>
+
+    <Style TargetType="Picker">
+        <Setter Property="TextColor" Value="{DynamicResource CorTexto}" />
+        <Setter Property="TitleColor" Value="{DynamicResource CorTextoSuave}" />
+        <Setter Property="FontSize" Value="{DynamicResource TamanhoTexto}" />
+        <Setter Property="MinimumHeightRequest" Value="48" />
+    </Style>
+
+    <Style TargetType="SearchBar">
+        <Setter Property="TextColor" Value="{DynamicResource CorTexto}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource CorTextoSuave}" />
+        <Setter Property="FontSize" Value="{DynamicResource TamanhoTexto}" />
+    </Style>
+
+    <Style x:Key="Cartao" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{DynamicResource CorCartao}" />
+        <Setter Property="Stroke" Value="{DynamicResource CorBorda}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+        <Setter Property="Padding" Value="14" />
+    </Style>
+
+    <Style TargetType="Switch">
+        <Setter Property="OnColor" Value="{DynamicResource CorPrimaria}" />
+        <Setter Property="ThumbColor" Value="{DynamicResource CorBolinhaChave}" />
+    </Style>
+
+    <Style TargetType="ActivityIndicator">
+        <Setter Property="Color" Value="{DynamicResource CorPrimaria}" />
+    </Style>
+
+    <Style TargetType="Shell" ApplyToDerivedTypes="True">
+        <Setter Property="Shell.BackgroundColor" Value="{DynamicResource CorPrimariaEscura}" />
+        <Setter Property="Shell.ForegroundColor" Value="White" />
+        <Setter Property="Shell.TitleColor" Value="White" />
+        <Setter Property="Shell.TabBarBackgroundColor" Value="{DynamicResource CorCartao}" />
+        <Setter Property="Shell.TabBarForegroundColor" Value="{DynamicResource CorPrimaria}" />
+        <Setter Property="Shell.TabBarTitleColor" Value="{DynamicResource CorPrimariaEscura}" />
+        <Setter Property="Shell.TabBarUnselectedColor" Value="{DynamicResource CorTextoSuave}" />
+    </Style>
+</ResourceDictionary>

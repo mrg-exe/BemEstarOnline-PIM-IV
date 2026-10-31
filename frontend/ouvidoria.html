@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ouvidoria e denúncias | Bem Estar Online</title>
+  <meta name="description" content="Denuncie discriminação, reclame, sugira ou elogie. Pode ser anônimo.">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script>
+    // Aplica letra/contraste/tema antes de desenhar a página (evita "piscar").
+    try { var p = JSON.parse(localStorage.getItem('beo_acessibilidade') || '{}'), r = document.documentElement;
+      if (p.fonte) r.dataset.fonte = p.fonte; if (p.contraste === 'alto') r.dataset.contraste = 'alto';
+      if (p.tema && p.tema !== 'auto') r.dataset.tema = p.tema; } catch (e) {}
+  </script>
+</head>
+<body>
+  <div id="cabecalho"></div>
+  <main id="conteudo" tabindex="-1">
+
+    <div class="pagina-estreita">
+      <div class="cartao">
+        <h1 style="font-size:1.9rem">Ouvidoria e canal de denúncia</h1>
+        <p>Sofreu ou viu discriminação na farmácia, no site, no app ou na entrega? Teve um problema, tem uma ideia ou quer elogiar alguém?
+          Conte aqui. A ouvidoria lê tudo, responde e você acompanha pelo número de protocolo.</p>
+
+        <div class="aviso-receita" style="margin-bottom:1.25rem">
+          <span id="icone-lei"></span>
+          <p style="margin:0"><strong>Discriminação é crime.</strong> Preconceito de raça, cor, etnia, religião ou origem é crime no Brasil
+            (Lei 7.716/1989), e o Estatuto da Igualdade Racial (Lei 12.288/2010) garante igualdade de tratamento a todas as pessoas.
+            Se você estiver em perigo, ligue <strong>190</strong>. Também pode denunciar no <strong>Disque 100</strong> (Direitos Humanos, grátis, 24 horas).</p>
+        </div>
+
+        <form id="form-ouvidoria" novalidate>
+          <div class="campo">
+            <label for="tipo">Sobre o que você quer falar?</label>
+            <select class="entrada" id="tipo" required>
+              <option value="">Escolha uma opção</option>
+            </select>
+          </div>
+          <div class="campo" id="campo-subtipo" hidden>
+            <label for="subtipo">Que tipo de discriminação?</label>
+            <select class="entrada" id="subtipo">
+              <option value="">Escolha uma opção</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="descricao">Conte o que aconteceu</label>
+            <textarea class="entrada" id="descricao" maxlength="4000" rows="6" required
+                      placeholder="Quando e onde foi, o que aconteceu e, se quiser, quem estava envolvido."></textarea>
+            <small id="contador-descricao" aria-live="polite">0 de 4000 letras</small>
+          </div>
+          <label class="marcar" style="margin-bottom:.25rem"><input type="checkbox" id="anonimo">
+            <span>Quero ficar anônimo</span></label>
+          <p id="explica-anonimo" style="margin:0 0 1rem;color:var(--tinta-suave);font-size:.95rem"></p>
+          <div class="campo" id="campo-contato">
+            <label for="contato">Como podemos falar com você? <span style="font-weight:400">(opcional)</span></label>
+            <input class="entrada" id="contato" maxlength="150" autocomplete="email" placeholder="E-mail ou celular">
+          </div>
+          <button class="botao botao--largo" type="submit">Enviar para a ouvidoria</button>
+        </form>
+        <div id="resultado-ouvidoria" role="status"></div>
+      </div>
+
+      <div class="cartao" style="margin-top:1.25rem">
+        <h2 style="font-size:1.4rem">Acompanhar pelo protocolo</h2>
+        <form id="form-consulta" class="cupom-linha" role="search">
+          <label for="protocolo" class="sr-only">Número do protocolo</label>
+          <input class="entrada" id="protocolo" placeholder="Ex.: OUV-2026-7K3M9QXA" autocomplete="off" style="text-transform:uppercase">
+          <button class="botao botao--contorno" type="submit">Consultar</button>
+        </form>
+        <div id="resultado-consulta" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </main>
+  <div id="rodape"></div>
+  <script src="js/config.js"></script>
+  <script src="js/catalogo-local.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/paginas/ouvidoria.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+classDiagram
+direction TB
+class PedidosController {
+  <<Controller>>
+  +Criar(PedidoCriarDto) PedidoDetalheDto
+  +Obter(id) PedidoDetalheDto
+  +Rastreio(id) RastreioDto
+}
+class IPedidoServico {
+  <<interface>>
+  +CriarAsync(idUsuario, dto)
+  +AlterarStatusAsync(id, status)
+  +RastreioAsync(id, idUsuario, equipe)
+}
+class PedidoServico {
+  <<Aplicação>>
+  -CalcularAsync(itens, cupom)
+}
+class IPedidoRepositorio {
+  <<interface>>
+  +ObterDetalheAsync(id)
+  +Adicionar(pedido)
+}
+class PedidoRepositorio {
+  <<Infraestrutura>>
+}
+class IAutomacoesBanco {
+  <<interface>>
+  +AposCriarPedidoAsync(pedido)
+  +AposAlterarStatusAsync(pedido, anterior)
+  +ExecutadasPeloBanco bool
+}
+class AutomacoesViaTriggersMySql {
+  <<Infraestrutura>>
+}
+class AutomacoesEmMemoria {
+  <<Infraestrutura>>
+}
+class IRelatorioRepositorio {
+  <<interface>>
+  +VendasPorDiaAsync(inicio, fim)
+  +EstoqueBaixoAsync()
+  +VencendoAsync(dias)
+}
+class RelatorioRepositorioMySql {
+  <<chama stored procedures>>
+}
+class RelatorioRepositorioEmMemoria {
+  <<LINQ>>
+}
+class IUnidadeDeTrabalho {
+  <<interface>>
+  +SalvarAsync()
+}
+class BemEstarDbContext {
+  <<EF Core>>
+}
+class Pedido {
+  <<Domínio>>
+  +AlterarStatus(novo)
+}
+PedidosController ..> IPedidoServico : usa
+IPedidoServico <|.. PedidoServico
+PedidoServico ..> IPedidoRepositorio
+PedidoServico ..> IAutomacoesBanco
+PedidoServico ..> IUnidadeDeTrabalho
+PedidoServico ..> Pedido
+IPedidoRepositorio <|.. PedidoRepositorio
+IAutomacoesBanco <|.. AutomacoesViaTriggersMySql
+IAutomacoesBanco <|.. AutomacoesEmMemoria
+IRelatorioRepositorio <|.. RelatorioRepositorioMySql
+IRelatorioRepositorio <|.. RelatorioRepositorioEmMemoria
+PedidoRepositorio ..> BemEstarDbContext
+AutomacoesEmMemoria ..> BemEstarDbContext
+RelatorioRepositorioMySql ..> BemEstarDbContext

@@ -1,0 +1,18 @@
+# Arquivos gerados pela compilação (não vão para o GitHub)
+bin/
+obj/
+publicado/
+.vs/
+*.user
+*.suo
+*.db3
+.DS_Store
+Thumbs.db
+# E-mails do modo demonstração (RF33): têm links de redefinição de senha válidos
+src/BemEstarOnline.Api/emails-enviados/
+# Receitas enviadas pelos clientes (RF39): dado de saúde, nunca vai para o GitHub
+src/BemEstarOnline.Api/ArquivosPrivados/
+# Instruções para o Claude Code (ficam só no computador do Filipe)
+CLAUDE.md
+PRIMEIRA-MENSAGEM-PARA-O-CLAUDE-CODE.txt
+.claude/

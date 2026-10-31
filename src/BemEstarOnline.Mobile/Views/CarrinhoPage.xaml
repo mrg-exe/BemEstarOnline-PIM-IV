@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             xmlns:m="clr-namespace:BemEstarOnline.Mobile.Modelos"
+             x:Class="BemEstarOnline.Mobile.Views.CarrinhoPage"
+             x:DataType="vm:CarrinhoViewModel"
+             Title="Carrinho">
+    <ScrollView>
+        <VerticalStackLayout Padding="12" Spacing="10">
+            <Label Text="Seu carrinho está vazio. Que tal dar uma olhada nos produtos?" IsVisible="{Binding Vazio}"
+                   Style="{StaticResource TextoSuave}" Margin="0,30" HorizontalTextAlignment="Center" />
+
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Itens}" Spacing="8">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="m:ItemCarrinho">
+                        <Border Style="{StaticResource Cartao}">
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                                <Label Text="{Binding Nome}" FontAttributes="Bold" />
+                                <Label Grid.Row="1" Text="{Binding PrecoTexto}" Style="{StaticResource TextoSuave}" />
+                                <HorizontalStackLayout Grid.Row="2" Spacing="8">
+                                    <Button Text="−" WidthRequest="48" SemanticProperties.Description="Diminuir"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CarrinhoViewModel}}, Path=MenosCommand}" CommandParameter="{Binding .}" />
+                                    <Label Text="{Binding Quantidade}" FontAttributes="Bold" VerticalOptions="Center" WidthRequest="32" HorizontalTextAlignment="Center" />
+                                    <Button Text="+" WidthRequest="48" SemanticProperties.Description="Aumentar"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CarrinhoViewModel}}, Path=MaisCommand}" CommandParameter="{Binding .}" />
+                                </HorizontalStackLayout>
+                                <Label Grid.Column="1" Text="{Binding SubtotalTexto}" FontAttributes="Bold" HorizontalOptions="End" />
+                                <Button Grid.Column="1" Grid.Row="2" Text="Remover" Style="{StaticResource BotaoContorno}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CarrinhoViewModel}}, Path=RemoverCommand}" CommandParameter="{Binding .}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+            <Border Style="{StaticResource Cartao}" IsVisible="{Binding RequerReceita}" Stroke="{DynamicResource CorTarja}">
+                <Label Text="Seu pedido tem remédio com tarja vermelha. Tenha a receita em mãos na entrega." />
+            </Border>
+
+            <Border Style="{StaticResource Cartao}">
+                <VerticalStackLayout Spacing="6">
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Produtos" /><Label Grid.Column="1" Text="{Binding SubtotalTexto}" /></Grid>
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Desconto" /><Label Grid.Column="1" Text="{Binding DescontoTexto}" TextColor="{DynamicResource CorFolha}" /></Grid>
+                    <Grid ColumnDefinitions="*,Auto"><Label Text="Entrega" /><Label Grid.Column="1" Text="{Binding FreteTexto}" /></Grid>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Total" FontAttributes="Bold" FontSize="20" />
+                        <Label Grid.Column="1" Text="{Binding TotalTexto}" FontAttributes="Bold" FontSize="20" />
+                    </Grid>
+                    <Label Text="{Binding Mensagem}" Style="{StaticResource TextoSuave}" FontSize="14" />
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <Entry Text="{Binding Cupom}" Placeholder="Cupom (ex.: BEMESTAR10)" />
+                        <Button Grid.Column="1" Text="Aplicar" Style="{StaticResource BotaoContorno}" Command="{Binding CalcularCommand}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource Cartao}" IsVisible="{Binding PrecisaLogin}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Entre na sua conta para finalizar a compra." />
+                    <Button Text="Entrar" Command="{Binding EntrarCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource Cartao}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Entregar em" FontAttributes="Bold" />
+                    <Picker ItemsSource="{Binding Enderecos}" SelectedItem="{Binding EnderecoSelecionado}" Title="Escolha o endereço" />
+                    <Button Text="Novo endereço" Style="{StaticResource BotaoContorno}" Command="{Binding NovoEnderecoCommand}"
+                            IsVisible="{Binding Logado}" />
+                    <Label Text="Forma de pagamento" FontAttributes="Bold" />
+                    <Picker ItemsSource="{Binding FormasPagamento}" SelectedIndex="{Binding PagamentoSelecionado}" Title="Escolha" />
+                    <Entry Text="{Binding Observacao}" Placeholder="Observação (ex.: troco para R$ 50)" />
+                    <Label Text="Pagamento simulado (projeto acadêmico): nada é cobrado." Style="{StaticResource TextoSuave}" FontSize="13" />
+                    <Button Text="Finalizar compra" Command="{Binding FinalizarCommand}" IsEnabled="{Binding Livre}" />
+                    <ActivityIndicator IsRunning="{Binding Ocupado}" IsVisible="{Binding Ocupado}" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

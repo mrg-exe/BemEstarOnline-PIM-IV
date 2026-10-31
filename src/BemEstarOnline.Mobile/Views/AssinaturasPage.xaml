@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             xmlns:m="clr-namespace:BemEstarOnline.Mobile.Modelos"
+             x:Class="BemEstarOnline.Mobile.Views.AssinaturasPage"
+             x:DataType="vm:AssinaturasViewModel"
+             Title="Assinaturas">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="10" MaximumWidthRequest="560">
+            <Label Style="{StaticResource TextoSuave}"
+                   Text="Remédio de uso contínuo chegando sozinho em casa, com 10% de desconto em todas as entregas." />
+
+            <!-- Visitante -->
+            <Border Style="{StaticResource Cartao}" IsVisible="{Binding Visitante}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Entre na sua conta para escolher o remédio e a data das entregas." />
+                    <Button Text="Entrar" Command="{Binding EntrarCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Montar uma assinatura -->
+            <Border Style="{StaticResource Cartao}" IsVisible="{Binding Logado}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Monte sua assinatura" Style="{StaticResource Titulo}" FontSize="20" SemanticProperties.HeadingLevel="Level2" />
+                    <Label Text="Medicamento" FontAttributes="Bold" />
+                    <Picker ItemsSource="{Binding Produtos}" ItemDisplayBinding="{Binding TextoEscolha, x:DataType=m:Produto}"
+                            SelectedItem="{Binding ProdutoEscolhido}" Title="Escolha da lista"
+                            SemanticProperties.Description="Medicamento de uso contínuo" />
+                    <Label Text="Nome de quem vai tomar" FontAttributes="Bold" />
+                    <Entry Text="{Binding Paciente}" SemanticProperties.Description="Nome de quem vai tomar" />
+                    <Label Text="Pode ser você ou alguém que você cuida." Style="{StaticResource TextoSuave}" FontSize="14" />
+                    <Label Text="Caixas por entrega" FontAttributes="Bold" />
+                    <Picker ItemsSource="{Binding OpcoesQuantidade}" SelectedIndex="{Binding IndiceQuantidade}"
+                            SemanticProperties.Description="Caixas por entrega" />
+                    <Label Text="Entregar a cada" FontAttributes="Bold" />
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto"
+                          RadioButtonGroup.GroupName="periodo" RadioButtonGroup.SelectedValue="{Binding Periodo}">
+                        <RadioButton Content="15 dias" Value="15" />
+                        <RadioButton Grid.Column="1" Content="30 dias" Value="30" />
+                        <RadioButton Grid.Row="1" Content="60 dias" Value="60" />
+                        <RadioButton Grid.Row="1" Grid.Column="1" Content="90 dias" Value="90" />
+                    </Grid>
+
+                    <Border BackgroundColor="{DynamicResource CorFundo}" Stroke="{DynamicResource CorBorda}" StrokeShape="RoundRectangle 10" Padding="12">
+                        <VerticalStackLayout Spacing="4">
+                            <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding TemValor}">
+                                <Label Text="Preço normal" />
+                                <Label Grid.Column="1" Text="{Binding PrecoNormalTexto}" TextDecorations="Strikethrough" />
+                            </Grid>
+                            <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding TemValor}">
+                                <Label Text="Por entrega" FontAttributes="Bold" FontSize="20" />
+                                <Label Grid.Column="1" Text="{Binding PorEntregaTexto}" FontAttributes="Bold" FontSize="20" />
+                            </Grid>
+                            <Label Text="{Binding EconomiaTexto}" Style="{StaticResource TextoSuave}" FontSize="14" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Button Text="Confirmar assinatura" Command="{Binding CriarCommand}" IsEnabled="{Binding Livre}" />
+                    <ActivityIndicator IsRunning="{Binding Ocupado}" IsVisible="{Binding Ocupado}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Minhas assinaturas -->
+            <Label Text="Suas assinaturas" Style="{StaticResource Titulo}" FontSize="20" Margin="0,8,0,0" IsVisible="{Binding Logado}"
+                   SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="Nenhuma assinatura ainda." Style="{StaticResource TextoSuave}" IsVisible="{Binding SemAssinaturas}" />
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Assinaturas}" Spacing="8">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="m:Assinatura">
+                        <Border Style="{StaticResource Cartao}" SemanticProperties.Description="{Binding DescricaoAcessivel}">
+                            <VerticalStackLayout Spacing="4">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                    <Label Text="{Binding Medicamento}" FontAttributes="Bold" />
+                                    <Label Grid.Column="1" Text="{Binding StatusTexto}" FontAttributes="Bold" TextColor="{DynamicResource CorPrimariaEscura}" />
+                                </Grid>
+                                <Label Text="{Binding Linha}" Style="{StaticResource TextoSuave}" />
+                                <Label Text="{Binding ProximaTexto}" IsVisible="{Binding Ativa}" FontAttributes="Bold" />
+                                <HorizontalStackLayout Spacing="8" Margin="0,4,0,0">
+                                    <Button Text="Pausar" Style="{StaticResource BotaoContorno}" IsVisible="{Binding Ativa}"
+                                            SemanticProperties.Description="{Binding Medicamento, StringFormat='Pausar a assinatura de {0}'}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AssinaturasViewModel}}, Path=PausarCommand}"
+                                            CommandParameter="{Binding .}" />
+                                    <Button Text="Retomar" Style="{StaticResource BotaoContorno}" IsVisible="{Binding Pausada}"
+                                            SemanticProperties.Description="{Binding Medicamento, StringFormat='Retomar a assinatura de {0}'}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AssinaturasViewModel}}, Path=RetomarCommand}"
+                                            CommandParameter="{Binding .}" />
+                                    <Button Text="Cancelar" Style="{StaticResource BotaoContorno}" IsVisible="{Binding PodeCancelar}"
+                                            SemanticProperties.Description="{Binding Medicamento, StringFormat='Cancelar a assinatura de {0}'}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AssinaturasViewModel}}, Path=CancelarCommand}"
+                                            CommandParameter="{Binding .}" />
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

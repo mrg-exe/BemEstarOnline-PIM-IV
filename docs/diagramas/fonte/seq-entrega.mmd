@@ -1,0 +1,37 @@
+sequenceDiagram
+autonumber
+actor A as Atendente
+participant P as Painel (site)
+actor E as Entregador
+participant APP as App do entregador
+participant API as API
+participant DB as MySQL
+actor C as Cliente
+participant M as Mapa (site/app do cliente)
+A->>P: "Começar separação"
+P->>API: PATCH /api/admin/pedidos/{id}/status
+API->>DB: UPDATE pedidos (EM_SEPARACAO)
+loop A cada 20 s
+  APP->>API: GET /api/entregador/pedidos
+end
+API-->>APP: Pedido novo disponível
+APP-->>E: Aviso e vibração: "Pedido nº X — EXIGE RECEITA"
+E->>APP: "Pegar este pedido" e "Saí da farmácia"
+APP->>API: POST /aceitar e POST /sair
+API->>DB: UPDATE pedidos (SAIU_PARA_ENTREGA)
+loop Durante o trajeto (a cada 10 s)
+  APP->>API: PUT /localizacao (latitude, longitude)
+  API->>DB: UPDATE pedidos (posição)
+  Note over DB: Trigger grava o ponto em trajeto_entregas
+end
+loop A cada 8 s
+  M->>API: GET /api/pedidos/{id}/rastreio
+  API-->>M: Posição do entregador e destino
+  M-->>C: Ponto vermelho andando no mapa
+end
+E->>APP: "Confirmar entrega"
+APP-->>E: "Você conferiu a receita?"
+E->>APP: Sim
+APP->>API: POST /entregar { receitaConferida: true }
+API->>DB: UPDATE pedidos (ENTREGUE)
+M-->>C: "Pedido entregue"

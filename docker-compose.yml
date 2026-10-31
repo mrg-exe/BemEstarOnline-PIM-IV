@@ -1,0 +1,62 @@
+# =============================================================
+# Bem Estar Online - "modo completo" com um comando só:
+#     docker compose up --build
+# Sobe 3 containers:
+#   banco -> MySQL 8 (roda os scripts da pasta database na 1ª vez)
+#   api   -> API em C# ligada ao MySQL; também serve o site  http://localhost:5088  (Swagger em /swagger)
+#   site  -> o mesmo site servido pelo Nginx                  http://localhost:8080
+# Para apagar o banco e começar do zero: docker compose down -v
+# =============================================================
+name: bemestaronline
+
+services:
+  banco:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: "BemEstar@2026"
+      TZ: "America/Sao_Paulo"
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    ports:
+      - "3307:3306"   # 3307 no seu computador, para não brigar com um MySQL já instalado
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d:ro
+      - dados-mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-pBemEstar@2026"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  api:
+    build: ./src/BemEstarOnline.Api
+    environment:
+      UseInMemoryDatabase: "false"
+      ConnectionStrings__DefaultConnection: "server=banco;port=3306;database=db_bemestar;user=root;password=BemEstar@2026;CharSet=utf8mb4;"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      TZ: "America/Sao_Paulo"
+    ports:
+      - "5088:8080"
+    volumes:
+      - fotos-produtos:/app/wwwroot/imagens   # fotos enviadas pelo painel não se perdem
+      - ./frontend:/app/frontend:ro           # site servido pela própria API (http://localhost:5088)
+      - ./src/BemEstarOnline.Api/emails-enviados:/app/emails-enviados   # e-mails do modo demonstração (RF33)
+      - ./src/BemEstarOnline.Api/ArquivosPrivados:/app/ArquivosPrivados  # receitas enviadas (RF39), pasta privada
+    depends_on:
+      banco:
+        condition: service_healthy
+    restart: unless-stopped
+
+  site:
+    image: nginx:1.27-alpine
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+      - ./docker/nginx-site.conf:/etc/nginx/conf.d/default.conf:ro   # "no-cache": nada de versão velha do site
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+
+volumes:
+  dados-mysql:
+  fotos-produtos:

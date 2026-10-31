@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar | Bem Estar Online</title>
+  <meta name="description" content="Entre na sua conta.">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script>
+    // Aplica letra/contraste/tema antes de desenhar a página (evita "piscar").
+    try { var p = JSON.parse(localStorage.getItem('beo_acessibilidade') || '{}'), r = document.documentElement;
+      if (p.fonte) r.dataset.fonte = p.fonte; if (p.contraste === 'alto') r.dataset.contraste = 'alto';
+      if (p.tema && p.tema !== 'auto') r.dataset.tema = p.tema; } catch (e) {}
+  </script>
+</head>
+<body>
+  <div id="cabecalho"></div>
+  <main id="conteudo" tabindex="-1">
+
+    <div class="pagina-estreita">
+      <div class="cartao">
+        <h1 style="font-size:1.9rem">Entrar</h1>
+        <p>Use o e-mail e a senha da sua conta.</p>
+        <form id="form-login" novalidate>
+          <div class="campo">
+            <label for="email">E-mail</label>
+            <input class="entrada" id="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="campo">
+            <label for="senha">Senha</label>
+            <input class="entrada" id="senha" type="password" autocomplete="current-password" required>
+            <small><a href="esqueci-senha.html">Esqueci minha senha</a></small>
+          </div>
+          <button class="botao botao--largo" type="submit">Entrar</button>
+        </form>
+        <p style="margin-top:1.25rem">Ainda não tem conta? <a href="cadastro.html" id="link-cadastro">Crie agora, leva 1 minuto</a>.</p>
+        <details style="margin-top:1rem">
+          <summary>Contas de teste (projeto acadêmico)</summary>
+          <ul>
+            <li>Cliente: cliente@bemestaronline.com, senha Cliente@123</li>
+            <li>Atendente: atendente@bemestaronline.com, senha Atendente@123</li>
+            <li>Administrador: admin@bemestaronline.com, senha Admin@123</li>
+            <li>Entregador (usa o app): entregador@bemestaronline.com, senha Entregador@123</li>
+          </ul>
+        </details>
+      </div>
+    </div>
+  </main>
+  <div id="rodape"></div>
+  <script src="js/config.js"></script>
+  <script src="js/catalogo-local.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/paginas/login.js"></script>
+</body>
+</html>

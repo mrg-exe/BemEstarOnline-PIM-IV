@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Criar conta | Bem Estar Online</title>
+  <meta name="description" content="Crie sua conta na Bem Estar Online.">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script>
+    // Aplica letra/contraste/tema antes de desenhar a página (evita "piscar").
+    try { var p = JSON.parse(localStorage.getItem('beo_acessibilidade') || '{}'), r = document.documentElement;
+      if (p.fonte) r.dataset.fonte = p.fonte; if (p.contraste === 'alto') r.dataset.contraste = 'alto';
+      if (p.tema && p.tema !== 'auto') r.dataset.tema = p.tema; } catch (e) {}
+  </script>
+</head>
+<body>
+  <div id="cabecalho"></div>
+  <main id="conteudo" tabindex="-1">
+
+    <div class="pagina-estreita">
+      <div class="cartao">
+        <h1 style="font-size:1.9rem">Criar conta</h1>
+        <p>Com a conta você acompanha pedidos, salva endereços e monta assinaturas.</p>
+        <form id="form-cadastro" novalidate>
+          <div class="campo">
+            <label for="nome">Nome completo</label>
+            <input class="entrada" id="nome" autocomplete="name" required>
+          </div>
+          <div class="campo">
+            <label for="nome-social">Nome social (opcional)</label>
+            <input class="entrada" id="nome-social" autocomplete="nickname" aria-describedby="ajuda-nome-social">
+            <small id="ajuda-nome-social">Se preencher, é assim que vamos te chamar no site, no app e na entrega.</small>
+          </div>
+          <div class="grade-campos">
+            <div class="campo">
+              <label for="cpf">CPF</label>
+              <input class="entrada" id="cpf" inputmode="numeric" placeholder="000.000.000-00" required>
+            </div>
+            <div class="campo">
+              <label for="nascimento">Data de nascimento</label>
+              <input class="entrada" id="nascimento" inputmode="numeric" placeholder="DD/MM/AAAA" maxlength="10" autocomplete="bday">
+            </div>
+          </div>
+          <div class="campo">
+            <label for="email">E-mail</label>
+            <input class="entrada" id="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="campo">
+            <label for="telefone">Celular</label>
+            <input class="entrada" id="telefone" type="tel" autocomplete="tel" placeholder="(11) 90000-0000">
+          </div>
+          <div class="grade-campos">
+            <div class="campo">
+              <label for="senha">Senha</label>
+              <input class="entrada" id="senha" type="password" autocomplete="new-password" minlength="6" required aria-describedby="ajuda-senha">
+              <small id="ajuda-senha">Pelo menos 6 caracteres.</small>
+            </div>
+            <div class="campo">
+              <label for="senha2">Repita a senha</label>
+              <input class="entrada" id="senha2" type="password" autocomplete="new-password" required>
+            </div>
+          </div>
+          <label class="marcar" style="margin-bottom:1rem"><input type="checkbox" id="lgpd" required>
+            <span>Concordo que meus dados sejam usados só para atender meus pedidos (LGPD).
+              Li a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>
+              e os <a href="termos.html" target="_blank" rel="noopener">Termos de Uso</a>
+              <span class="sr-only">(abrem em outra aba)</span>.</span></label>
+          <button class="botao botao--largo" type="submit">Criar conta</button>
+        </form>
+        <p style="margin-top:1.25rem">Já tem conta? <a href="login.html">Entrar</a>.</p>
+      </div>
+    </div>
+  </main>
+  <div id="rodape"></div>
+  <script src="js/config.js"></script>
+  <script src="js/catalogo-local.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/paginas/cadastro.js"></script>
+</body>
+</html>

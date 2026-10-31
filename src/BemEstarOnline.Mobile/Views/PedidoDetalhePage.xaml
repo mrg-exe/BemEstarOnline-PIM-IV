@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             xmlns:m="clr-namespace:BemEstarOnline.Mobile.Modelos"
+             x:Class="BemEstarOnline.Mobile.Views.PedidoDetalhePage"
+             x:DataType="vm:PedidoDetalheViewModel"
+             Title="Acompanhar pedido">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="10">
+            <Label Text="{Binding Titulo}" Style="{StaticResource Titulo}" />
+            <Label Text="{Binding Status}" FontAttributes="Bold" TextColor="{DynamicResource CorPrimariaEscura}" FontSize="20" />
+            <ActivityIndicator IsRunning="{Binding Ocupado}" IsVisible="{Binding Ocupado}" />
+
+            <Border Style="{StaticResource Cartao}" IsVisible="{Binding EmEntrega}" Padding="0">
+                <VerticalStackLayout>
+                    <Label Text="{Binding TextoEntrega}" Margin="12" FontAttributes="Bold" />
+                    <WebView x:Name="Mapa" HeightRequest="300" />
+                </VerticalStackLayout>
+            </Border>
+            <Border Style="{StaticResource Cartao}" IsVisible="{Binding RequerReceita}" Stroke="{DynamicResource CorTarja}">
+                <Label Text="Tenha a receita em mãos: o entregador vai conferir na entrega." TextColor="{DynamicResource CorTarja}" FontAttributes="Bold" />
+            </Border>
+
+            <Label Text="Linha do tempo" FontAttributes="Bold" Margin="0,8,0,0" />
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Historico}" Spacing="0">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="m:Historico">
+                        <Grid ColumnDefinitions="28,*" Padding="0,0,0,12">
+                            <Ellipse WidthRequest="14" HeightRequest="14" Fill="{DynamicResource CorPrimaria}" VerticalOptions="Start" Margin="0,4,0,0" />
+                            <VerticalStackLayout Grid.Column="1">
+                                <Label Text="{Binding Titulo}" FontAttributes="Bold" />
+                                <Label Text="{Binding Quando}" Style="{StaticResource TextoSuave}" FontSize="14" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+            <Border Style="{StaticResource Cartao}">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Itens" FontAttributes="Bold" />
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Itens}" Spacing="4">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="m:PedidoItem">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Label Text="{Binding Linha}" />
+                                    <Label Grid.Column="1" Text="{Binding SubtotalTexto}" />
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                    <Label Text="{Binding TotalTexto}" FontAttributes="Bold" Margin="0,6,0,0" />
+                    <Label Text="{Binding Endereco}" Style="{StaticResource TextoSuave}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="Atualizar" Style="{StaticResource BotaoContorno}" Command="{Binding CarregarCommand}" />
+            <Button Text="Cancelar pedido" IsVisible="{Binding PodeCancelar}" BackgroundColor="{DynamicResource CorTarja}" Command="{Binding CancelarCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             x:Class="BemEstarOnline.Mobile.Views.EnviarReceitaPage"
+             x:DataType="vm:EnviarReceitaViewModel"
+             Title="Enviar receita">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="10" MaximumWidthRequest="560">
+            <Label Style="{StaticResource TextoSuave}"
+                   Text="Mande a foto da receita ou escreva o que precisa. A farmacêutica confere, responde com o valor pelo WhatsApp e a entrega sai em até 2 horas depois da sua confirmação." />
+
+            <Border Style="{StaticResource Cartao}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Foto da receita" Style="{StaticResource Titulo}" FontSize="20" SemanticProperties.HeadingLevel="Level2" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8" IsVisible="{Binding SemFoto}">
+                        <Button Text="Tirar foto" Command="{Binding TirarFotoCommand}"
+                                SemanticProperties.Description="Tirar foto da receita com a câmera" />
+                        <Button Grid.Column="1" Text="Escolher da galeria" Style="{StaticResource BotaoContorno}"
+                                Command="{Binding EscolherDaGaleriaCommand}" />
+                    </Grid>
+                    <Image Source="{Binding Previa}" IsVisible="{Binding TemFoto}" HeightRequest="340" Aspect="AspectFit"
+                           SemanticProperties.Description="Prévia da foto da receita" />
+                    <Label Text="{Binding TamanhoFoto}" IsVisible="{Binding TemFoto}" Style="{StaticResource TextoSuave}" FontSize="14" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8" IsVisible="{Binding TemFoto}">
+                        <Button Text="Tirar outra" Style="{StaticResource BotaoContorno}" Command="{Binding TirarFotoCommand}" />
+                        <Button Grid.Column="1" Text="Remover foto" Style="{StaticResource BotaoContorno}" Command="{Binding RemoverFotoCommand}" />
+                    </Grid>
+                    <Label Style="{StaticResource TextoSuave}" FontSize="14"
+                           Text="Só a equipe da farmácia vê a receita. Remédios de tarja vermelha só são entregues com a receita original." />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource Cartao}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="O que você precisa (se quiser)" FontAttributes="Bold" />
+                    <Editor Text="{Binding Pedido}" AutoSize="TextChanges" MinimumHeightRequest="80"
+                            Placeholder="Ex.: 1 caixa de losartana 50mg e um termômetro"
+                            SemanticProperties.Description="O que você precisa" />
+                    <Label Text="Seu nome" FontAttributes="Bold" />
+                    <Entry Text="{Binding Nome}" SemanticProperties.Description="Seu nome" />
+                    <Label Text="Celular com WhatsApp" FontAttributes="Bold" />
+                    <Entry Text="{Binding Telefone}" Placeholder="(11) 90000-0000" Keyboard="Telephone" MaxLength="15"
+                           SemanticProperties.Description="Celular com WhatsApp" />
+                    <Label Text="Endereço de entrega" FontAttributes="Bold" />
+                    <Entry Text="{Binding Endereco}" Placeholder="Rua, número, bairro e cidade" SemanticProperties.Description="Endereço de entrega" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="Enviar para a farmácia" Command="{Binding EnviarCommand}" IsEnabled="{Binding Livre}" />
+            <ActivityIndicator IsRunning="{Binding Ocupado}" IsVisible="{Binding Ocupado}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

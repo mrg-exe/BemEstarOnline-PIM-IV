@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1060" viewBox="0 0 1000 1060" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#0D3550" stroke-width="1.5"/></marker></defs>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="500.0" y="34" text-anchor="middle" font-size="19" font-weight="700" fill="#0D3550">Casos de uso — Visitante e Cliente (site e app)</text>
+<rect x="390.0" y="62" width="590" height="978" rx="10" fill="#F7FAF9" stroke="#0D3550" stroke-width="1.5"/>
+<text x="404.0" y="86" font-size="14" font-weight="700" fill="#0D3550">Sistema Bem Estar Online</text>
+<line x1="150" y1="263.0" x2="450.0" y2="120" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="263.0" x2="450.0" y2="182" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="263.0" x2="450.0" y2="244" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="263.0" x2="450.0" y2="306" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="263.0" x2="450.0" y2="368" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="263.0" x2="450.0" y2="430" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="723.0" x2="450.0" y2="518" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="723.0" x2="450.0" y2="580" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="723.0" x2="450.0" y2="642" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="723.0" x2="450.0" y2="704" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="723.0" x2="450.0" y2="766" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="723.0" x2="450.0" y2="828" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="723.0" x2="450.0" y2="890" stroke="#6B7F8C" stroke-width="1.3"/>
+<line x1="150" y1="723.0" x2="450.0" y2="952" stroke="#6B7F8C" stroke-width="1.3"/>
+<ellipse cx="600" cy="120" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="125.0" text-anchor="middle" font-size="14" fill="#0D3550">Consultar catálogo e buscar produto</text>
+<ellipse cx="600" cy="182" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="187.0" text-anchor="middle" font-size="14" fill="#0D3550">Ouvir descrição em voz alta</text>
+<ellipse cx="600" cy="244" rx="150.0" ry="24.0" fill="#E6F2DC" stroke="#00807C" stroke-width="1.8"/><text x="600" y="241.0" text-anchor="middle" font-size="14" fill="#0D3550">Ajustar acessibilidade</text><text x="600" y="257.0" text-anchor="middle" font-size="14" fill="#0D3550">(letra, contraste, Libras)</text>
+<ellipse cx="600" cy="306" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="311.0" text-anchor="middle" font-size="14" fill="#0D3550">Criar conta (nome social, LGPD)</text>
+<ellipse cx="600" cy="368" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="373.0" text-anchor="middle" font-size="14" fill="#0D3550">Enviar receita (foto ou texto)</text>
+<ellipse cx="600" cy="430" rx="150.0" ry="24.0" fill="#E6F2DC" stroke="#00807C" stroke-width="1.8"/><text x="600" y="435.0" text-anchor="middle" font-size="14" fill="#0D3550">Registrar relato na ouvidoria</text>
+<ellipse cx="600" cy="518" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="523.0" text-anchor="middle" font-size="14" fill="#0D3550">Entrar / recuperar senha</text>
+<ellipse cx="600" cy="580" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="585.0" text-anchor="middle" font-size="14" fill="#0D3550">Montar carrinho e aplicar cupom</text>
+<ellipse cx="600" cy="642" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="647.0" text-anchor="middle" font-size="14" fill="#0D3550">Finalizar compra</text>
+<ellipse cx="600" cy="704" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="709.0" text-anchor="middle" font-size="14" fill="#0D3550">Acompanhar pedido no mapa</text>
+<ellipse cx="600" cy="766" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="771.0" text-anchor="middle" font-size="14" fill="#0D3550">Cancelar pedido</text>
+<ellipse cx="600" cy="828" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="833.0" text-anchor="middle" font-size="14" fill="#0D3550">Gerenciar assinatura de uso contínuo</text>
+<ellipse cx="600" cy="890" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="895.0" text-anchor="middle" font-size="14" fill="#0D3550">Gerenciar endereços</text>
+<ellipse cx="600" cy="952" rx="150.0" ry="24.0" fill="#FFFFFF" stroke="#00807C" stroke-width="1.8"/><text x="600" y="957.0" text-anchor="middle" font-size="14" fill="#0D3550">Excluir a própria conta</text>
+<g stroke="#0D3550" stroke-width="2.2" fill="none">
+      <circle cx="110" cy="237.0" r="11"/><line x1="110" y1="248.0" x2="110" y2="280.0"/>
+      <line x1="92" y1="259.0" x2="128" y2="259.0"/><line x1="110" y1="280.0" x2="96" y2="303.0"/>
+      <line x1="110" y1="280.0" x2="124" y2="303.0"/></g>
+      <text x="110" y="323.0" text-anchor="middle" font-size="15" font-weight="700" fill="#0D3550">Visitante</text>
+<g stroke="#0D3550" stroke-width="2.2" fill="none">
+      <circle cx="110" cy="697.0" r="11"/><line x1="110" y1="708.0" x2="110" y2="740.0"/>
+      <line x1="92" y1="719.0" x2="128" y2="719.0"/><line x1="110" y1="740.0" x2="96" y2="763.0"/>
+      <line x1="110" y1="740.0" x2="124" y2="763.0"/></g>
+      <text x="110" y="783.0" text-anchor="middle" font-size="15" font-weight="700" fill="#0D3550">Cliente</text>
+<line x1="110" y1="673.0" x2="110" y2="341.0" stroke="#0D3550" stroke-width="1.6"/><polygon points="110,333.0 102,349.0 118,349.0" fill="#FFFFFF" stroke="#0D3550" stroke-width="1.6"/><text x="120" y="505.0" font-size="12" fill="#4A6378">herda</text>
+</svg>

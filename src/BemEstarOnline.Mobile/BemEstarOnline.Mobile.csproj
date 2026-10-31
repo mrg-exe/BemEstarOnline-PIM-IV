@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- .NET MAUI 10 (o MAUI 8 e o 9 já saíram do suporte da Microsoft).
+         Android sempre; Windows só quando compilado no Windows (assim dá para testar sem emulador). -->
+    <TargetFrameworks>net10.0-android</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
+    <!-- Se o Visual Studio não informar a versão do MAUI, usa esta. -->
+    <MauiVersion Condition="'$(MauiVersion)' == ''">10.0.90</MauiVersion>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>BemEstarOnline.Mobile</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <ApplicationTitle>Bem Estar Online</ApplicationTitle>
+    <ApplicationId>br.com.bemestaronline.app</ApplicationId>
+    <ApplicationDisplayVersion>2.0</ApplicationDisplayVersion>
+    <ApplicationVersion>2</ApplicationVersion>
+
+    <!-- Executa no Windows como programa comum (sem precisar instalar pacote MSIX). -->
+    <WindowsPackageType>None</WindowsPackageType>
+
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#00807C" />
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#00807C" BaseSize="128,128" />
+    <!-- Política de Privacidade e Termos de Uso (RF41): os mesmos textos de docs/textos, lidos pelo app sem internet. -->
+    <MauiAsset Include="..\..\docs\textos\*.md" LogicalName="textos\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
+    <!-- SQLite nativo numa versão sem a falha de segurança GHSA-2m69-gcr7-jv3q (aviso NU1903). -->
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.14" />
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.android" Version="2.1.14" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'" />
+  </ItemGroup>
+
+</Project>

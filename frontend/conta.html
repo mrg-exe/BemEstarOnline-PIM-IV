@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minha conta | Bem Estar Online</title>
+  <meta name="description" content="Pedidos, assinaturas e endereços.">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script>
+    // Aplica letra/contraste/tema antes de desenhar a página (evita "piscar").
+    try { var p = JSON.parse(localStorage.getItem('beo_acessibilidade') || '{}'), r = document.documentElement;
+      if (p.fonte) r.dataset.fonte = p.fonte; if (p.contraste === 'alto') r.dataset.contraste = 'alto';
+      if (p.tema && p.tema !== 'auto') r.dataset.tema = p.tema; } catch (e) {}
+  </script>
+</head>
+<body>
+  <div id="cabecalho"></div>
+  <main id="conteudo" tabindex="-1">
+
+    <div class="conteiner pagina">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap">
+        <h1 id="saudacao" style="font-size:1.9rem;margin:0">Minha conta</h1>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <a class="botao botao--contorno botao--pequeno" href="ouvidoria.html">Ouvidoria e denúncias</a>
+          <button class="botao botao--contorno botao--pequeno" type="button" id="sair">Sair da conta</button>
+        </div>
+      </div>
+      <div class="abas" role="tablist" aria-label="Seções da conta" style="margin-top:1.25rem">
+        <button role="tab" id="aba-pedidos" aria-controls="painel-pedidos" aria-selected="true">Meus pedidos</button>
+        <button role="tab" id="aba-assinaturas" aria-controls="painel-assinaturas" aria-selected="false" tabindex="-1">Assinaturas</button>
+        <button role="tab" id="aba-enderecos" aria-controls="painel-enderecos" aria-selected="false" tabindex="-1">Endereços</button>
+        <button role="tab" id="aba-dados" aria-controls="painel-dados" aria-selected="false" tabindex="-1">Meus dados</button>
+      </div>
+      <section class="painel-aba" id="painel-pedidos" role="tabpanel" aria-labelledby="aba-pedidos"></section>
+      <section class="painel-aba" id="painel-assinaturas" role="tabpanel" aria-labelledby="aba-assinaturas" hidden></section>
+      <section class="painel-aba" id="painel-enderecos" role="tabpanel" aria-labelledby="aba-enderecos" hidden></section>
+      <section class="painel-aba" id="painel-dados" role="tabpanel" aria-labelledby="aba-dados" hidden></section>
+    </div>
+  </main>
+  <div id="rodape"></div>
+  <script src="js/config.js"></script>
+  <script src="js/catalogo-local.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/paginas/conta.js"></script>
+</body>
+</html>

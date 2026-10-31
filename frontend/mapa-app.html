@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapa da entrega | Bem Estar Online</title>
+  <!--
+    Mapa usado DENTRO do app (WebView), servido pela API em /mapa-app.html.
+    O app abre esta página pelo endereço do servidor (e não como HTML solto) porque o
+    OpenStreetMap só entrega o mapa quando sabe de qual site veio o pedido (Referer).
+    Parâmetros: ?loja=lat,lng&destino=lat,lng&entregador=lat,lng (destino e entregador opcionais).
+    O app move o entregador chamando atualizar(lat, lng) sem recarregar a página.
+  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <style>html, body, #m { height: 100%; margin: 0; }</style>
+</head>
+<body>
+  <div id="m" role="application" aria-label="Mapa da entrega: farmácia, cliente e entregador"></div>
+  <script>
+    function coordenada(nome) {
+      var valor = new URLSearchParams(location.search).get(nome);
+      if (!valor) return null;
+      var partes = valor.split(',').map(Number);
+      return partes.length === 2 && !isNaN(partes[0]) && !isNaN(partes[1]) ? partes : null;
+    }
+
+    var loja = coordenada('loja') || [-23.35566, -46.87706];
+    var destino = coordenada('destino');
+    var inicioEntregador = coordenada('entregador');
+
+    var m = L.map('m');
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(m);
+    function ponto(lat, lng, cor, r) { return L.circleMarker([lat, lng], { radius: r, color: '#fff', weight: 3, fillColor: cor, fillOpacity: 1 }).addTo(m); }
+
+    var pts = [loja];
+    ponto(loja[0], loja[1], '#00807C', 8).bindTooltip('Farmácia');
+    if (destino) { ponto(destino[0], destino[1], '#0A5FA8', 8).bindTooltip('Cliente'); pts.push(destino); }
+
+    var ent = null, linha = null;
+    function atualizar(lat, lng) {
+      if (lat === null) return;
+      if (!ent) { ent = ponto(lat, lng, '#C8281E', 11).bindTooltip('Entregador'); } else { ent.setLatLng([lat, lng]); }
+      if (destino) { if (linha) m.removeLayer(linha); linha = L.polyline([[lat, lng], destino], { color: '#0A5FA8', dashArray: '6 8' }).addTo(m); }
+    }
+    if (inicioEntregador) { atualizar(inicioEntregador[0], inicioEntregador[1]); pts.push(inicioEntregador); }
+    m.fitBounds(pts, { padding: [30, 30], maxZoom: 15 });
+  </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bem Estar Online | Farmácia com entrega em Cajamar</title>
+  <meta name="description" content="Remédios, higiene e dermocosméticos com entrega em até 2 horas. Assinatura de uso contínuo e envio de receita pelo celular.">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script>
+    // Aplica letra/contraste/tema antes de desenhar a página (evita "piscar").
+    try { var p = JSON.parse(localStorage.getItem('beo_acessibilidade') || '{}'), r = document.documentElement;
+      if (p.fonte) r.dataset.fonte = p.fonte; if (p.contraste === 'alto') r.dataset.contraste = 'alto';
+      if (p.tema && p.tema !== 'auto') r.dataset.tema = p.tema; } catch (e) {}
+  </script>
+</head>
+<body>
+  <div id="cabecalho"></div>
+  <main id="conteudo" tabindex="-1">
+    <div class="conteiner">
+      <section class="carrossel" aria-roledescription="carrossel" aria-label="Destaques da farmácia">
+        <div class="carrossel-trilho" id="trilho" aria-live="off">
+          <div class="slide ativo" role="group" aria-roledescription="slide" aria-label="1 de 4" style="--fundo-slide:#00625F">
+            <div>
+              <h2>Remédio de uso contínuo com 10% de desconto em toda entrega</h2>
+              <p>Escolha o intervalo e receba em casa, sem fila e sem esquecer. Pausa ou cancela quando quiser.</p>
+              <a class="botao" href="assinatura.html">Montar minha assinatura</a>
+            </div>
+            <div class="slide-arte" id="arte-assinatura"></div>
+          </div>
+          <div class="slide" role="group" aria-roledescription="slide" aria-label="2 de 4" style="--fundo-slide:#0D3550">
+            <div>
+              <h2>Veja no mapa onde está o seu pedido</h2>
+              <p>Quando o entregador sai da farmácia, você acompanha o trajeto em tempo real pelo site ou pelo app.</p>
+              <a class="botao" href="conta.html">Acompanhar meus pedidos</a>
+            </div>
+            <div class="slide-arte" aria-hidden="true">
+              <svg viewBox="0 0 320 220"><rect x="10" y="10" width="300" height="200" rx="18" fill="#163F5E"/>
+                <path d="M10 80h300M10 150h300M90 10v200M200 10v200" stroke="#21506F" stroke-width="10"/>
+                <path d="M70 175 C 120 170, 120 110, 170 105 S 240 60, 255 50" fill="none" stroke="#7FE0D8" stroke-width="5" stroke-dasharray="10 9"/>
+                <circle cx="70" cy="175" r="12" fill="#00A39D" stroke="#fff" stroke-width="4"/>
+                <circle cx="170" cy="105" r="15" fill="#E5533F" stroke="#fff" stroke-width="4"/>
+                <path d="M255 22c-12 0-21 9-21 21 0 16 21 35 21 35s21-19 21-35c0-12-9-21-21-21z" fill="#FFFFFF"/>
+                <circle cx="255" cy="43" r="8" fill="#0D3550"/></svg>
+            </div>
+          </div>
+          <div class="slide" role="group" aria-roledescription="slide" aria-label="3 de 4" style="--fundo-slide:#2F6B2A">
+            <div>
+              <h2>Mande a foto da receita e receba em até 2 horas</h2>
+              <p>A farmacêutica confere, responde pelo WhatsApp com o valor e a entrega sai logo depois.</p>
+              <a class="botao" href="delivery.html">Enviar receita</a>
+            </div>
+            <div class="slide-arte" aria-hidden="true">
+              <svg viewBox="0 0 320 220"><rect x="70" y="18" width="150" height="190" rx="10" fill="#FFFFFF"/>
+                <rect x="70" y="18" width="150" height="34" rx="10" fill="#E6F2DC"/><text x="88" y="42" font-size="18" font-weight="700" fill="#2F6B2A" font-family="Verdana">Receituário</text>
+                <text x="88" y="86" font-size="28" font-weight="700" fill="#2F6B2A" font-family="Verdana">Rx</text>
+                <path d="M88 110h110M88 132h96M88 154h104M88 176h70" stroke="#C9D6CF" stroke-width="5" stroke-linecap="round"/>
+                <rect x="196" y="96" width="92" height="120" rx="14" fill="#12324A"/><rect x="204" y="108" width="76" height="90" rx="6" fill="#DDF1EE"/>
+                <circle cx="242" cy="153" r="20" fill="none" stroke="#00807C" stroke-width="5"/><circle cx="242" cy="153" r="7" fill="#00807C"/></svg>
+            </div>
+          </div>
+          <div class="slide slide--claro" role="group" aria-roledescription="slide" aria-label="4 de 4" style="--fundo-slide:#E6F2DC">
+            <div>
+              <h2>Parceiros do Farmácia Popular</h2>
+              <p>Remédios para pressão, diabetes e asma podem sair sem custo com receita, CPF e documento com foto.</p>
+              <a class="botao" href="medicamentos.html?farmaciaPopular=true">Ver produtos do programa</a>
+            </div>
+            <div class="slide-arte" id="arte-popular"></div>
+          </div>
+        </div>
+        <div class="carrossel-controles">
+          <button type="button" id="anterior" aria-label="Destaque anterior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <div class="carrossel-pontos" id="pontos"></div>
+          <button type="button" id="pausar" aria-label="Pausar a troca automática"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg></button>
+          <button type="button" id="proximo" aria-label="Próximo destaque"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </section>
+
+      <ul class="vantagens" id="vantagens"></ul>
+
+      <section class="secao" aria-labelledby="titulo-categorias">
+        <div class="secao-cabeca"><h2 id="titulo-categorias">Compre por categoria</h2><a href="medicamentos.html">Ver todos os produtos</a></div>
+        <ul class="categorias" id="categorias"></ul>
+      </section>
+
+      <section class="secao" aria-labelledby="titulo-destaques">
+        <div class="secao-cabeca"><h2 id="titulo-destaques">Mais vendidos</h2><a href="medicamentos.html">Ver mais</a></div>
+        <ul class="grade-produtos" id="destaques"></ul>
+      </section>
+
+      <section class="secao" aria-labelledby="titulo-continuo">
+        <div class="secao-cabeca"><div><h2 id="titulo-continuo">Uso contínuo</h2><p>Assine e ganhe 10% em todas as entregas.</p></div>
+          <a href="medicamentos.html?categoria=uso-continuo">Ver todos</a></div>
+        <ul class="grade-produtos" id="continuos"></ul>
+      </section>
+
+      <section class="secao" aria-label="Envio de receita">
+        <div class="faixa-info" id="faixa-receita"></div>
+      </section>
+    </div>
+  </main>
+  <div id="rodape"></div>
+  <script src="js/config.js"></script>
+  <script src="js/catalogo-local.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/paginas/inicio.js"></script>
+</body>
+</html>

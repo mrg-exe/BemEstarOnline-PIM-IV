@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             xmlns:m="clr-namespace:BemEstarOnline.Mobile.Modelos"
+             x:Class="BemEstarOnline.Mobile.Views.EntregasPage"
+             x:DataType="vm:EntregasViewModel"
+             Title="Entregas">
+    <RefreshView IsRefreshing="{Binding Atualizando}" Command="{Binding CarregarCommand}">
+        <ScrollView>
+            <VerticalStackLayout Padding="12" Spacing="10">
+                <Label Text="{Binding Saudacao}" Style="{StaticResource Titulo}" />
+                <Label Text="A lista atualiza sozinha a cada 20 segundos. Você recebe um aviso quando chega pedido novo."
+                       Style="{StaticResource TextoSuave}" FontSize="14" />
+
+                <Label Text="Minhas entregas" FontAttributes="Bold" Margin="0,8,0,0" />
+                <Label Text="Nenhuma entrega com você agora." IsVisible="{Binding SemMinhas}" Style="{StaticResource TextoSuave}" />
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding MinhasEntregas}" Spacing="8">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="m:Entrega">
+                            <Border Style="{StaticResource Cartao}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:EntregasViewModel}}, Path=AbrirCommand}" CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="4">
+                                    <Label Text="{Binding Titulo}" FontAttributes="Bold" />
+                                    <Label Text="{Binding EnderecoTexto}" />
+                                    <Label Text="{Binding StatusTexto}" TextColor="{DynamicResource CorPrimariaEscura}" FontAttributes="Bold" />
+                                    <Label Text="{Binding AvisoReceita}" IsVisible="{Binding RequerReceita}" TextColor="{DynamicResource CorTarja}" FontAttributes="Bold" />
+                                    <Label Text="Toque para abrir a rota e confirmar a entrega" Style="{StaticResource TextoSuave}" FontSize="13" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <Label Text="Disponíveis para pegar" FontAttributes="Bold" Margin="0,12,0,0" />
+                <Label Text="Nenhum pedido aguardando entregador." IsVisible="{Binding SemDisponiveis}" Style="{StaticResource TextoSuave}" />
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Disponiveis}" Spacing="8">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="m:Entrega">
+                            <Border Style="{StaticResource Cartao}">
+                                <VerticalStackLayout Spacing="4">
+                                    <Label Text="{Binding Titulo}" FontAttributes="Bold" />
+                                    <Label Text="{Binding EnderecoTexto}" />
+                                    <Label Text="{Binding ResumoItens}" Style="{StaticResource TextoSuave}" FontSize="14" />
+                                    <Label Text="{Binding Cobranca}" />
+                                    <Label Text="{Binding AvisoReceita}" FontAttributes="Bold">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding RequerReceita}" Value="True">
+                                                <Setter Property="TextColor" Value="{DynamicResource CorTarja}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Button Text="Pegar este pedido" Margin="0,6,0,0"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:EntregasViewModel}}, Path=AceitarCommand}" CommandParameter="{Binding .}" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

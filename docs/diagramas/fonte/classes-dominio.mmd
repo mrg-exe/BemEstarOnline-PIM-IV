@@ -1,0 +1,123 @@
+classDiagram
+direction LR
+class Usuario {
+  +int IdUsuario
+  +string Nome
+  +string? NomeSocial
+  +string Email
+  +string Cpf
+  +string SenhaHash
+  +string Perfil
+  +bool Ativo
+  +NomeExibicao() string
+  +Anonimizar(senhaHash) void
+}
+class Endereco {
+  +int IdEndereco
+  +string Cep
+  +string Logradouro
+  +string Numero
+  +string Bairro
+  +string Cidade
+  +double? Latitude
+  +double? Longitude
+  +TextoCompleto() string
+}
+class Categoria {
+  +int IdCategoria
+  +string Nome
+  +string Slug
+}
+class Medicamento {
+  +int IdMedicamento
+  +string Nome
+  +string Tipo
+  +string? PrincipioAtivo
+  +decimal Preco
+  +DateTime? ValidadeLote
+  +bool ExigeReceita
+  +bool UsoContinuo
+  +bool FarmaciaPopular
+  +string? ImagemUrl
+  +Disponivel() bool
+}
+class Estoque {
+  +int Quantidade
+  +int QuantidadeMinima
+  +AbaixoDoMinimo() bool
+}
+class AlertaEstoque {
+  +int QuantidadeAtual
+  +bool Resolvido
+}
+class Cupom {
+  +string Codigo
+  +string Tipo
+  +decimal Valor
+  +decimal ValorMinimoPedido
+  +MotivoInvalido(subtotal, agora) string?
+  +Aplicar(subtotal, frete) (desconto, frete)
+}
+class Pedido {
+  +int IdPedido
+  +string Status
+  +string Canal
+  +decimal Subtotal
+  +decimal Desconto
+  +decimal Frete
+  +decimal Total
+  +bool RequerReceita
+  +bool ReceitaConferida
+  +double? EntregadorLatitude
+  +double? EntregadorLongitude
+  +AlterarStatus(novo) string
+  +AtribuirEntregador(id) void
+  +AtualizarLocalizacao(lat, lng) void
+  +ClientePodeCancelar() bool
+}
+class PedidoItem {
+  +string NomeProduto
+  +int Quantidade
+  +decimal PrecoUnitario
+  +decimal Subtotal
+}
+class PedidoHistoricoStatus {
+  +string? StatusAnterior
+  +string StatusNovo
+  +DateTime AlteradoEm
+}
+class Pagamento {
+  +string Metodo
+  +string Status
+  +decimal Valor
+}
+class Assinatura {
+  +string NomePaciente
+  +int Quantidade
+  +int PeriodicidadeDias
+  +decimal DescontoPercentual
+  +string Status
+  +ValorPorEntrega() decimal
+  +AlterarStatus(novo) void
+}
+class DeliverySolicitacao {
+  +string NomeCliente
+  +string Telefone
+  +string? ReceitaArquivo
+  +string Status
+}
+Usuario "1" --> "0..*" Endereco : possui
+Usuario "1" --> "0..*" Pedido : faz
+Usuario "0..1" --> "0..*" Pedido : entrega (entregador)
+Categoria "1" --> "0..*" Medicamento : agrupa
+Medicamento "1" *-- "1" Estoque
+Medicamento "1" --> "0..*" AlertaEstoque
+Pedido "1" *-- "1..*" PedidoItem
+Pedido "1" *-- "0..*" PedidoHistoricoStatus
+Pedido "1" *-- "1..*" Pagamento
+Pedido "0..*" --> "1" Endereco : entregue em
+Pedido "0..*" --> "0..1" Cupom
+PedidoItem "0..*" --> "1" Medicamento
+Usuario "1" --> "0..*" Assinatura
+Assinatura "0..*" --> "1" Medicamento
+Usuario "0..1" --> "0..*" DeliverySolicitacao

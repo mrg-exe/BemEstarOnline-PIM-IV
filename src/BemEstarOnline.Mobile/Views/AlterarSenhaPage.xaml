@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             x:Class="BemEstarOnline.Mobile.Views.AlterarSenhaPage"
+             x:DataType="vm:AlterarSenhaViewModel"
+             Title="Alterar senha">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="{Binding PodeVoltar}" IsEnabled="{Binding PodeVoltar}" />
+    </Shell.BackButtonBehavior>
+    <ScrollView>
+        <VerticalStackLayout Padding="20,16" Spacing="12" MaximumWidthRequest="520">
+            <Border BackgroundColor="{DynamicResource CorTarja}" StrokeThickness="0" StrokeShape="RoundRectangle 10" Padding="14"
+                    IsVisible="{Binding Obrigatoria}">
+                <Label TextColor="White" FontAttributes="Bold"
+                       Text="Sua senha é provisória (foi criada pelo administrador da farmácia). Para continuar, crie uma senha só sua." />
+            </Border>
+
+            <Border Style="{StaticResource Cartao}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="{Binding RotuloSenhaAtual}" FontAttributes="Bold" />
+                    <Entry Text="{Binding SenhaAtual}" IsPassword="True" SemanticProperties.Description="Senha atual" />
+                    <Label Text="Nova senha" FontAttributes="Bold" />
+                    <Entry Text="{Binding NovaSenha}" IsPassword="True" Placeholder="Pelo menos 6 caracteres"
+                           SemanticProperties.Description="Nova senha" />
+                    <Label Text="Repita a nova senha" FontAttributes="Bold" />
+                    <Entry Text="{Binding RepetirSenha}" IsPassword="True" SemanticProperties.Description="Repita a nova senha"
+                           ReturnCommand="{Binding SalvarCommand}" />
+                    <Button Text="Salvar nova senha" Command="{Binding SalvarCommand}" IsEnabled="{Binding Livre}" Margin="0,8,0,0" />
+                    <ActivityIndicator IsRunning="{Binding Ocupado}" IsVisible="{Binding Ocupado}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="Sair da conta" Style="{StaticResource BotaoContorno}" IsVisible="{Binding Obrigatoria}"
+                    Command="{Binding SairCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

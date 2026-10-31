@@ -1,0 +1,25 @@
+Prints das telas para o trabalho escrito (nomes em docs/00-requisitos.md, seção Prints).
+
+Tirados em 30/10/2026, no modo completo (Docker + MySQL), com dados de demonstração.
+Site e painel: 1366 x 900 pixels (tela de notebook). App: janela do Windows no formato de celular.
+
+FEITOS
+  01 a 15 ... site, painel da farmácia e Swagger
+  16 a 22 ... app, modo cliente (login, produtos, produto, carrinho, pedidos, mapa, perfil com alto contraste)
+  23 a 25 ... app, modo entregador (aviso de pedido novo com receita, mapa da entrega, confirmação da receita)
+  26 ........ MySQL Workbench: as 5 triggers e as 4 procedures (consulta + painel Navigator)
+  27 ........ MySQL Workbench: diagrama do banco (Reverse Engineer, 17 tabelas)
+              (o diagrama inteiro, nítido, está em docs/diagramas/mer-banco-de-dados.png)
+  28 ........ Docker Desktop com os 3 containers (banco, api, site)
+  30 ........ Esqueci minha senha (RF33): 30-site-esqueci-senha.png e 30-email-gerado.png
+  31 ........ Painel > Gestão da equipe (RF35)
+  32 ........ VLibras aberto no site (RF40), traduzindo "Entrega em até 2 horas" da página inicial
+  33 ........ Política de Privacidade (RF41): 33-site-privacidade.png e, a mais, 33-app-privacidade.png (no app)
+  34 ........ App: criar conta (RF36), formulário preenchido com dados de exemplo (a conta não foi enviada)
+  35 ........ App: meus endereços (RF37), com o CEP preenchendo rua, bairro e cidade sozinho
+  36 ........ App: assinaturas (RF38), valor com 10% de desconto e assinaturas ativa, pausada e cancelada
+  37 ........ App: foto da receita antes de enviar (RF39), com uma receita FICTÍCIA de exemplo
+  38 ........ Painel: receita recebida aberta (RF39), a mesma receita fictícia
+
+FALTAM
+  29 ........ GitHub Actions: só depois de enviar o projeto ao GitHub (tarefa 10).

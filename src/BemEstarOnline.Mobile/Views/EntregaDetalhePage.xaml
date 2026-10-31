@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             xmlns:m="clr-namespace:BemEstarOnline.Mobile.Modelos"
+             x:Class="BemEstarOnline.Mobile.Views.EntregaDetalhePage"
+             x:DataType="vm:EntregaDetalheViewModel"
+             Title="Entrega">
+    <ScrollView>
+        <VerticalStackLayout Padding="12" Spacing="10">
+            <Label Text="{Binding Entrega.Titulo}" Style="{StaticResource Titulo}" />
+
+            <!-- Aviso de receita bem visível -->
+            <Border IsVisible="{Binding Entrega.RequerReceita}" BackgroundColor="{DynamicResource CorTarja}" StrokeThickness="0"
+                    StrokeShape="RoundRectangle 10" Padding="14">
+                <Label Text="EXIGE RECEITA: peça a receita original ao cliente e confira antes de entregar."
+                       TextColor="White" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+            </Border>
+
+            <Border Style="{StaticResource Cartao}" Padding="0">
+                <WebView x:Name="Mapa" HeightRequest="280" />
+            </Border>
+            <Label Text="{Binding SituacaoGps}" Style="{StaticResource TextoSuave}" FontSize="14" />
+
+            <Border Style="{StaticResource Cartao}">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="{Binding Entrega.Cliente}" FontAttributes="Bold" />
+                    <Label Text="{Binding Entrega.EnderecoTexto}" />
+                    <Label Text="{Binding Entrega.Telefone}" Style="{StaticResource TextoSuave}" />
+                    <Label Text="{Binding Entrega.ResumoItens}" Style="{StaticResource TextoSuave}" />
+                    <Label Text="{Binding Entrega.Cobranca}" FontAttributes="Bold" />
+                    <Label Text="{Binding Entrega.Observacao, StringFormat='Observação: {0}'}" IsVisible="{Binding Entrega.TemObservacao}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                <Button Text="Abrir rota" Style="{StaticResource BotaoContorno}" Command="{Binding AbrirRotaCommand}" />
+                <Button Grid.Column="1" Text="Ligar" Style="{StaticResource BotaoContorno}" Command="{Binding LigarCommand}" />
+            </Grid>
+            <Button Text="Saí da farmácia" IsVisible="{Binding PodeSair}" Command="{Binding SairParaEntregaCommand}" />
+            <Button Text="Simular trajeto (apresentação)" IsVisible="{Binding EmRota}" Style="{StaticResource BotaoContorno}"
+                    Command="{Binding SimularTrajetoCommand}" />
+            <Button Text="Confirmar entrega" IsVisible="{Binding EmRota}" Command="{Binding ConfirmarEntregaCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

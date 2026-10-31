@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Termos de Uso | Bem Estar Online</title>
+  <meta name="description" content="Regras de uso do site e do aplicativo Bem Estar Online.">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script>
+    // Aplica letra/contraste/tema antes de desenhar a página (evita "piscar").
+    try { var p = JSON.parse(localStorage.getItem('beo_acessibilidade') || '{}'), r = document.documentElement;
+      if (p.fonte) r.dataset.fonte = p.fonte; if (p.contraste === 'alto') r.dataset.contraste = 'alto';
+      if (p.tema && p.tema !== 'auto') r.dataset.tema = p.tema; } catch (e) {}
+  </script>
+</head>
+<body>
+  <div id="cabecalho"></div>
+  <main id="conteudo" tabindex="-1">
+    <!-- Texto de docs/textos/termos-de-uso.md (RF41). Mudou o texto lá? Mude aqui também (o app lê o .md direto). -->
+    <article class="pagina-texto cartao texto-legal">
+      <h1>Termos de Uso</h1>
+      <p class="texto-legal__nota"><em>Última atualização: novembro de 2026. Empresa fictícia criada para fins acadêmicos (PIM IV, UNIP).</em></p>
+
+      <h2>1. Sobre o serviço</h2>
+      <p>O site e o aplicativo Bem Estar Online permitem comprar medicamentos e produtos de saúde, enviar receitas,
+        assinar medicamentos de uso contínuo e acompanhar a entrega.</p>
+
+      <h2>2. Sua conta</h2>
+      <ul>
+        <li>Use dados verdadeiros. O CPF é conferido.</li>
+        <li>Você é responsável por manter sua senha em segredo. Se esquecer, use <a href="esqueci-senha.html">"Esqueci minha senha"</a>.</li>
+        <li>O nome social informado será usado em todas as telas e na entrega.</li>
+      </ul>
+
+      <h2>3. Medicamentos e receitas</h2>
+      <ul>
+        <li>Medicamentos de tarja vermelha só são entregues mediante apresentação da <strong>receita original</strong>,
+          conferida pelo entregador. Antibióticos têm a receita retida, conforme a Anvisa.</li>
+        <li>As informações dos produtos não substituem a orientação do médico ou do farmacêutico. Leia a bula.</li>
+        <li>Não vendemos medicamentos de controle especial (tarja preta) pelo site ou aplicativo.</li>
+      </ul>
+
+      <h2>4. Preços, pagamento e entrega</h2>
+      <ul>
+        <li>O preço válido é o mostrado na finalização da compra. Frete grátis acima de R$ 99.</li>
+        <li>Entrega em até 2 horas em Cajamar e região, depois da confirmação do pagamento.</li>
+        <li>Você pode cancelar o pedido antes de ele entrar em separação.</li>
+      </ul>
+
+      <h2>5. Assinaturas</h2>
+      <ul>
+        <li>Desconto de 10% em todas as entregas. Pode pausar ou cancelar a qualquer momento, sem multa.</li>
+      </ul>
+
+      <h2>6. Conduta</h2>
+      <ul>
+        <li>Não é permitido usar o serviço para fins ilegais, enviar receitas falsas ou ofender a equipe.</li>
+        <li>Discriminação de qualquer tipo não é tolerada. Relatos podem ser feitos na <a href="ouvidoria.html"><strong>Ouvidoria</strong></a>,
+          inclusive de forma anônima.</li>
+      </ul>
+
+      <h2>7. Privacidade</h2>
+      <p>O uso dos seus dados segue a nossa <a href="privacidade.html"><strong>Política de Privacidade</strong></a>.</p>
+
+      <h2>8. Contato</h2>
+      <p><a href="mailto:contato@bemestaronline.com.br">contato@bemestaronline.com.br</a> — (11) 99711-2773 (WhatsApp).
+        Rua das Flores, 120, Centro, Cajamar/SP.</p>
+    </article>
+  </main>
+  <div id="rodape"></div>
+  <script src="js/config.js"></script>
+  <script src="js/catalogo-local.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

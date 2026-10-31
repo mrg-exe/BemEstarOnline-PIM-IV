@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             x:Class="BemEstarOnline.Mobile.Views.ProdutoPage"
+             x:DataType="vm:ProdutoViewModel"
+             Title="Produto">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+            <Label Text="{Binding Produto.Icone}" FontSize="64" HorizontalOptions="Center" IsVisible="{Binding Produto.SemFoto}" />
+            <Image Source="{Binding Produto.FotoUrl}" IsVisible="{Binding Produto.TemFoto}" HeightRequest="220" Aspect="AspectFit" />
+            <Label Text="{Binding Produto.Nome}" Style="{StaticResource Titulo}" SemanticProperties.HeadingLevel="Level1" />
+            <Label Text="{Binding Produto.Subtitulo}" Style="{StaticResource TextoSuave}" />
+            <Label Text="{Binding Produto.Selos}" IsVisible="{Binding Produto.TemSelos}" TextColor="{DynamicResource CorTarja}" FontAttributes="Bold" />
+            <Label Text="{Binding Produto.Descricao}" />
+            <Button Text="Ouvir a descrição" Style="{StaticResource BotaoContorno}" Command="{Binding OuvirCommand}" />
+
+            <Border Style="{StaticResource Cartao}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="{Binding Produto.PrecoTexto}" FontSize="30" FontAttributes="Bold" />
+                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Start">
+                        <Button Text="−" WidthRequest="56" Command="{Binding MenosCommand}" SemanticProperties.Description="Diminuir quantidade" />
+                        <Label Text="{Binding Quantidade}" FontSize="22" FontAttributes="Bold" VerticalOptions="Center" WidthRequest="40" HorizontalTextAlignment="Center" />
+                        <Button Text="+" WidthRequest="56" Command="{Binding MaisCommand}" SemanticProperties.Description="Aumentar quantidade" />
+                    </HorizontalStackLayout>
+                    <Button Text="Adicionar ao carrinho" Command="{Binding AdicionarCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource Cartao}" IsVisible="{Binding Produto.UsoContinuo}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Uso contínuo? Assine e receba em casa com 10% de desconto em todas as entregas." />
+                    <Button Text="Assinar com 10% de desconto" Style="{StaticResource BotaoContorno}" Command="{Binding AssinarCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Text="Princípio ativo" FontAttributes="Bold" />
+            <Label Text="{Binding Produto.PrincipioAtivo, TargetNullValue='—'}" Style="{StaticResource TextoSuave}" />
+            <Label Text="Dosagem" FontAttributes="Bold" />
+            <Label Text="{Binding Produto.Dosagem, TargetNullValue='—'}" Style="{StaticResource TextoSuave}" />
+            <Label Text="Leia a bula antes de usar. Se os sintomas continuarem, procure um médico." Style="{StaticResource TextoSuave}" FontSize="13" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel da farmácia | Bem Estar Online</title>
+  <meta name="description" content="Área administrativa.">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script>
+    // Aplica letra/contraste/tema antes de desenhar a página (evita "piscar").
+    try { var p = JSON.parse(localStorage.getItem('beo_acessibilidade') || '{}'), r = document.documentElement;
+      if (p.fonte) r.dataset.fonte = p.fonte; if (p.contraste === 'alto') r.dataset.contraste = 'alto';
+      if (p.tema && p.tema !== 'auto') r.dataset.tema = p.tema; } catch (e) {}
+  </script>
+</head>
+<body>
+  <div id="cabecalho"></div>
+  <main id="conteudo" tabindex="-1">
+
+    <div class="admin">
+      <aside class="admin-menu" aria-label="Menu do painel">
+        <h2>Painel da farmácia</h2>
+        <nav id="menu-admin">
+          <button type="button" data-secao="painel" aria-current="page">Visão geral</button>
+          <button type="button" data-secao="pedidos">Pedidos <span class="contador" id="cont-abertos" data-zero="true">0</span></button>
+          <button type="button" data-secao="produtos">Produtos e estoque</button>
+          <button type="button" data-secao="alertas">Reposição <span class="contador" id="cont-alertas" data-zero="true">0</span></button>
+          <button type="button" data-secao="assinaturas">Assinaturas</button>
+          <button type="button" data-secao="delivery">Receitas recebidas</button>
+          <button type="button" data-secao="ouvidoria">Ouvidoria <span class="contador" id="cont-ouvidoria" data-zero="true">0</span></button>
+          <button type="button" data-secao="clientes">Clientes e equipe</button>
+          <button type="button" data-secao="equipe" hidden>Gestão da equipe</button>
+        </nav>
+      </aside>
+      <div class="admin-conteudo" id="admin-conteudo"><p class="carregando">Carregando...</p></div>
+    </div>
+    <dialog id="dialogo" aria-labelledby="dialogo-titulo">
+      <div class="dialogo-cabeca"><h2 id="dialogo-titulo">Detalhe</h2><button class="fechar" type="button" id="fechar-dialogo" aria-label="Fechar">×</button></div>
+      <div class="dialogo-corpo" id="dialogo-corpo"></div>
+    </dialog>
+  </main>
+  <div id="rodape"></div>
+  <script src="js/config.js"></script>
+  <script src="js/catalogo-local.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/paginas/admin.js"></script>
+</body>
+</html>
