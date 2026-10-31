@@ -712,3 +712,26 @@ Modelo de anotação:
   (seção "Testes automáticos"). Nenhuma regra do sistema mudou.
 - Afeta qual etapa do PIM: Etapa 6 (qualidade, camadas e interfaces), DevOps (testes no pipeline) e Scrum (critério de
   "pronto": a história só está pronta quando os testes passam).
+
+## 2026-10-31 — Tarefa 10: projeto enviado ao GitHub (repositório novo) e pipeline verde
+- O que mudou: o PIM IV está no GitHub, num **repositório novo e público**:
+  **https://github.com/mrg-exe/BemEstarOnline-PIM-IV** (branch `main`). O repositório antigo do PIM III
+  (github.com/Kodaiulou/BemestarOnline) **não foi mexido**.
+- O que foi enviado: 278 arquivos (API, app, site, banco, testes, documentação, prints, diagramas, Docker e pipeline).
+- O que **não** foi enviado (de propósito, pelo `.gitignore`): arquivos gerados pela compilação (`bin/`, `obj/`), as
+  **receitas enviadas** (`ArquivosPrivados/`, dado de saúde), os **e-mails de teste** (`emails-enviados/`, têm links de
+  senha) e as instruções para o Claude Code (`CLAUDE.md`, `PRIMEIRA-MENSAGEM-PARA-O-CLAUDE-CODE.txt`), que ficam só no
+  computador do Filipe. Antes do envio foi feita uma busca por senhas e chaves: só há as de demonstração do projeto
+  (MySQL local do Docker, contas de teste e a chave de exemplo do JWT, que já se chama "troque-esta-chave-em-producao").
+- Limpeza antes do envio (autorizada pelo Filipe): apagada a foto de teste da Dipirona (`wwwroot/imagens/produtos`, também
+  dentro do volume do Docker) e a pasta vazia `.gstack`.
+- **GitHub Actions (DevOps):** a primeira execução do pipeline `CI-CD` ficou **verde** (1 min 41 s):
+  compilar a API **e rodar os 69 testes**, testar os scripts num MySQL de verdade, conferir o JavaScript do site e montar a
+  imagem Docker. "Compilar app Android" (manual) e "Publicar no Azure" (desligado) foram pulados, como planejado.
+  Link: https://github.com/mrg-exe/BemEstarOnline-PIM-IV/actions
+- O README ganhou o **selo do pipeline** (mostra "passing" quando está tudo verde), a pasta de testes e os recursos de
+  inclusão (VLibras, ouvidoria, LGPD).
+- Atenção para o futuro: se um dia publicar no Azure de verdade, troque a chave do JWT por uma configuração do próprio
+  Azure (`Jwt__Chave`), porque a do `appsettings.json` agora é pública.
+- Afeta qual etapa do PIM: Etapa 8 (nuvem e DevOps: versionamento e integração contínua) e Etapa 9 (Scrum: entrega).
+- Print gerado: `docs/prints/29-github-actions.png` (pipeline verde).

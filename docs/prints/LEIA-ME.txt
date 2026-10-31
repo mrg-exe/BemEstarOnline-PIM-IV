@@ -11,6 +11,8 @@ FEITOS
   27 ........ MySQL Workbench: diagrama do banco (Reverse Engineer, 17 tabelas)
               (o diagrama inteiro, nítido, está em docs/diagramas/mer-banco-de-dados.png)
   28 ........ Docker Desktop com os 3 containers (banco, api, site)
+  29 ........ GitHub Actions: pipeline verde (compilar API + testes, MySQL, JavaScript, imagem Docker)
+              em https://github.com/mrg-exe/BemEstarOnline-PIM-IV/actions
   30 ........ Esqueci minha senha (RF33): 30-site-esqueci-senha.png e 30-email-gerado.png
   31 ........ Painel > Gestão da equipe (RF35)
   32 ........ VLibras aberto no site (RF40), traduzindo "Entrega em até 2 horas" da página inicial
@@ -22,4 +24,4 @@ FEITOS
   38 ........ Painel: receita recebida aberta (RF39), a mesma receita fictícia
 
 FALTAM
-  29 ........ GitHub Actions: só depois de enviar o projeto ao GitHub (tarefa 10).
+  Nenhum. Todos os prints da lista do docs/00-requisitos.md estão nesta pasta.

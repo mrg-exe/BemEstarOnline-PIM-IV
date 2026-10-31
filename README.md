@@ -1,5 +1,7 @@
 # Bem Estar Online — PIM IV (UNIP, ADS)
 
+[![CI-CD](https://github.com/mrg-exe/BemEstarOnline-PIM-IV/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/mrg-exe/BemEstarOnline-PIM-IV/actions/workflows/ci-cd.yml)
+
 Farmácia virtual de bairro (Cajamar/SP): continuação do projeto do PIM III, agora com
 API em camadas, banco MySQL com triggers e procedures, site repaginado com painel
 administrativo, aplicativo .NET MAUI com modo offline, Docker e pipeline CI/CD.
