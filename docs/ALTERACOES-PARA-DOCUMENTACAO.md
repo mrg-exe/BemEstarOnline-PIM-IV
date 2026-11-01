@@ -806,3 +806,9 @@ Modelo de anotação:
      sistema de emoji do teclado do Android (EmojiCompat). Agora a máscara é aplicada logo depois da tecla
      (`BaseViewModel.FormatarDepois`) e o EmojiCompat foi desligado nos campos de texto do Android (`MauiProgram.cs`).
   Celular de teste: Samsung Galaxy S24 FE, Android 16. **Falta o Filipe confirmar a correção 2 no celular.**
+- **Ajuste (mesmo dia): botão "voltar" do celular nas telas principais.** O Filipe notou que, logado como entregador, o
+  "voltar" do celular levava para a tela inicial do Android. É o padrão do Android (o login não fica no histórico; para
+  trocar de perfil usa-se Perfil → Sair), mas podia parecer erro. Agora, nas telas principais (abas Entregas, Perfil,
+  Produtos, Carrinho, Pedidos e a tela de entrada), o "voltar" pergunta **"Sair do app?"** (Sair / Ficar). "Sair" manda
+  o app para o fundo sem desconectar a conta. Nas telas internas o "voltar" continua voltando normalmente.
+  Arquivo: `AppShell.xaml.cs` (`OnBackButtonPressed`). APK novo gerado e instalado no celular pelo cabo.
