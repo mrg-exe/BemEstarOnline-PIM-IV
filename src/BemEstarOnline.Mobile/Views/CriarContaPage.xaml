@@ -2,11 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             xmlns:c="clr-namespace:BemEstarOnline.Mobile.Views.Componentes"
              x:Class="BemEstarOnline.Mobile.Views.CriarContaPage"
              x:DataType="vm:CriarContaViewModel"
              Title="Criar conta">
     <ScrollView>
         <VerticalStackLayout Padding="20,16" Spacing="12" MaximumWidthRequest="520">
+            <c:BotaoVoltar />
             <Label Text="Crie sua conta para comprar, acompanhar a entrega e assinar seus remédios de uso contínuo."
                    Style="{StaticResource TextoSuave}" />
 

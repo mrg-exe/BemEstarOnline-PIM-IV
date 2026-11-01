@@ -101,10 +101,16 @@ public partial class LoginViewModel : BaseViewModel
     [RelayCommand]
     private void AlternarServidor() => MostrarServidor = !MostrarServidor;
 
+    /// <summary>
+    /// Contas de teste para a apresentação: um toque preenche e entra. O cliente vai para os produtos
+    /// e o entregador para a lista de entregas (o app muda de modo sozinho pelo perfil da conta).
+    /// </summary>
     [RelayCommand]
-    private void PreencherTeste()
+    private Task EntrarComoAsync(string perfil)
     {
-        Email = "cliente@bemestaronline.com";
-        Senha = "Cliente@123";
+        (Email, Senha) = perfil == "entregador"
+            ? ("entregador@bemestaronline.com", "Entregador@123")
+            : ("cliente@bemestaronline.com", "Cliente@123");
+        return EntrarAsync();
     }
 }

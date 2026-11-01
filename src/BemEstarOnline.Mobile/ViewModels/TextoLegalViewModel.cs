@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace BemEstarOnline.Mobile.ViewModels;
 
@@ -24,6 +25,10 @@ public partial class TextoLegalViewModel : BaseViewModel, IQueryAttributable
 
     [ObservableProperty] private string titulo = "";
     [ObservableProperty] private List<BlocoTexto> blocos = new();
+
+    /// <summary>Botão do fim do texto (vale para Windows e Android).</summary>
+    [RelayCommand]
+    private Task VoltarAsync() => Shell.Current.GoToAsync("..");
 
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {

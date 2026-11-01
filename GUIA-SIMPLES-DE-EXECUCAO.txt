@@ -151,10 +151,13 @@ PASSO 4 - APLICATIVO (rodando como programa do Windows, sem celular)
   4.3) Em cima, na lista de projetos, escolha  BemEstarOnline.Mobile .
   4.4) No botão verde de "play", escolha  Windows Machine  e clique.
        (Na primeira vez demora; o Visual Studio baixa o que falta.)
-  4.5) No app: toque em "Usar conta de teste (cliente)" e depois "Entrar".
+  4.5) No app, no cartão "Contas de teste", toque em "Cliente" (entra direto
+       como cliente) ou em "Entregador" (entra direto como entregador).
 
   MODO ENTREGADOR NO APP:
-     Saia da conta (aba Perfil) e entre com entregador@bemestaronline.com.
+     Na tela de entrada toque em "Entregador" (cartão "Contas de teste").
+     Já está como cliente? Aba Perfil > "Sair / trocar de conta" e toque em
+     "Entregador". (Conta: entregador@bemestaronline.com / Entregador@123.)
      Aparece a aba "Entregas": pedidos disponíveis (em separação) e os seus.
      - A lista atualiza a cada 20 s e AVISA (com vibração no celular) quando
        chega pedido novo, dizendo se ele EXIGE RECEITA.
@@ -189,6 +192,72 @@ PASSO 4 - APLICATIVO (rodando como programa do Windows, sem celular)
   - Para testar o MODO OFFLINE: com o app aberto, desligue a API, adicione
     produtos e finalize: o pedido fica guardado. Ligue a API e toque em
     Perfil > "Sincronizar agora" (ou abra a aba Pedidos).
+
+--------------------------------------------------------------------------
+PASSO 4B - APLICATIVO NO CELULAR DE VERDADE (Android)
+--------------------------------------------------------------------------
+  A ideia: o celular é o "cliente/motoboy" e o computador é a farmácia
+  (balcão + despensa). Os dois precisam estar na MESMA rede de internet.
+
+  PREPARAR O COMPUTADOR (a farmácia):
+  1) Abra o Docker Desktop e, na pasta BemEstarOnline, rode:
+         docker compose up -d
+     (o celular precisa do modo completo; o "dotnet run" só atende o próprio PC)
+  2) Descubra o endereço do computador na rede: no PowerShell digite  ipconfig
+     e procure "Endereço IPv4" (ex.: 192.168.18.7 — era o deste PC em 01/11).
+  3) Ligue o Wi-Fi do celular na MESMA rede do roteador do computador.
+  4) TESTE: no navegador do celular (Chrome) abra  http://192.168.18.7:5088
+     (troque pelo seu IP). Se abrir o site da farmácia, está tudo certo.
+     Não abriu? Veja "DEU ERRO NO CELULAR?" abaixo.
+
+  INSTALAR O APP (jeito fácil: arquivo APK, sem cabo de programador):
+  5) O arquivo do app já está pronto em:
+         publicado\android\br.com.bemestaronline.app-Signed.apk
+     (para gerar de novo: veja o fim deste passo)
+  6) Passe esse arquivo para o celular: pelo cabo USB (copie para a pasta
+     Download), pelo Google Drive, ou mande para você mesmo no WhatsApp
+     (como "Documento").
+  7) No celular, toque no arquivo. O Android pergunta se pode "instalar apps
+     desconhecidos" por esse aplicativo (Arquivos, Drive ou WhatsApp):
+     toque em Configurações > ative "Permitir desta fonte" > volte > Instalar.
+     Se o Play Protect avisar "app não verificado": "Mais detalhes" >
+     "Instalar mesmo assim" (é o seu app, feito no seu computador).
+  8) Abra o app "Bem Estar Online". Na tela de entrada toque em
+     "Configurar endereço do servidor" e escreva:
+         http://192.168.18.7:5088/api/      (com o SEU IP, e com /api/ no fim)
+  9) Toque em "Cliente" ou "Entregador" (cartão "Contas de teste").
+     O app pede permissão de localização (entregador) e de câmera (foto da
+     receita): toque em "Permitir durante o uso do app".
+
+  IDEIA PARA A APRESENTAÇÃO: abra o app no WINDOWS como CLIENTE e o app no
+  CELULAR como ENTREGADOR. Compre no Windows, separe o pedido no painel do
+  site, pegue a entrega no celular e ande com ele: o cliente vê o motoboy
+  andando no mapa com o GPS de verdade do celular.
+
+  JEITO 2 (com cabo, pelo Visual Studio, para quem vai mexer no código):
+  - No celular: Configurações > Sobre o telefone > toque 7 vezes em
+    "Número da versão" (vira "programador"). Depois Configurações > Sistema >
+    Opções do desenvolvedor > ative "Depuração USB".
+  - Ligue o cabo USB, aceite "Permitir depuração USB" no celular.
+  - No Visual Studio, no botão de play escolha o nome do seu celular e clique.
+
+  GERAR O APK DE NOVO (depois de mudar o código), na pasta BemEstarOnline:
+      dotnet publish src\BemEstarOnline.Mobile -f net10.0-android -c Release -p:AndroidPackageFormat=apk -o publicado\android
+  (demora alguns minutos; a pasta "publicado" não vai para o GitHub)
+
+  DEU ERRO NO CELULAR?
+  - O site não abre no navegador do celular (passo 4): confira se os dois
+    estão na mesma rede e se o IP está certo. Se ainda assim não abrir, deixe
+    a rede do computador como PRIVADA: Configurações do Windows > Rede e
+    Internet > Ethernet (ou Wi-Fi) > Tipo de perfil de rede > "Rede privada".
+    Na primeira vez o Windows pode perguntar se permite o acesso: "Permitir".
+  - "Sem conexão com o servidor da farmácia" no app: o endereço do servidor
+    está errado (precisa do http://, do IP, da porta :5088 e do /api/ no fim).
+  - O IP do computador pode mudar quando o roteador reinicia: rode ipconfig
+    de novo e corrija no app ("Configurar endereço do servidor").
+  - Link do "Esqueci minha senha" no celular: no appsettings.json da API,
+    troque "EnderecoDoSite" para http://SEU-IP:5088 (senão o link abre
+    "localhost", que no celular não é o computador).
 
 
 --------------------------------------------------------------------------

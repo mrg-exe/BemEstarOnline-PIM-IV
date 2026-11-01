@@ -30,6 +30,8 @@
   <ItemGroup>
     <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#00807C" />
     <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#00807C" BaseSize="128,128" />
+    <!-- Logo da tela de entrada (cópia de logo/bem_estar_online_icon_256.png). -->
+    <MauiImage Include="Resources\Images\*" />
     <!-- Política de Privacidade e Termos de Uso (RF41): os mesmos textos de docs/textos, lidos pelo app sem internet. -->
     <MauiAsset Include="..\..\docs\textos\*.md" LogicalName="textos\%(Filename)%(Extension)" />
   </ItemGroup>

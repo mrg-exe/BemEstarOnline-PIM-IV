@@ -2,11 +2,18 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             xmlns:c="clr-namespace:BemEstarOnline.Mobile.Views.Componentes"
              x:Class="BemEstarOnline.Mobile.Views.TextoLegalPage"
              x:DataType="vm:TextoLegalViewModel"
              Title="{Binding Titulo}">
     <ScrollView>
-        <!-- Os blocos de texto são montados no code-behind (títulos, parágrafos e itens com negrito/itálico). -->
-        <VerticalStackLayout x:Name="Conteudo" Padding="20,16,20,32" Spacing="10" MaximumWidthRequest="680" />
+        <VerticalStackLayout Padding="16,12,16,24" Spacing="12" MaximumWidthRequest="720">
+            <c:BotaoVoltar />
+            <Border Style="{StaticResource Cartao}" Padding="20,18">
+                <!-- Os blocos de texto são montados no code-behind (títulos, parágrafos e itens com negrito/itálico). -->
+                <VerticalStackLayout x:Name="Conteudo" Spacing="10" />
+            </Border>
+            <Button Text="Entendi, voltar" Command="{Binding VoltarCommand}" />
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

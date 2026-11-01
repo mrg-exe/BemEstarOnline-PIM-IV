@@ -18,6 +18,12 @@ public partial class PerfilViewModel : BaseViewModel
     [ObservableProperty] private bool altoContraste;
     [ObservableProperty] private bool letraGrande;
     [ObservableProperty] private string servidor = "";
+    /// <summary>Letras do círculo do topo do Perfil (ex.: "AT" de Ana Teste).</summary>
+    [ObservableProperty] private string iniciais = "";
+    [ObservableProperty] private string tipoConta = "";
+    /// <summary>Logado como equipe (ex.: entregador): não vê endereços/assinaturas, mas pode trocar a senha.</summary>
+    [ObservableProperty] private bool equipeLogada;
+    [ObservableProperty] private string textoSair = "";
 
     /// <summary>Só clientes: excluir a conta, endereços e assinaturas (a equipe não usa essas telas).</summary>
     [ObservableProperty] private bool podeExcluir;
@@ -41,6 +47,18 @@ public partial class PerfilViewModel : BaseViewModel
         LetraGrande = _acessibilidade.LetraGrande;
         Servidor = _sessao.UrlApi;
         PodeExcluir = Logado && u?.Perfil == "CLIENTE";
+        EquipeLogada = Logado && !PodeExcluir;
+        TextoSair = Logado ? "Sair / trocar de conta" : "Entrar ou criar conta";
+        var partes = Nome.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        Iniciais = partes.Length == 0 ? "?" : (partes[0][..1] + (partes.Length > 1 ? partes[^1][..1] : "")).ToUpperInvariant();
+        TipoConta = u?.Perfil switch
+        {
+            "CLIENTE" => "Cliente",
+            "ENTREGADOR" => "Entregador",
+            "ATENDENTE" => "Atendente",
+            "ADMIN" => "Administrador",
+            _ => "Visitante"
+        };
         _carregando = false;
     }
 

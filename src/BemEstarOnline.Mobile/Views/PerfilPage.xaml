@@ -6,22 +6,42 @@
              x:DataType="vm:PerfilViewModel"
              Title="Perfil">
     <ScrollView>
-        <VerticalStackLayout Padding="16" Spacing="12">
-            <Label Text="{Binding Nome}" Style="{StaticResource Titulo}" />
-            <Label Text="{Binding Email}" Style="{StaticResource TextoSuave}" />
+        <VerticalStackLayout Padding="16" Spacing="12" MaximumWidthRequest="620">
 
+            <!-- Cabeçalho: círculo com as iniciais, nome e tipo de conta -->
+            <Border Style="{StaticResource Cartao}" Padding="16">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                    <Border BackgroundColor="{DynamicResource CorPrimaria}" StrokeThickness="0" StrokeShape="RoundRectangle 30"
+                            WidthRequest="60" HeightRequest="60" VerticalOptions="Center">
+                        <Label Text="{Binding Iniciais}" TextColor="{DynamicResource CorTextoBotao}" FontSize="22" FontAttributes="Bold"
+                               HorizontalOptions="Center" VerticalOptions="Center" SemanticProperties.Description=" " />
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <Label Text="{Binding Nome}" Style="{StaticResource Titulo}" />
+                        <Label Text="{Binding Email}" Style="{StaticResource TextoSuave}" FontSize="14" />
+                        <Label Text="{Binding TipoConta}" TextColor="{DynamicResource CorPrimariaEscura}" FontAttributes="Bold" FontSize="14" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- Só para clientes -->
             <Border Style="{StaticResource Cartao}" IsVisible="{Binding PodeExcluir}">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Minha conta" FontAttributes="Bold" />
-                    <Button Text="Meus endereços" Style="{StaticResource BotaoContorno}" Command="{Binding AbrirEnderecosCommand}" />
-                    <Button Text="Assinaturas (10% de desconto)" Style="{StaticResource BotaoContorno}" Command="{Binding AbrirAssinaturasCommand}" />
-                    <Button Text="Enviar receita" Style="{StaticResource BotaoContorno}" Command="{Binding EnviarReceitaCommand}" />
+                    <Label Text="Minha conta" Style="{StaticResource TituloSecao}" />
+                    <Button Text="📍  Meus endereços" Style="{StaticResource BotaoContorno}" Command="{Binding AbrirEnderecosCommand}" />
+                    <Button Text="💊  Assinaturas (10% de desconto)" Style="{StaticResource BotaoContorno}" Command="{Binding AbrirAssinaturasCommand}" />
+                    <Button Text="📷  Enviar receita" Style="{StaticResource BotaoContorno}" Command="{Binding EnviarReceitaCommand}" />
+                    <Button Text="🔒  Alterar senha" Style="{StaticResource BotaoContorno}" Command="{Binding AlterarSenhaCommand}" />
                 </VerticalStackLayout>
             </Border>
 
+            <!-- Equipe (ex.: entregador) também pode trocar a senha -->
+            <Button Text="🔒  Alterar senha" Style="{StaticResource BotaoContorno}" Command="{Binding AlterarSenhaCommand}"
+                    IsVisible="{Binding EquipeLogada}" />
+
             <Border Style="{StaticResource Cartao}">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Acessibilidade" FontAttributes="Bold" />
+                    <Label Text="Acessibilidade" Style="{StaticResource TituloSecao}" />
                     <Grid ColumnDefinitions="*,Auto">
                         <Label Text="Alto contraste (preto e amarelo)" VerticalOptions="Center" />
                         <Switch Grid.Column="1" IsToggled="{Binding AltoContraste}" OnColor="{DynamicResource CorPrimaria}"
@@ -39,27 +59,30 @@
 
             <Border Style="{StaticResource Cartao}">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Pedidos feitos sem internet" FontAttributes="Bold" />
-                    <Label Style="{StaticResource TextoSuave}" Text="Ficam guardados no celular e são enviados sozinhos quando a conexão volta." />
-                    <Button Text="Sincronizar agora" Style="{StaticResource BotaoContorno}" Command="{Binding SincronizarCommand}" />
+                    <Label Text="Privacidade" Style="{StaticResource TituloSecao}" />
+                    <Label Style="{StaticResource TextoSuave}" FontSize="14" Text="Usamos seus dados só para entregar seus pedidos e cumprir a lei (LGPD)." />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                        <Button Text="🛡️  Privacidade" Style="{StaticResource BotaoContorno}" Command="{Binding VerPrivacidadeCommand}"
+                                SemanticProperties.Description="Política de Privacidade" />
+                        <Button Grid.Column="1" Text="📄  Termos" Style="{StaticResource BotaoContorno}" Command="{Binding VerTermosCommand}"
+                                SemanticProperties.Description="Termos de Uso" />
+                    </Grid>
                 </VerticalStackLayout>
             </Border>
 
             <Border Style="{StaticResource Cartao}">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="Privacidade" FontAttributes="Bold" />
-                    <Label Style="{StaticResource TextoSuave}" Text="Usamos seus dados só para entregar seus pedidos e cumprir a lei (LGPD)." />
-                    <Button Text="Política de Privacidade" Style="{StaticResource BotaoContorno}" Command="{Binding VerPrivacidadeCommand}" />
-                    <Button Text="Termos de Uso" Style="{StaticResource BotaoContorno}" Command="{Binding VerTermosCommand}" />
+                    <Label Text="Pedidos feitos sem internet" Style="{StaticResource TituloSecao}" />
+                    <Label Style="{StaticResource TextoSuave}" FontSize="14" Text="Ficam guardados no celular e são enviados sozinhos quando a conexão volta." />
+                    <Button Text="🔄  Sincronizar agora" Style="{StaticResource BotaoContorno}" Command="{Binding SincronizarCommand}" />
                 </VerticalStackLayout>
             </Border>
 
-            <Label Text="{Binding Servidor, StringFormat='Servidor: {0}'}" Style="{StaticResource TextoSuave}" FontSize="13" />
-            <Button Text="Alterar senha" Style="{StaticResource BotaoContorno}" IsVisible="{Binding Logado}"
-                    Command="{Binding AlterarSenhaCommand}" />
-            <Button Text="Sair / trocar de conta" Command="{Binding SairOuEntrarCommand}" />
-            <Button Text="Excluir minha conta" IsVisible="{Binding PodeExcluir}" BackgroundColor="{DynamicResource CorTarja}"
-                    Command="{Binding ExcluirContaCommand}" />
+            <Button Text="{Binding TextoSair}" Command="{Binding SairOuEntrarCommand}" />
+            <Button Text="Excluir minha conta" IsVisible="{Binding PodeExcluir}" Style="{StaticResource BotaoLink}"
+                    TextColor="{DynamicResource CorTarja}" Command="{Binding ExcluirContaCommand}" />
+            <Label Text="{Binding Servidor, StringFormat='Servidor: {0}'}" Style="{StaticResource TextoSuave}" FontSize="12"
+                   HorizontalTextAlignment="Center" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

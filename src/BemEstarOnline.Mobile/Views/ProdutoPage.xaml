@@ -2,11 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             xmlns:c="clr-namespace:BemEstarOnline.Mobile.Views.Componentes"
              x:Class="BemEstarOnline.Mobile.Views.ProdutoPage"
              x:DataType="vm:ProdutoViewModel"
              Title="Produto">
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="12">
+            <c:BotaoVoltar />
             <Label Text="{Binding Produto.Icone}" FontSize="64" HorizontalOptions="Center" IsVisible="{Binding Produto.SemFoto}" />
             <Image Source="{Binding Produto.FotoUrl}" IsVisible="{Binding Produto.TemFoto}" HeightRequest="220" Aspect="AspectFit" />
             <Label Text="{Binding Produto.Nome}" Style="{StaticResource Titulo}" SemanticProperties.HeadingLevel="Level1" />

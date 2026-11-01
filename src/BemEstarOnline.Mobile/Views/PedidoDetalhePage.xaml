@@ -2,12 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:BemEstarOnline.Mobile.ViewModels"
+             xmlns:c="clr-namespace:BemEstarOnline.Mobile.Views.Componentes"
              xmlns:m="clr-namespace:BemEstarOnline.Mobile.Modelos"
              x:Class="BemEstarOnline.Mobile.Views.PedidoDetalhePage"
              x:DataType="vm:PedidoDetalheViewModel"
              Title="Acompanhar pedido">
     <ScrollView>
         <VerticalStackLayout Padding="16" Spacing="10">
+            <c:BotaoVoltar />
             <Label Text="{Binding Titulo}" Style="{StaticResource Titulo}" />
             <Label Text="{Binding Status}" FontAttributes="Bold" TextColor="{DynamicResource CorPrimariaEscura}" FontSize="20" />
             <ActivityIndicator IsRunning="{Binding Ocupado}" IsVisible="{Binding Ocupado}" />

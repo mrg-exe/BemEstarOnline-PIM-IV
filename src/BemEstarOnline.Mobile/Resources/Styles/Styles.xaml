@@ -43,6 +43,38 @@
         <Setter Property="CornerRadius" Value="10" />
     </Style>
 
+    <!-- Botão "Voltar" das telas internas (Views/Componentes/BotaoVoltar.cs). -->
+    <Style x:Key="BotaoVoltar" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{DynamicResource CorCartao}" />
+        <Setter Property="TextColor" Value="{DynamicResource CorPrimariaEscura}" />
+        <Setter Property="BorderColor" Value="{DynamicResource CorBorda}" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize" Value="{DynamicResource TamanhoTexto}" />
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="Padding" Value="16,6" />
+        <Setter Property="MinimumHeightRequest" Value="40" />
+        <Setter Property="HorizontalOptions" Value="Start" />
+    </Style>
+
+    <!-- Link discreto (sem borda), ex.: "Esqueci minha senha". -->
+    <Style x:Key="BotaoLink" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{DynamicResource CorPrimariaEscura}" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize" Value="{DynamicResource TamanhoTexto}" />
+        <Setter Property="MinimumHeightRequest" Value="40" />
+        <Setter Property="Padding" Value="8,4" />
+    </Style>
+
+    <!-- Título de seção dentro dos cartões (ex.: "Minha conta"). -->
+    <Style x:Key="TituloSecao" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource CorPrimariaEscura}" />
+        <Setter Property="FontSize" Value="{DynamicResource TamanhoTexto}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
     <Style TargetType="Entry">
         <Setter Property="TextColor" Value="{DynamicResource CorTexto}" />
         <Setter Property="PlaceholderColor" Value="{DynamicResource CorTextoSuave}" />

@@ -735,3 +735,41 @@ Modelo de anotação:
   Azure (`Jwt__Chave`), porque a do `appsettings.json` agora é pública.
 - Afeta qual etapa do PIM: Etapa 8 (nuvem e DevOps: versionamento e integração contínua) e Etapa 9 (Scrum: entrega).
 - Print gerado: `docs/prints/29-github-actions.png` (pipeline verde).
+
+## 2026-11-01 — App: entrar como entregador, botão Voltar, visual novo e app no celular de verdade
+- Pedidos do Filipe: (1) como rodar o app num celular de verdade; (2) a Política de Privacidade não tinha botão de
+  voltar; (3) deixar o app mais agradável; (4) não havia como entrar como entregador na tela de login.
+- **Entrar como entregador:** a tela de entrada ganhou o cartão **"Contas de teste"** com os botões **"🛒 Cliente"** e
+  **"🛵 Entregador"**: um toque preenche e entra. O entregador cai direto na aba **Entregas** (conta Marcos Entregador,
+  entregador@bemestaronline.com / Entregador@123). Antes só havia "Usar conta de teste (cliente)".
+- **Botão Voltar:** no Windows a seta de voltar fica na barra de título, pequena e cinza-clara (quase invisível). Agora
+  as telas internas têm um botão **"← Voltar"** bem visível no topo: produto, acompanhar pedido, entrega, criar conta,
+  meus endereços, assinaturas, enviar receita, alterar senha (só quando a troca não é obrigatória) e Privacidade/Termos
+  (que também ganhou "Entendi, voltar" no fim do texto). No Android esse botão fica escondido, porque lá a seta da barra
+  verde e o botão de voltar do celular já funcionam. Componente reutilizável: `Views/Componentes/BotaoVoltar.cs`.
+- **Visual novo:**
+  - Tela de entrada com o **logo** num círculo branco, cartão "Entrar", "Esqueci minha senha" e "Configurar endereço do
+    servidor" como links, e o cartão de contas de teste.
+  - **Perfil** reorganizado: cabeçalho com um **círculo com as iniciais**, nome, e-mail e tipo de conta (Cliente,
+    Entregador...); grupos "Minha conta", "Acessibilidade", "Privacidade" e "Pedidos feitos sem internet" com ícones;
+    "Excluir minha conta" virou um link vermelho discreto no fim. O entregador também pode "Alterar senha".
+  - Política de Privacidade e Termos dentro de um cartão branco.
+  - No Windows, a cor de destaque (linha do campo em uso, bolinha das opções) passou do **roxo padrão para o verde** da
+    farmácia (`Platforms/Windows/App.xaml`).
+  - Estilos novos em `Resources/Styles/Styles.xaml`: `BotaoVoltar`, `BotaoLink`, `TituloSecao`.
+- **App no celular de verdade (Android):** novo **PASSO 4B** no `GUIA-SIMPLES-DE-EXECUCAO.txt`. Resumo: o PC roda o modo
+  completo (Docker), o celular fica na mesma rede, instala o arquivo **`publicado/android/br.com.bemestaronline.app-Signed.apk`**
+  (gerado nesta data, 30,6 MB) e, no app, "Configurar endereço do servidor" = `http://IP-DO-PC:5088/api/`
+  (neste PC: 192.168.18.7). Também explica o jeito com cabo (Depuração USB + Visual Studio) e os erros comuns
+  (rede pública/privada do Windows, IP que muda, link do "Esqueci minha senha"). O Firewall do Windows já libera o
+  Docker para a rede; a API respondeu pelo IP da rede.
+- Arquivos novos: `Views/Componentes/BotaoVoltar.cs`, `Resources/Images/logo_bem_estar.png`.
+  Alterados: `Views/LoginPage.xaml`, `ViewModels/LoginViewModel.cs` (`EntrarComo`), `Views/PerfilPage.xaml`,
+  `ViewModels/PerfilViewModel.cs`, `Views/TextoLegalPage.xaml`, `ViewModels/TextoLegalViewModel.cs`, as 8 telas internas
+  (botão Voltar), `Resources/Styles/Styles.xaml`, `Platforms/Windows/App.xaml`, `BemEstarOnline.Mobile.csproj`,
+  `GUIA-SIMPLES-DE-EXECUCAO.txt`. API, site e banco: nenhuma mudança.
+- Testes: app do Windows compilado e testado (botão "Entregador" entra na aba Entregas; Perfil do entregador e do
+  cliente; Privacidade com "← Voltar" funcionando). APK Android gerado sem erros. **Não testado:** o APK num celular de
+  verdade (fica para o Filipe, seguindo o PASSO 4B) e, na tela, a cor verde nova do Windows.
+- Afeta qual etapa do PIM: Etapa 5 (app: usabilidade, instalação no celular) e Etapa 3 (acessibilidade: botão de voltar
+  grande e visível).
