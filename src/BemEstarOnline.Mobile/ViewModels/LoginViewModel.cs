@@ -24,6 +24,37 @@ public partial class LoginViewModel : BaseViewModel
         _carrinho = carrinho;
         _sincronizacao = sincronizacao;
         UrlApi = sessao.UrlApi;
+        // Celular de verdade ainda com o endereço do emulador: já abre o cartão do servidor com o aviso.
+        PrecisaConfigurar = sessao.PrecisaConfigurarServidor;
+        MostrarServidor = PrecisaConfigurar;
+    }
+
+    [ObservableProperty] private bool precisaConfigurar;
+    [ObservableProperty] private string resultadoTeste = "";
+    [ObservableProperty] private bool testeOk;
+
+    /// <summary>Grava o endereço digitado (já completado: http://, porta 5088 e /api/) e mostra como ficou.</summary>
+    private void AplicarServidor()
+    {
+        _sessao.UrlApi = UrlApi;
+        UrlApi = _sessao.UrlApi;
+        PrecisaConfigurar = _sessao.PrecisaConfigurarServidor;
+    }
+
+    [RelayCommand]
+    private async Task TestarConexaoAsync()
+    {
+        AplicarServidor();
+        TesteOk = true;
+        ResultadoTeste = "Testando...";
+        Ocupado = true;
+        try
+        {
+            var (ok, mensagem) = await _api.DiagnosticarAsync(UrlApi);
+            TesteOk = ok;
+            ResultadoTeste = mensagem;
+        }
+        finally { Ocupado = false; }
     }
 
     [RelayCommand]
@@ -37,7 +68,7 @@ public partial class LoginViewModel : BaseViewModel
         Ocupado = true;
         try
         {
-            _sessao.UrlApi = UrlApi;
+            AplicarServidor();
             var resposta = await _api.PostAsync<LoginResposta>("auth/login", new { email = Email.Trim(), senha = Senha });
             _sessao.Entrar(resposta);
             Senha = "";
@@ -59,8 +90,10 @@ public partial class LoginViewModel : BaseViewModel
         catch (ApiException ex)
         {
             await AvisarAsync(ex.SemConexao
-                ? $"Não consegui falar com a API em {UrlApi}. Confira se ela está ligada e se o endereço do servidor está certo."
+                ? $"Não consegui falar com a API em {UrlApi}. Toque em \"Configurar endereço do servidor\" > \"Testar conexão\" " +
+                  "para ver o que está errado (no celular, use o IP do computador, ex.: 192.168.18.7)."
                 : ex.Message);
+            if (ex.SemConexao) MostrarServidor = true;
         }
         finally { Ocupado = false; }
     }
@@ -79,7 +112,7 @@ public partial class LoginViewModel : BaseViewModel
         Ocupado = true;
         try
         {
-            _sessao.UrlApi = UrlApi;
+            AplicarServidor();
             var r = await _api.PostAsync<RespostaMensagem>("auth/esqueci-senha", new { email = email.Trim() });
             await AvisarAsync(r.Mensagem);
         }
@@ -91,7 +124,7 @@ public partial class LoginViewModel : BaseViewModel
     [RelayCommand]
     private Task CriarContaAsync()
     {
-        _sessao.UrlApi = UrlApi;
+        AplicarServidor();
         return Shell.Current.GoToAsync("criar-conta");
     }
 

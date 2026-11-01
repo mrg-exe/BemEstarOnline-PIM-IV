@@ -773,3 +773,15 @@ Modelo de anotação:
   verdade (fica para o Filipe, seguindo o PASSO 4B) e, na tela, a cor verde nova do Windows.
 - Afeta qual etapa do PIM: Etapa 5 (app: usabilidade, instalação no celular) e Etapa 3 (acessibilidade: botão de voltar
   grande e visível).
+- **Correção (mesmo dia): "o app não consegue falar com a API" no celular de verdade.** No PC estava tudo certo (Docker
+  ligado, API respondendo pelo IP da rede 192.168.18.7, APK com permissão de internet e de HTTP). A causa provável é o
+  endereço do servidor: o app vinha com o endereço do **emulador** (`http://10.0.2.2:5088/api/`), que não funciona num
+  celular de verdade, e pequenos erros de digitação faziam o app se perder. Agora:
+  - no celular de verdade com o endereço do emulador, o cartão **"Endereço da API" já abre sozinho com um aviso**;
+  - o app **completa o endereço**: digitar só `192.168.18.7` vira `http://192.168.18.7:5088/api/`;
+  - botão **"Testar conexão"**, que diz em português o que está errado (sem Wi-Fi, ninguém respondeu no IP, API
+    desligada na porta, "localhost" no celular) e "Tudo certo!" em verde quando funciona;
+  - a mensagem de erro do login manda usar o "Testar conexão".
+  Arquivos: `Servicos/SessaoServico.cs` (`NormalizarUrl`, `PrecisaConfigurarServidor`), `Servicos/ApiServico.cs`
+  (`DiagnosticarAsync`), `ViewModels/LoginViewModel.cs`, `Views/LoginPage.xaml`, guia (PASSO 4B). APK novo gerado
+  (30,3 MB). **Falta o Filipe confirmar no celular.**

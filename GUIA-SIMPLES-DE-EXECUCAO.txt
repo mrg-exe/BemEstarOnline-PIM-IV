@@ -222,9 +222,13 @@ PASSO 4B - APLICATIVO NO CELULAR DE VERDADE (Android)
      toque em Configurações > ative "Permitir desta fonte" > volte > Instalar.
      Se o Play Protect avisar "app não verificado": "Mais detalhes" >
      "Instalar mesmo assim" (é o seu app, feito no seu computador).
-  8) Abra o app "Bem Estar Online". Na tela de entrada toque em
-     "Configurar endereço do servidor" e escreva:
-         http://192.168.18.7:5088/api/      (com o SEU IP, e com /api/ no fim)
+  8) Abra o app "Bem Estar Online". No celular de verdade o cartão
+     "Endereço da API" já aparece aberto, com um aviso vermelho. Apague o que
+     estiver escrito e digite só o IP do computador, por exemplo:
+         192.168.18.7
+     (o app completa sozinho: http://192.168.18.7:5088/api/)
+     Toque em "Testar conexão". Tem que aparecer em verde "Tudo certo!".
+     Se aparecer em vermelho, a própria mensagem diz o que conferir.
   9) Toque em "Cliente" ou "Entregador" (cartão "Contas de teste").
      O app pede permissão de localização (entregador) e de câmera (foto da
      receita): toque em "Permitir durante o uso do app".
@@ -251,8 +255,12 @@ PASSO 4B - APLICATIVO NO CELULAR DE VERDADE (Android)
     a rede do computador como PRIVADA: Configurações do Windows > Rede e
     Internet > Ethernet (ou Wi-Fi) > Tipo de perfil de rede > "Rede privada".
     Na primeira vez o Windows pode perguntar se permite o acesso: "Permitir".
-  - "Sem conexão com o servidor da farmácia" no app: o endereço do servidor
-    está errado (precisa do http://, do IP, da porta :5088 e do /api/ no fim).
+  - "Não consegui falar com a API em http://10.0.2.2:5088/api/": esse é o
+    endereço do EMULADOR, não serve no celular de verdade. Faça o passo 8
+    (digite o IP do computador e toque em "Testar conexão").
+  - "Ninguém respondeu" no Testar conexão: o celular não está achando o
+    computador. Confira o Wi-Fi (mesma rede, não a "rede de convidados") e o
+    IP, e faça o teste do navegador do passo 4.
   - O IP do computador pode mudar quando o roteador reinicia: rode ipconfig
     de novo e corrija no app ("Configurar endereço do servidor").
   - Link do "Esqueci minha senha" no celular: no appsettings.json da API,

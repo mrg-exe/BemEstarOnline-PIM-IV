@@ -57,11 +57,28 @@
             <Button Text="Configurar endereço do servidor" Style="{StaticResource BotaoLink}"
                     Command="{Binding AlternarServidorCommand}" />
             <Border Style="{StaticResource Cartao}" IsVisible="{Binding MostrarServidor}">
-                <VerticalStackLayout Spacing="6">
+                <VerticalStackLayout Spacing="8">
+                    <Border BackgroundColor="{DynamicResource CorTarja}" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="10"
+                            IsVisible="{Binding PrecisaConfigurar}">
+                        <Label TextColor="White" FontAttributes="Bold" FontSize="14"
+                               Text="Celular de verdade: troque o endereço abaixo pelo IP do computador (no computador, rode ipconfig)." />
+                    </Border>
                     <Label Text="Endereço da API" FontAttributes="Bold" />
-                    <Entry Text="{Binding UrlApi}" Keyboard="Url" SemanticProperties.Description="Endereço da API" />
+                    <Entry Text="{Binding UrlApi}" Keyboard="Url" SemanticProperties.Description="Endereço da API"
+                           Placeholder="http://192.168.18.7:5088/api/" />
+                    <Button Text="Testar conexão" Command="{Binding TestarConexaoCommand}" IsEnabled="{Binding Livre}" />
+                    <Label Text="{Binding ResultadoTeste}" FontAttributes="Bold" FontSize="14">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding TesteOk}" Value="True">
+                                <Setter Property="TextColor" Value="{DynamicResource CorFolha}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Label" Binding="{Binding TesteOk}" Value="False">
+                                <Setter Property="TextColor" Value="{DynamicResource CorTarja}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
                     <Label Style="{StaticResource TextoSuave}" FontSize="14"
-                           Text="No Windows: http://localhost:5088/api/. No emulador Android: http://10.0.2.2:5088/api/. No celular de verdade: o IP do computador na mesma rede Wi-Fi, por exemplo http://192.168.18.7:5088/api/ (veja o guia)." />
+                           Text="No Windows: http://localhost:5088/api/. No emulador Android: http://10.0.2.2:5088/api/. No celular de verdade: o IP do computador na mesma rede Wi-Fi, por exemplo 192.168.18.7 (o app completa o http://, a porta :5088 e o /api/ sozinho)." />
                 </VerticalStackLayout>
             </Border>
         </VerticalStackLayout>

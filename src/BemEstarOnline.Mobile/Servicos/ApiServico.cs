@@ -43,6 +43,43 @@ public class ApiServico
         catch { return false; }
     }
 
+    /// <summary>
+    /// Botão "Testar conexão" da tela de entrada: diz em português o que está errado
+    /// (endereço, rede, API desligada) em vez de só "sem conexão".
+    /// </summary>
+    public async Task<(bool Ok, string Mensagem)> DiagnosticarAsync(string urlApi)
+    {
+        if (Connectivity.Current.NetworkAccess == NetworkAccess.None)
+            return (false, "O celular está sem internet/Wi-Fi. Ligue o Wi-Fi na mesma rede do computador.");
+        if (!Uri.TryCreate(urlApi, UriKind.Absolute, out var baseUri))
+            return (false, $"O endereço \"{urlApi}\" não é válido. Exemplo: http://192.168.18.7:5088/api/");
+        var saude = new Uri(baseUri, "health");
+        try
+        {
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(6));
+            var r = await _http.GetAsync(saude, cts.Token);
+            return r.IsSuccessStatusCode
+                ? (true, $"Tudo certo! A farmácia respondeu em {baseUri.Host}:{baseUri.Port}. Agora é só entrar.")
+                : (false, $"O computador respondeu, mas com erro {(int)r.StatusCode}. Confira se o endereço termina em /api/.");
+        }
+        catch (OperationCanceledException)
+        {
+            return (false, $"Ninguém respondeu em {baseUri.Host}:{baseUri.Port} (6 segundos). Confira: o celular está no MESMO Wi-Fi do " +
+                           "computador? O IP está certo (ipconfig no computador)? O Docker está ligado? Teste também " +
+                           $"http://{baseUri.Host}:{baseUri.Port} no navegador do celular.");
+        }
+        catch (Exception ex)
+        {
+            var detalhe = ex.InnerException?.Message ?? ex.Message;
+            if (baseUri.Host is "localhost" or "127.0.0.1" && DeviceInfo.Platform == DevicePlatform.Android)
+                return (false, "No celular, \"localhost\" é o próprio celular. Use o IP do computador, ex.: http://192.168.18.7:5088/api/");
+            if (detalhe.Contains("refused", StringComparison.OrdinalIgnoreCase))
+                return (false, $"O computador {baseUri.Host} foi encontrado, mas a API não está ligada na porta {baseUri.Port}. " +
+                               "Abra o Docker Desktop e rode \"docker compose up -d\".");
+            return (false, $"Não deu para falar com {baseUri.Host}:{baseUri.Port}. Detalhe técnico: {detalhe}");
+        }
+    }
+
     private async Task<T> EnviarAsync<T>(HttpMethod metodo, string caminho, object? corpo)
     {
         using var requisicao = new HttpRequestMessage(metodo, new Uri(new Uri(_sessao.UrlApi), caminho.TrimStart('/')));

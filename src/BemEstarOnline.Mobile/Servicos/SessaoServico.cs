@@ -26,16 +26,38 @@ public class SessaoServico
     public static string UrlPadrao =>
         DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5088/api/" : "http://localhost:5088/api/";
 
+    /// <summary>Celular de verdade (não emulador) ainda com o endereço do emulador: precisa configurar o IP do computador.</summary>
+    public bool PrecisaConfigurarServidor =>
+        DeviceInfo.DeviceType == DeviceType.Physical && UrlApi.Contains("10.0.2.2");
+
     public string UrlApi
     {
         get => _armazenamento.Ler("url_api") ?? UrlPadrao;
         set
         {
-            var url = value.Trim();
-            if (!url.EndsWith('/')) url += "/";
-            _armazenamento.Gravar("url_api", url);
+            _armazenamento.Gravar("url_api", NormalizarUrl(value));
             AtualizarOrigem();
         }
+    }
+
+    /// <summary>
+    /// Completa o endereço digitado do jeito mais comum de errar no celular:
+    /// "192.168.18.7" vira "http://192.168.18.7:5088/api/" (sem http://, sem a porta ou sem o /api/).
+    /// </summary>
+    public static string NormalizarUrl(string? digitado)
+    {
+        var url = (digitado ?? "").Trim().Replace('\\', '/');
+        if (url.Length == 0) return UrlPadrao;
+        if (!url.Contains("://")) url = "http://" + url;
+        if (!Uri.TryCreate(url, UriKind.Absolute, out var uri)) return url.EndsWith('/') ? url : url + "/";
+
+        var construtor = new UriBuilder(uri);
+        // IP sem porta (ex.: http://192.168.18.7/api/) quase sempre é esquecimento: a API do projeto usa a 5088.
+        if (uri.IsDefaultPort && uri.HostNameType == UriHostNameType.IPv4 && uri.Scheme == "http") construtor.Port = 5088;
+        var caminho = construtor.Path.TrimEnd('/');
+        if (!caminho.EndsWith("/api", StringComparison.OrdinalIgnoreCase)) caminho += "/api";
+        construtor.Path = caminho + "/";
+        return construtor.Uri.ToString();
     }
 
     public string? Token
