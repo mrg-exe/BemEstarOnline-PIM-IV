@@ -10,6 +10,7 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
+        RegistroDeErros.Iniciar(); // guarda a mensagem se o app fechar sozinho (aparece na próxima abertura)
         var builder = MauiApp.CreateBuilder();
         builder.UseMauiApp<App>();
 

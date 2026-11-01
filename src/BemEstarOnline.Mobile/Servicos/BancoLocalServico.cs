@@ -6,11 +6,15 @@ namespace BemEstarOnline.Mobile.Servicos;
 /// <summary>
 /// Banco SQLite dentro do celular. Guarda: (1) cópia do catálogo para consultar sem internet,
 /// (2) o carrinho e (3) a fila de pedidos feitos offline, enviados depois pelo SincronizacaoServico.
+/// Se o banco do celular falhar, o app NÃO fecha: o erro é guardado (RegistroDeErros) e o app segue só online.
 /// </summary>
 public class BancoLocalServico
 {
     private SQLiteAsyncConnection? _conexao;
     private readonly SemaphoreSlim _abrir = new(1, 1);
+
+    /// <summary>true quando o banco do celular deu erro (o catálogo avisa que o modo offline está desligado).</summary>
+    public bool Indisponivel { get; private set; }
 
     private async Task<SQLiteAsyncConnection> ConexaoAsync()
     {
@@ -32,38 +36,54 @@ public class BancoLocalServico
         finally { _abrir.Release(); }
     }
 
-    // ---------- catálogo ----------
-    public async Task SalvarCatalogoAsync(IEnumerable<Produto> produtos)
+    /// <summary>Roda a operação; se o SQLite falhar, guarda o erro (só o primeiro) e devolve o valor padrão.</summary>
+    private async Task<T> SeguroAsync<T>(Func<SQLiteAsyncConnection, Task<T>> operacao, T padrao)
     {
-        var c = await ConexaoAsync();
-        await c.RunInTransactionAsync(t =>
+        try
+        {
+            return await operacao(await ConexaoAsync());
+        }
+        catch (Exception erro)
+        {
+            if (!Indisponivel) RegistroDeErros.Gravar(erro, "banco local do celular (SQLite)");
+            Indisponivel = true;
+            return padrao;
+        }
+    }
+
+    private Task SeguroAsync(Func<SQLiteAsyncConnection, Task> operacao) =>
+        SeguroAsync(async c => { await operacao(c); return true; }, false);
+
+    // ---------- catálogo ----------
+    public Task SalvarCatalogoAsync(IEnumerable<Produto> produtos) =>
+        SeguroAsync(c => c.RunInTransactionAsync(t =>
         {
             t.DeleteAll<Produto>();
             t.InsertAll(produtos);
-        });
-    }
+        }));
 
-    public async Task<List<Produto>> CatalogoAsync() =>
-        await (await ConexaoAsync()).Table<Produto>().OrderBy(p => p.Nome).ToListAsync();
+    public Task<List<Produto>> CatalogoAsync() =>
+        SeguroAsync(c => c.Table<Produto>().OrderBy(p => p.Nome).ToListAsync(), new List<Produto>());
 
     // ---------- carrinho ----------
-    public async Task<List<ItemCarrinho>> CarrinhoAsync() =>
-        await (await ConexaoAsync()).Table<ItemCarrinho>().ToListAsync();
+    public Task<List<ItemCarrinho>> CarrinhoAsync() =>
+        SeguroAsync(c => c.Table<ItemCarrinho>().ToListAsync(), new List<ItemCarrinho>());
 
-    public async Task SalvarItemAsync(ItemCarrinho item)
-    {
-        var c = await ConexaoAsync();
-        if (item.Quantidade <= 0) await c.DeleteAsync<ItemCarrinho>(item.IdMedicamento);
-        else await c.InsertOrReplaceAsync(item);
-    }
+    public Task SalvarItemAsync(ItemCarrinho item) =>
+        SeguroAsync(async c =>
+        {
+            if (item.Quantidade <= 0) await c.DeleteAsync<ItemCarrinho>(item.IdMedicamento);
+            else await c.InsertOrReplaceAsync(item);
+        });
 
-    public async Task LimparCarrinhoAsync() => await (await ConexaoAsync()).DeleteAllAsync<ItemCarrinho>();
+    public Task LimparCarrinhoAsync() => SeguroAsync(c => c.DeleteAllAsync<ItemCarrinho>());
 
     // ---------- fila offline ----------
-    public async Task GuardarPedidoPendenteAsync(PedidoPendente pedido) => await (await ConexaoAsync()).InsertAsync(pedido);
+    public Task GuardarPedidoPendenteAsync(PedidoPendente pedido) => SeguroAsync(c => c.InsertAsync(pedido));
 
-    public async Task<List<PedidoPendente>> PendentesAsync(int idUsuario) =>
-        await (await ConexaoAsync()).Table<PedidoPendente>().Where(p => !p.Sincronizado && p.IdUsuario == idUsuario).ToListAsync();
+    public Task<List<PedidoPendente>> PendentesAsync(int idUsuario) =>
+        SeguroAsync(c => c.Table<PedidoPendente>().Where(p => !p.Sincronizado && p.IdUsuario == idUsuario).ToListAsync(),
+                    new List<PedidoPendente>());
 
-    public async Task AtualizarPendenteAsync(PedidoPendente pedido) => await (await ConexaoAsync()).UpdateAsync(pedido);
+    public Task AtualizarPendenteAsync(PedidoPendente pedido) => SeguroAsync(c => c.UpdateAsync(pedido));
 }

@@ -785,3 +785,16 @@ Modelo de anotação:
   Arquivos: `Servicos/SessaoServico.cs` (`NormalizarUrl`, `PrecisaConfigurarServidor`), `Servicos/ApiServico.cs`
   (`DiagnosticarAsync`), `ViewModels/LoginViewModel.cs`, `Views/LoginPage.xaml`, guia (PASSO 4B). APK novo gerado
   (30,3 MB). **Falta o Filipe confirmar no celular.**
+- **Correção (mesmo dia): o app fechava ao entrar como cliente no celular e depois não abria mais.** A conexão com a API
+  já funcionava. O app guarda o login, então a cada abertura ia direto para Produtos e fechava no mesmo ponto. O que roda
+  ali pela primeira vez no Android é o **banco local do celular (SQLite)**, usado para o catálogo offline, o carrinho e os
+  pedidos sem internet; um erro nele não era tratado e derrubava o app. A causa exata só aparece com a mensagem de erro do
+  celular, por isso:
+  - **"Caixa-preta" de erros** (`Servicos/RegistroDeErros.cs`): se o app fechar sozinho (ou o banco do celular falhar),
+    a mensagem fica guardada e aparece na próxima abertura, com o botão **"Copiar erro"**. Nessa vez o app fica na tela
+    de entrada em vez de ir direto para Produtos (evita fechar de novo sem parar).
+  - **Banco do celular protegido** (`Servicos/BancoLocalServico.cs`): se o SQLite falhar, o app **não fecha**; guarda o
+    erro, segue funcionando com internet e a tela de Produtos avisa que o modo sem internet não está funcionando.
+  Arquivos: `Servicos/RegistroDeErros.cs` (novo), `Servicos/BancoLocalServico.cs`, `ViewModels/CatalogoViewModel.cs`,
+  `AppShell.xaml.cs`, `MauiProgram.cs`, `Platforms/Android/MainApplication.cs`. APK novo gerado (30,6 MB).
+  **Falta o Filipe testar no celular** e, se aparecer a mensagem de erro, mandar o texto copiado.

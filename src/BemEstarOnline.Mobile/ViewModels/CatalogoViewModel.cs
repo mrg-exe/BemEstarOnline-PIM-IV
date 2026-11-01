@@ -41,7 +41,8 @@ public partial class CatalogoViewModel : BaseViewModel
         {
             _todos = await _api.GetAsync<List<Produto>>("produtos");
             await _banco.SalvarCatalogoAsync(_todos);
-            TemAviso = false;
+            Aviso = "O modo sem internet não está funcionando neste celular. Com internet, o app funciona normalmente.";
+            TemAviso = _banco.Indisponivel;
         }
         catch (ApiException)
         {
