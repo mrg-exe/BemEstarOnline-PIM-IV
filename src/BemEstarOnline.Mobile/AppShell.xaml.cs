@@ -45,18 +45,13 @@ public partial class AppShell : Shell
 
     private bool _perguntandoSeSai;
 
-    // Botão "voltar" do Android. Nas telas de dentro (produto, entrega...) ele volta normalmente. Nas telas principais
-    // (abas e login) não há nada atrás, então o Android fecharia o app: antes disso, pergunta se a pessoa quer sair.
-    protected override bool OnBackButtonPressed()
-    {
-        if (Navigation.NavigationStack.Count > 1 || Navigation.ModalStack.Count > 0)
-            return base.OnBackButtonPressed();
-        if (!_perguntandoSeSai) _ = PerguntarSeSaiAsync();
-        return true;
-    }
+    // Telas principais (abas e login): não há nada atrás delas, então o "voltar" do Android fecharia o app.
+    // Quem chama é a MainActivity do Android (o MAUI não avisa o Shell nessas telas no Android 16).
+    public bool EstaNaTelaPrincipal => (CurrentItem?.CurrentItem?.Stack.Count ?? 0) <= 1 && Navigation.ModalStack.Count == 0;
 
-    private async Task PerguntarSeSaiAsync()
+    public async Task PerguntarSeSaiAsync()
     {
+        if (_perguntandoSeSai) return;
         _perguntandoSeSai = true;
         try
         {

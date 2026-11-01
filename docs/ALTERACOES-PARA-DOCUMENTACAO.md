@@ -811,4 +811,8 @@ Modelo de anotação:
   trocar de perfil usa-se Perfil → Sair), mas podia parecer erro. Agora, nas telas principais (abas Entregas, Perfil,
   Produtos, Carrinho, Pedidos e a tela de entrada), o "voltar" pergunta **"Sair do app?"** (Sair / Ficar). "Sair" manda
   o app para o fundo sem desconectar a conta. Nas telas internas o "voltar" continua voltando normalmente.
-  Arquivo: `AppShell.xaml.cs` (`OnBackButtonPressed`). APK novo gerado e instalado no celular pelo cabo.
+  No Android 16 o MAUI não avisa a tela quando o "voltar" é apertado numa tela principal (o primeiro jeito, pelo
+  `OnBackButtonPressed` do Shell, não funcionou no celular). Por isso quem escuta o botão é a própria tela do Android
+  (`Platforms/Android/MainActivity.cs`, `OnBackPressedCallback`), que pergunta ao `AppShell.xaml.cs`
+  (`EstaNaTelaPrincipal`, `PerguntarSeSaiAsync`). Testado no celular pelo cabo: na aba Produtos aparece "Sair do app?";
+  dentro de um produto o "voltar" volta para a lista sem perguntar.
