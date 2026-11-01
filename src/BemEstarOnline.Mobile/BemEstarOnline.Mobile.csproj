@@ -42,8 +42,10 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
-    <!-- SQLite nativo numa versão sem a falha de segurança GHSA-2m69-gcr7-jv3q (aviso NU1903). -->
-    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.14" />
+    <!-- SQLite nativo numa versão sem a falha de segurança GHSA-2m69-gcr7-jv3q (aviso NU1903).
+         ATENÇÃO: o pacote "lib.e_sqlite3" (genérico) é só para o Windows. No Android ele colocava no APK a biblioteca
+         do Linux de computador (pede libc.so.6) e o app fechava ao abrir o banco do celular; lá vale só o ".android". -->
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.14" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'android'" />
     <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.android" Version="2.1.14" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'" />
   </ItemGroup>
 

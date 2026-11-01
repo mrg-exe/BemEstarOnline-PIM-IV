@@ -47,7 +47,11 @@ public partial class EnviarReceitaViewModel : BaseViewModel
         catch (IOException) { /* arquivo em uso: fica para a próxima */ }
     }
 
-    partial void OnTelefoneChanged(string value) => Telefone = Validacao.MascaraTelefone(value);
+    partial void OnTelefoneChanged(string value)
+    {
+        var f = Validacao.MascaraTelefone(value);
+        if (f != value) FormatarDepois(() => { if (Telefone == value) Telefone = f; });
+    }
 
     /// <summary>Quem está logado já vem com nome, celular e endereço principal preenchidos.</summary>
     public async Task CarregarAsync()

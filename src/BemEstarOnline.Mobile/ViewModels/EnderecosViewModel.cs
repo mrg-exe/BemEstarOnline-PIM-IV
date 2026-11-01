@@ -73,7 +73,7 @@ public partial class EnderecosViewModel : BaseViewModel, IQueryAttributable
     partial void OnCepChanged(string value)
     {
         var formatado = Validacao.MascaraCep(value);
-        if (formatado != value) { Cep = formatado; return; }
+        if (formatado != value) { FormatarDepois(() => { if (Cep == value) Cep = formatado; }); return; }
         if (Validacao.SoNumeros(value).Length == 8) _ = PreencherPorCepAsync(value);
     }
 

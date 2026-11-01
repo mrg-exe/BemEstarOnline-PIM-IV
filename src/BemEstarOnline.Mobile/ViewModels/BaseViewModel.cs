@@ -16,4 +16,10 @@ public abstract partial class BaseViewModel : ObservableObject
 
     protected static Task<bool> ConfirmarAsync(string pergunta) =>
         Shell.Current.DisplayAlertAsync("Confirmar", pergunta, "Sim", "Não");
+
+    /// <summary>
+    /// Aplica a máscara (pontos, traço, parênteses) logo DEPOIS da tecla, não durante: no Android, trocar o texto
+    /// no meio da digitação fazia o teclado se perder e o app fechar.
+    /// </summary>
+    protected static void FormatarDepois(Action formatar) => MainThread.BeginInvokeOnMainThread(formatar);
 }

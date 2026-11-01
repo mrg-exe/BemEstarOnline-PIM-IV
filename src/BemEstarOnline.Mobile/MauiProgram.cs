@@ -18,6 +18,13 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
+#if ANDROID
+        // Campos de texto sem o "EmojiCompat" do Android: nenhum campo do app precisa de emoji, e ele fechava o app
+        // quando a máscara (CPF, data, celular, CEP) mudava o texto junto com a tecla.
+        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("SemEmojiCompat", (h, _) => h.PlatformView.EmojiCompatEnabled = false);
+        Microsoft.Maui.Handlers.EditorHandler.Mapper.AppendToMapping("SemEmojiCompat", (h, _) => h.PlatformView.EmojiCompatEnabled = false);
+#endif
+
 #if WINDOWS
         // No Windows a caixa de marcar reserva 120 px de largura; aqui ela fica do tamanho do quadradinho
         // (o texto ao lado é um Label, como no consentimento da LGPD em "Criar conta").

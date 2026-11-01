@@ -798,3 +798,11 @@ Modelo de anotação:
   Arquivos: `Servicos/RegistroDeErros.cs` (novo), `Servicos/BancoLocalServico.cs`, `ViewModels/CatalogoViewModel.cs`,
   `AppShell.xaml.cs`, `MauiProgram.cs`, `Platforms/Android/MainApplication.cs`. APK novo gerado (30,6 MB).
   **Falta o Filipe testar no celular** e, se aparecer a mensagem de erro, mandar o texto copiado.
+- **Correção (mesmo dia), achada com o celular ligado no cabo (Depuração USB + registro do Android):**
+  1. **Causa real do crash ao entrar:** o APK levava a biblioteca do SQLite feita para **Linux de computador** (pede
+     `libc.so.6`), não a do Android; o banco do celular não abria. O pacote `SQLitePCLRaw.lib.e_sqlite3` (adicionado
+     antes para corrigir uma falha de segurança) agora vale só para o Windows; no Android fica só o `...e_sqlite3.android`.
+  2. **Crash ao digitar em campos com máscara** (CPF, data, celular, CEP): trocar o texto junto com a tecla confundia o
+     sistema de emoji do teclado do Android (EmojiCompat). Agora a máscara é aplicada logo depois da tecla
+     (`BaseViewModel.FormatarDepois`) e o EmojiCompat foi desligado nos campos de texto do Android (`MauiProgram.cs`).
+  Celular de teste: Samsung Galaxy S24 FE, Android 16. **Falta o Filipe confirmar a correção 2 no celular.**

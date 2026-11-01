@@ -37,9 +37,23 @@ public partial class CriarContaViewModel : BaseViewModel
         _carrinho = carrinho;
     }
 
-    partial void OnCpfChanged(string value) => Cpf = Validacao.MascaraCpf(value);
-    partial void OnNascimentoChanged(string value) => Nascimento = Validacao.MascaraData(value);
-    partial void OnTelefoneChanged(string value) => Telefone = Validacao.MascaraTelefone(value);
+    partial void OnCpfChanged(string value)
+    {
+        var f = Validacao.MascaraCpf(value);
+        if (f != value) FormatarDepois(() => { if (Cpf == value) Cpf = f; });
+    }
+
+    partial void OnNascimentoChanged(string value)
+    {
+        var f = Validacao.MascaraData(value);
+        if (f != value) FormatarDepois(() => { if (Nascimento == value) Nascimento = f; });
+    }
+
+    partial void OnTelefoneChanged(string value)
+    {
+        var f = Validacao.MascaraTelefone(value);
+        if (f != value) FormatarDepois(() => { if (Telefone == value) Telefone = f; });
+    }
 
     [RelayCommand]
     private void AlternarConcordo() => Concordo = !Concordo;
