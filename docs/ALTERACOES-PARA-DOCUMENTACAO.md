@@ -816,3 +816,28 @@ Modelo de anotação:
   (`Platforms/Android/MainActivity.cs`, `OnBackPressedCallback`), que pergunta ao `AppShell.xaml.cs`
   (`EstaNaTelaPrincipal`, `PerguntarSeSaiAsync`). Testado no celular pelo cabo: na aba Produtos aparece "Sair do app?";
   dentro de um produto o "voltar" volta para a lista sem perguntar.
+
+## 2026-11-04 — Trabalho escrito (ABNT) finalizado no Claude Code
+O trabalho escrito que o chat montou em 01/11 (`Downloads\PIM-IV-Bem-Estar-Online.docx`) foi completado aqui.
+O arquivo final fica em `entrega/` (fora do GitHub, pelo `.gitignore`, porque tem nome e RA).
+- **Figuras:** os 15 espaços "INSERIR AQUI" receberam os prints de `docs/prints/` e o MER de `docs/diagramas/`.
+- **Figura 20 (Kanban):** não havia quadro no Trello. A figura agora é `docs/diagramas/kanban-projeto.png`, desenhada
+  com os cartões de `docs/scrum/`, com a situação em 04/11/2026. O texto da seção 10.5 e a legenda deixaram de citar o Trello.
+- **Capa e folha de rosto:** Filipe Alves de Sousa (RA R818110) e Kennedy Emílio Roberto (RA a preencher), polo
+  Santana de Parnaíba. Os integrantes 3 e 4 foram retirados. **Orientador(a) e RA do Kennedy continuam marcados em amarelo.**
+- **Referência do PIM III:** SOUSA; ROBERTO (2026). **O subtítulo do PIM III continua marcado em amarelo.**
+- **Scrum (Quadros 13 e 15):** Filipe como Product Owner e Kennedy como Scrum Master, os dois no time. As tarefas da
+  sprint 2 foram divididas entre os dois. **Isso é uma sugestão e precisa ser confirmado pela dupla.**
+- **Referências:** "Acesso em" preenchido com 4 nov. 2026.
+- **Conclusão:** a limitação passou a dizer que o app foi testado no Windows e em um Android real (Galaxy S24 FE, Android 16).
+- As linhas de instrução "Se o sumário aparecer vazio..." foram apagadas.
+- **Limite de páginas (manual: desenvolvimento de 20 a 30 páginas).** Com os prints, o desenvolvimento chegou a 35.
+  Para caber, foram movidos para os apêndices (com a citação no texto apontando para lá):
+  Figuras "Visão geral do painel", "Página inicial e carrinho", "Docker" e "GitHub Actions" → **Apêndice B**;
+  Quadros "Principais rotas da API" e "Modelo lógico" → **novo Apêndice C – Quadros complementares**
+  (a seção 8.2 ganhou um parágrafo que remete ao Quadro 17). Os prints foram reduzidos, as figuras ficaram sem recuo
+  e todas as figuras e quadros foram renumerados (agora 27 figuras e 17 quadros). **Resultado: 29 páginas de
+  desenvolvimento (cap. 2 a 10), 55 no total**, no PDF gerado pelo LibreOffice.
+- **PDF para postar e imprimir:** `entrega/PIM-IV-Bem-Estar-Online.pdf`. O LibreOffice foi instalado neste PC (winget)
+  para gerar o PDF. As listas de figuras e quadros são escritas com as páginas tiradas do PDF (o LibreOffice não as
+  monta a partir das legendas do Word). Como gerar de novo: `entrega/scripts/LEIA-ME.txt`.
